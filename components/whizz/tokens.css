@@ -1,0 +1,18 @@
+/*
+ * Custom properties Whizz, escopadas em .oc-whizz.
+ * Importar apenas a partir de componentes em components/whizz/.
+ */
+.oc-whizz {
+  --oc-whizz-purple: #532673;
+  --oc-whizz-tint: #EEE0FF;
+  --oc-whizz-radius: 16px;
+  --oc-whizz-gradient: linear-gradient(
+    135deg,
+    #6E3399 46%,
+    #7B3CA3 57%,
+    #A056BE 72%,
+    #B46CBC 77%,
+    #E8ADA1 86%,
+    #FFD04D 93%
+  );
+}

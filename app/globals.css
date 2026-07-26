@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Design System OmniChat — tokens globais.
+ * Fonte da verdade: spec do DS (atualizada 2026-05-18, @Vanessa Botega).
+ * Os tokens Whizz (roxo, tint, gradient) NÃO ficam aqui:
+ * são exclusivos de momentos de IA e vivem em components/whizz/.
+ */
+@theme {
+  /* Marca */
+  --color-oc-yellow-mass: #FFD04D;   /* massa dominante, campos grandes */
+  --color-oc-yellow-cta: #FFBC00;    /* botão primário — nunca com tinta branca */
+  --color-oc-yellow-ink: #E59900;    /* tipo/KPI/ícone amarelo sobre fundo claro */
+  --color-oc-yellow-hover: #F0B000;  /* -6% */
+  --color-oc-yellow-press: #E0A500;  /* -12% */
+
+  --color-oc-ink: #21232C;           /* texto principal */
+  --color-oc-surface: #FDFDFD;       /* fundo de página */
+  --color-oc-surface-alt: #F6F7F8;
+  --color-oc-dark: #0B0C0E;          /* superfícies escuras */
+
+  /* Semântico (main / dark / light) */
+  --color-oc-success: #1FAD66;
+  --color-oc-success-dark: #176A40;
+  --color-oc-success-light: #E0F7D4;
+  --color-oc-attention: #FFBC00;
+  --color-oc-attention-dark: #995900;
+  --color-oc-attention-light: #FFF1CC;
+  --color-oc-danger: #CC3628;
+  --color-oc-danger-dark: #6C2314;
+  --color-oc-danger-light: #F1E1E7;
+  --color-oc-info: #1735FF;
+  --color-oc-info-dark: #0F23A6;
+  --color-oc-info-light: #E7F1FE;
+  --color-oc-new: #6F3399;
+  --color-oc-new-dark: #381A4D;
+  --color-oc-new-light: #E0D3F5;
+  --color-oc-beta: #775C8A;
+  --color-oc-beta-dark: #412334;
+  --color-oc-beta-light: #E6E0E9;
+  --color-oc-neutral: #C4C8D4;
+  --color-oc-neutral-dark: #414658;
+  --color-oc-neutral-light: #DCDEE5;
+  --color-oc-initial: #33B2CB;
+  --color-oc-initial-dark: #1A5966;
+  --color-oc-initial-light: #ADE0EB;
+  --color-oc-progress: #E095CA;
+  --color-oc-progress-dark: #7A1F64;
+  --color-oc-progress-light: #FFD6ED;
+
+  /* Botões secundário / delete */
+  --color-oc-secondary-hover: #BFC3CF;
+  --color-oc-secondary-press: #A8ADBB;
+  --color-oc-delete: #C63944;
+  --color-oc-delete-hover: #B33340;
+
+  /* Bordas */
+  --color-oc-divider: #DCDEE5;
+  --color-oc-input: #ABAEBA;
+  --color-oc-border-focus: #21232C;
+
+  /* Tipografia */
+  --font-sans: var(--font-lato), ui-sans-serif, system-ui, sans-serif;
+
+  /* Espaçamento, grade base 4px */
+  --spacing: 4px;
+
+  /* Raios */
+  --radius-oc-button: 8px;
+  --radius-oc-card: 12px;
+  --radius-oc-whizz: 16px;
+  --radius-oc-modal: 24px;
+
+  /* Elevação, base rgba(13,13,13,α) */
+  --shadow-oc-sm: 0 1px 2px rgba(13, 13, 13, 0.08);
+  --shadow-oc-md: 0 4px 12px rgba(13, 13, 13, 0.16);
+  --shadow-oc-lg: 0 12px 32px rgba(13, 13, 13, 0.24);
+
+  /* Movimento */
+  --ease-oc: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Classes de tipografia — px fixo conforme spec.
+ * TODO: escala mobile pendente de spec; display e h1 usam clamp() provisório
+ * porque 72px/40px não funcionam em 375px. */
+@utility oc-display {
+  font-weight: 900;
+  font-size: clamp(40px, 8vw, 72px);
+  line-height: 1.1;
+}
+@utility oc-h1 {
+  font-weight: 900;
+  font-size: clamp(32px, 5vw, 40px);
+  line-height: 1.15;
+}
+@utility oc-h2 {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.2;
+}
+@utility oc-h3 {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.25;
+}
+@utility oc-h4 {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.3;
+}
+@utility oc-h5 {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.3;
+}
+@utility oc-body-lg {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+}
+@utility oc-body {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+}
+@utility oc-body-sm {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+@utility oc-caption {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+}
+@utility oc-overline {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+@utility oc-label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+}
+@utility oc-button-label {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Ghost (tertiary) — rgba de ink, não vira token de cor */
+@utility oc-ghost-hover {
+  background-color: rgba(33, 35, 44, 0.06);
+}
+@utility oc-ghost-press {
+  background-color: rgba(33, 35, 44, 0.12);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-oc-ink);
+  background: var(--color-oc-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Focus ring: amarelo 3px, offset 2px (em fundos não-amarelos) */
+:focus-visible {
+  outline: 3px solid rgba(255, 188, 0, 0.35);
+  outline-offset: 2px;
 }
