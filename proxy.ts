@@ -6,6 +6,42 @@ import { REDIRECTS_QUERY } from "./lib/sanity/queries";
 
 const LP_HOST = process.env.NEXT_PUBLIC_LP_HOST ?? "lp.omni.chat";
 
+const REDIRECT_TTL_MS = 60_000; // 60 seconds
+let redirectCache: { rules: RedirectRule[]; at: number } | null = null;
+
+export function isFresh(at: number, now: number, ttlMs: number): boolean {
+  return now - at < ttlMs;
+}
+
+// Somente para testes: reseta o cache em memória entre casos de teste.
+export function __resetRedirectCacheForTest(): void {
+  redirectCache = null;
+}
+
+export async function fetchRedirectRules(
+  fetcher: typeof sanityFetch = sanityFetch
+): Promise<RedirectRule[]> {
+  const now = Date.now();
+
+  if (redirectCache && isFresh(redirectCache.at, now, REDIRECT_TTL_MS)) {
+    return redirectCache.rules;
+  }
+
+  try {
+    const rules = (await fetcher<RedirectRule[]>({ query: REDIRECTS_QUERY, tags: [] })) ?? [];
+    redirectCache = { rules, at: now };
+    return rules;
+  } catch (err) {
+    console.warn("[proxy] Failed to fetch redirect rules from Sanity:", err);
+    if (redirectCache) {
+      console.warn("[proxy] Using stale redirect cache as fallback.");
+      return redirectCache.rules;
+    }
+    console.warn("[proxy] No cache available — skipping redirects.");
+    return [];
+  }
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const host = request.headers.get("host") ?? "";
@@ -27,8 +63,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/" + rest, request.url), 301);
   }
 
-  // 3. Redirects 301 gerenciados no Sanity (cacheados por tag "redirect").
-  const redirects = (await sanityFetch<RedirectRule[]>({ query: REDIRECTS_QUERY, tags: ["redirect"] })) ?? [];
+  // 3. Redirects 301 gerenciados no Sanity (cache em memória com TTL de 60s;
+  //    em caso de falha do Sanity usa cache stale ou array vazio como fallback).
+  const redirects = await fetchRedirectRules();
   const match = matchRedirect(pathname, redirects);
   if (match && isSafeRelativePath(match.to)) {
     // Preserva a query string da request; se match.to já tiver query
