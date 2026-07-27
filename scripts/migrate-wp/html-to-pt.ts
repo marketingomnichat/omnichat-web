@@ -66,7 +66,10 @@ function collectInlineChildren(
       const el = child as HTMLElement;
       const tag = el.tagName?.toLowerCase() ?? "";
 
-      if (tag === "strong" || tag === "b") {
+      if (tag === "ul" || tag === "ol") {
+        // Nested lists become their own blocks (handled by processList) — skip inline
+        continue;
+      } else if (tag === "strong" || tag === "b") {
         spans.push(...collectInlineChildren(el, [...activeMarks, "strong"], markDefs, idx));
       } else if (tag === "em" || tag === "i") {
         spans.push(...collectInlineChildren(el, [...activeMarks, "em"], markDefs, idx));
@@ -121,12 +124,59 @@ function makeTextBlock(
   return block;
 }
 
+function processList(
+  listEl: HTMLElement,
+  blocks: PortableTextBlock[],
+  level: number
+): void {
+  const listItem = listEl.tagName?.toLowerCase() === "ol" ? "number" : "bullet";
+  for (const child of listEl.childNodes) {
+    if (isHTMLElement(child as HTMLElement)) {
+      const liEl = child as HTMLElement;
+      if (liEl.tagName?.toLowerCase() === "li") {
+        blocks.push(makeTextBlock("normal", liEl, blocks.length, listItem, level));
+        // Nested ul/ol inside the li become blocks at level + 1
+        for (const liChild of liEl.childNodes) {
+          if (isHTMLElement(liChild as HTMLElement)) {
+            const nestedTag = (liChild as HTMLElement).tagName?.toLowerCase();
+            if (nestedTag === "ul" || nestedTag === "ol") {
+              processList(liChild as HTMLElement, blocks, level + 1);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 async function processNode(
-  node: HTMLElement | ReturnType<typeof parse>,
+  node: HTMLElement | TextNode | ReturnType<typeof parse>,
   opts: ConvertOpts,
   blocks: PortableTextBlock[],
   listContext: { listItem?: string; level: number }
 ): Promise<void> {
+  if (node.nodeType === NodeType.TEXT_NODE) {
+    // Loose text node (e.g. text directly at root level) → normal block
+    const text = (node as TextNode).text.trim();
+    if (text) {
+      blocks.push({
+        _type: "block",
+        _key: shortKey(text + "normal", blocks.length),
+        style: "normal",
+        markDefs: [],
+        children: [
+          {
+            _type: "span",
+            _key: shortKey(text, 0),
+            text,
+            marks: [],
+          },
+        ],
+      });
+    }
+    return;
+  }
+
   if (!isHTMLElement(node as HTMLElement)) return;
 
   const el = node as HTMLElement;
@@ -154,16 +204,7 @@ async function processNode(
     }
     case "ul":
     case "ol": {
-      const listItem = tag === "ul" ? "bullet" : "number";
-      for (const child of el.childNodes) {
-        if (isHTMLElement(child as HTMLElement)) {
-          const liEl = child as HTMLElement;
-          if (liEl.tagName?.toLowerCase() === "li") {
-            const block = makeTextBlock("normal", liEl, blocks.length, listItem, 1);
-            blocks.push(block);
-          }
-        }
-      }
+      processList(el, blocks, listContext.level);
       break;
     }
     case "figure": {

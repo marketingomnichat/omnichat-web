@@ -67,6 +67,36 @@ describe("htmlToPortableText", () => {
     warnSpy.mockRestore();
   });
 
+  it("converte text nodes soltos no root em bloco normal", async () => {
+    const blocks = await htmlToPortableText("<p>a</p>Texto solto<p>b</p>", noUpload);
+    expect(blocks).toHaveLength(3);
+    expect(blocks[1]).toMatchObject({ _type: "block", style: "normal" });
+    expect(blocks[1].children![0].text).toBe("Texto solto");
+  });
+
+  it("decodifica entities HTML (&amp;, aspas tipográficas, &lt;)", async () => {
+    const blocks = await htmlToPortableText(
+      "<p>a &amp; b</p><p>&#8220;aspas&#8221;</p><p>&lt;tag&gt;</p>",
+      noUpload
+    );
+    expect(blocks[0].children![0].text).toBe("a & b");
+    expect(blocks[1].children![0].text).toBe("“aspas”");
+    expect(blocks[2].children![0].text).toBe("<tag>");
+  });
+
+  it("suporta listas aninhadas com level", async () => {
+    const blocks = await htmlToPortableText(
+      "<ul><li>item<ul><li>sub</li></ul></li><li>outro</li></ul>",
+      noUpload
+    );
+    expect(blocks).toHaveLength(3);
+    expect(blocks[0]).toMatchObject({ listItem: "bullet", level: 1 });
+    expect(blocks[0].children!.map((c) => c.text).join("")).toBe("item");
+    expect(blocks[1]).toMatchObject({ listItem: "bullet", level: 2 });
+    expect(blocks[1].children!.map((c) => c.text).join("")).toBe("sub");
+    expect(blocks[2]).toMatchObject({ listItem: "bullet", level: 1 });
+  });
+
   it("_key é determinístico para o mesmo conteúdo", async () => {
     const blocks1 = await htmlToPortableText("<p>Olá mundo</p>", noUpload);
     const blocks2 = await htmlToPortableText("<p>Olá mundo</p>", noUpload);
