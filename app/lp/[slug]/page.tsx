@@ -31,7 +31,7 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
     params: { slug },
     tags: ["landingPage", `landingPage:${slug}`],
   });
-  if (!page) notFound();
+  if (!page) return notFound();
   return (
     <main>
       <SectionRenderer sections={page.sections} />
