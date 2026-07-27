@@ -7,6 +7,8 @@ import { sanityFetch } from "@/lib/sanity/client";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/lib/sanity/queries";
 import { buildMetadata, type SeoData } from "@/lib/seo";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://omni.chat";
+
 type PostDoc = {
   title: string;
   slug: string;
@@ -51,7 +53,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           data={{
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Blog", item: "https://omni.chat/blog" },
+              { "@type": "ListItem", position: 1, name: "Blog", item: `${SITE_URL}/blog` },
               { "@type": "ListItem", position: 2, name: post.title },
             ],
           }}
