@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import { draftMode } from "next/headers";
+import { AnalyticsProvider } from "@/components/analytics/posthog-provider";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SanityVisualEditing } from "@/components/site/sanity-visual-editing";
 import { sanityFetch } from "@/lib/sanity/client";
@@ -54,7 +55,7 @@ export default async function RootLayout({
             url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://omni.chat",
           }}
         />
-        {children}
+        <AnalyticsProvider>{children}</AnalyticsProvider>
         {isEnabled && <SanityVisualEditing />}
       </body>
     </html>
