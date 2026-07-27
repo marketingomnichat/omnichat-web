@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { safeHref } from "@/lib/safe-href";
 import type { Cta } from "@/shared/types";
 
 export function CtaBanner({ title, text, cta }: { title?: string; text?: string; cta?: Cta }) {
@@ -9,7 +10,7 @@ export function CtaBanner({ title, text, cta }: { title?: string; text?: string;
         {text && <p className="oc-body-lg mt-3 text-oc-ink max-w-[560px]">{text}</p>}
         {cta && (
           <Link
-            href={cta.href}
+            href={safeHref(cta.href)}
             className="oc-button-label mt-8 inline-block rounded-oc-button bg-oc-ink px-6 py-3 text-oc-surface transition-colors duration-150 ease-oc hover:bg-oc-dark"
           >
             {cta.label}

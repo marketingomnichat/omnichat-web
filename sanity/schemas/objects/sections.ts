@@ -247,6 +247,7 @@ export const ctaForm = defineType({
       validation: (r) =>
         r.required().custom((value?: string) => {
           if (!value) return true; // ausência já é coberta por required()
+          if (value.startsWith("//")) return "Use uma URL https:// completa";
           if (value.startsWith("https://") || value.startsWith("/")) return true;
           return "Informe uma URL https:// ou um caminho relativo começando com /";
         }),

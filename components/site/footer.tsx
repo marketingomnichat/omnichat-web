@@ -1,4 +1,5 @@
 type Social = { platform: string; url: string };
+import { safeHref } from "@/lib/safe-href";
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
 
@@ -25,7 +26,7 @@ export function Footer({
                   {col.links.map((link) => (
                     <li key={link.href}>
                       <a
-                        href={link.href}
+                        href={safeHref(link.href)}
                         className="oc-caption text-oc-neutral hover:text-oc-yellow-mass transition-colors duration-150"
                         target={link.href.startsWith("http") ? "_blank" : undefined}
                         rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}

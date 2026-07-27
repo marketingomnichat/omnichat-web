@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { safeHref } from "@/lib/safe-href";
 
 type NavItem = { label: string; href: string };
 
@@ -11,7 +12,7 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
         </Link>
         <nav className="flex items-center gap-6">
           {nav.map((item) => (
-            <Link key={item.href} href={item.href} className="oc-label hover:text-oc-yellow-ink">
+            <Link key={item.href} href={safeHref(item.href)} className="oc-label hover:text-oc-yellow-ink">
               {item.label}
             </Link>
           ))}

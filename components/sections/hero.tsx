@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { safeHref } from "@/lib/safe-href";
 import type { Cta } from "@/shared/types";
 
 const CTA_CLASS: Record<NonNullable<Cta["variant"]>, string> = {
@@ -40,7 +41,7 @@ export function Hero({
             {ctas.map((cta) => (
               <Link
                 key={cta.label}
-                href={cta.href}
+                href={safeHref(cta.href)}
                 className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${CTA_CLASS[cta.variant ?? "primary"]}`}
               >
                 {cta.label}

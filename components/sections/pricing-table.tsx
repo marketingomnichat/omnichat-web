@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { safeHref } from "@/lib/safe-href";
 import { Card } from "@/components/ui/card";
 
 type Plan = {
@@ -58,7 +59,7 @@ export function PricingTable({
               )}
               <div className="mt-8">
                 <Link
-                  href={plan.ctaHref}
+                  href={safeHref(plan.ctaHref)}
                   className="oc-button-label block rounded-oc-button bg-oc-yellow-cta px-6 py-3 text-center text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover active:bg-oc-yellow-press"
                 >
                   {plan.ctaLabel}

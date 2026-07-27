@@ -33,7 +33,13 @@ export function CtaForm({
         {body && (
           <p className="oc-body-lg mt-5 text-oc-neutral-dark">{body}</p>
         )}
-        <form action={formAction} method="post" className="mt-10 space-y-6">
+        <form
+          // Mesma regra do validador do schema — https:// ou path de barra única;
+          // protege contra doc gravado fora do Studio (API) com action maliciosa.
+          action={/^(https:\/\/|\/(?!\/))/.test(formAction) ? formAction : undefined}
+          method="post"
+          className="mt-10 space-y-6"
+        >
           {fields.map((field, i) => (
             <div key={field._key ?? i} className="flex flex-col gap-1.5">
               <label

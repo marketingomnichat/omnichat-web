@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { safeHref } from "@/lib/safe-href";
 import Link from "next/link";
 import type { Cta } from "@/shared/types";
 
@@ -60,7 +61,7 @@ export function FeatureSplit({
           {cta && (
             <div className="mt-8">
               <Link
-                href={cta.href}
+                href={safeHref(cta.href)}
                 className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${
                   CTA_CLASS[cta.variant ?? "primary"]
                 }`}
