@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@sanity/image-url": "2.1.1",
+    "@sanity/locale-pt-br": "1.1.33",
     "next": "16.2.11",
     "next-sanity": "13.2.1",
     "posthog-js": "1.407.2",

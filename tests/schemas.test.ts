@@ -23,4 +23,11 @@ describe("sanity schema", () => {
     const fields = (lp as { fields: { name: string }[] }).fields.map((f) => f.name);
     expect(fields).toEqual(expect.arrayContaining(["title", "slug", "seo", "sections"]));
   });
+  it("todo field de documento tem title definido (pt-BR)", () => {
+    for (const t of schemaTypes) {
+      for (const f of (t as { fields?: { name: string; title?: string }[] }).fields ?? []) {
+        expect(f.title, `${t.name}.${f.name} sem title`).toBeTruthy();
+      }
+    }
+  });
 });

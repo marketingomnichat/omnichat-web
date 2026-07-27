@@ -5,10 +5,10 @@ export const seo = defineType({
   title: "SEO",
   type: "object",
   fields: [
-    defineField({ name: "metaTitle", type: "string", validation: (r) => r.max(60) }),
-    defineField({ name: "metaDescription", type: "text", rows: 3, validation: (r) => r.max(160) }),
-    defineField({ name: "canonical", type: "url" }),
-    defineField({ name: "ogImage", type: "image" }),
-    defineField({ name: "noIndex", type: "boolean", initialValue: false }),
+    defineField({ name: "metaTitle", title: "Título (meta)", type: "string", validation: (r) => r.max(60) }),
+    defineField({ name: "metaDescription", title: "Descrição (meta)", type: "text", rows: 3, validation: (r) => r.max(160) }),
+    defineField({ name: "canonical", title: "URL canônica", type: "url" }),
+    defineField({ name: "ogImage", title: "Imagem OG", type: "image" }),
+    defineField({ name: "noIndex", title: "Não indexar", type: "boolean", initialValue: false }),
   ],
 });
