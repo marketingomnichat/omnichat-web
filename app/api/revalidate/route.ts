@@ -10,6 +10,6 @@ export async function POST(req: NextRequest) {
   const body = (await req.json()) as { _type?: string; slug?: { current?: string } | string };
   const slug = typeof body.slug === "string" ? body.slug : body.slug?.current;
   const tags = tagsFor(body._type ?? "", slug);
-  for (const tag of tags) revalidateTag(tag, "max");
+  for (const tag of tags) revalidateTag(tag, { expire: 0 });
   return NextResponse.json({ ok: true, revalidated: tags });
 }
