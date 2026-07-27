@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PortableText, type PortableTextBlock } from "next-sanity";
 import { Faq } from "@/components/sections/faq";
+import { JsonLd } from "@/components/seo/json-ld";
 import { sanityFetch } from "@/lib/sanity/client";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/lib/sanity/queries";
 import { buildMetadata, type SeoData } from "@/lib/seo";
@@ -37,6 +38,36 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   return (
     <main className="mx-auto max-w-[720px] px-6 py-14">
       <article>
+        <JsonLd
+          data={{
+            "@type": "Article",
+            headline: post.title,
+            datePublished: post.publishedAt,
+            author: post.author ? { "@type": "Person", name: post.author.name } : undefined,
+            publisher: { "@type": "Organization", name: "OmniChat" },
+          }}
+        />
+        <JsonLd
+          data={{
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Blog", item: "https://omni.chat/blog" },
+              { "@type": "ListItem", position: 2, name: post.title },
+            ],
+          }}
+        />
+        {post.faq && post.faq.length > 0 && (
+          <JsonLd
+            data={{
+              "@type": "FAQPage",
+              mainEntity: post.faq.map((f) => ({
+                "@type": "Question",
+                name: f.question,
+                acceptedAnswer: { "@type": "Answer", text: f.answer },
+              })),
+            }}
+          />
+        )}
         {post.categories?.[0] && <p className="oc-overline text-oc-yellow-ink">{post.categories[0].title}</p>}
         <h1 className="oc-h1 mt-2">{post.title}</h1>
         <p className="oc-caption mt-4 text-oc-neutral-dark">
