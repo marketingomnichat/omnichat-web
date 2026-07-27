@@ -39,13 +39,15 @@ const ptComponents: PortableTextComponents = {
       const ref = value.asset?._ref;
       if (!ref) return null;
       const dims = refDimensions(ref) ?? { width: 720, height: 405 };
+      const displayWidth = 1440;
+      const displayHeight = Math.round((dims.height * displayWidth) / dims.width);
       return (
         <figure className="my-2">
           <Image
-            src={urlFor(value as { asset: { _ref: string } }).width(1440).url()}
-            alt={value.alt ?? ""}
-            width={dims.width}
-            height={dims.height}
+            src={urlFor(value as { asset: { _ref: string } }).width(displayWidth).url()}
+            alt={value.alt || value.caption || ""}
+            width={displayWidth}
+            height={displayHeight}
             sizes="(max-width: 768px) 100vw, 720px"
             className="rounded-oc-card h-auto w-full"
           />
@@ -116,10 +118,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </p>
         {post.coverImage?.url && (
           <Image
-            src={post.coverImage.url}
+            src={urlFor(post.coverImage.url).width(1440).url()}
             alt={post.coverImage.alt || post.title}
-            width={post.coverImage.width ?? 1440}
-            height={post.coverImage.height ?? 810}
+            width={1440}
+            height={
+              post.coverImage.width && post.coverImage.height
+                ? Math.round((post.coverImage.height * 1440) / post.coverImage.width)
+                : 810
+            }
             sizes="(max-width: 768px) 100vw, 720px"
             className="rounded-oc-card mt-8 h-auto w-full"
             priority
