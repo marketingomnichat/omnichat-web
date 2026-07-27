@@ -7,12 +7,22 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint && npm run lint:design",
-    "lint:design": "node scripts/check-design-rules.mjs"
+    "lint:design": "node scripts/check-design-rules.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
+    "@builder.io/sdk-react": "5.2.5",
+    "@sanity/image-url": "2.1.1",
     "next": "16.2.11",
+    "next-sanity": "13.2.1",
+    "posthog-js": "1.407.2",
+    "posthog-node": "5.46.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sanity": "6.6.0",
+    "server-only": "0.0.1",
+    "styled-components": "6.4.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -22,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "4.1.10"
   }
 }
