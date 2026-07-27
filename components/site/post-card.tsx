@@ -1,5 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+
+export type PostCoverImage = {
+  url?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+};
 
 export type PostListItem = {
   title: string;
@@ -7,11 +15,24 @@ export type PostListItem = {
   excerpt?: string;
   publishedAt?: string;
   categories?: { title: string; slug: string }[];
+  coverImage?: PostCoverImage;
 };
 
 export function PostCard({ post }: { post: PostListItem }) {
   return (
     <Card elevation="border">
+      {post.coverImage?.url && (
+        <Link href={`/blog/${post.slug}`} className="mb-4 block">
+          <Image
+            src={post.coverImage.url}
+            alt={post.coverImage.alt || post.title}
+            width={post.coverImage.width ?? 800}
+            height={post.coverImage.height ?? 450}
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="rounded-oc-card h-auto w-full object-cover"
+          />
+        </Link>
+      )}
       {post.categories?.[0] && <p className="oc-overline text-oc-yellow-ink">{post.categories[0].title}</p>}
       <h2 className="oc-h4 mt-2">
         <Link href={`/blog/${post.slug}`} className="hover:text-oc-yellow-ink">

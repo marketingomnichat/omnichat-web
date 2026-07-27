@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { PostCard, type PostListItem } from "@/components/site/post-card";
 import { sanityFetch } from "@/services/sanity/client";
+import { COVER_IMAGE_FIELDS } from "@/services/sanity/queries";
 import { buildMetadata } from "@/lib/seo";
 
 const CATEGORY_POSTS_QUERY = `*[_type == "post" && $slug in categories[]->slug.current] | order(publishedAt desc){
-  title, "slug": slug.current, excerpt, publishedAt,
+  title, "slug": slug.current, excerpt, publishedAt, ${COVER_IMAGE_FIELDS},
   "categories": categories[]->{title, "slug": slug.current}
 }`;
 
