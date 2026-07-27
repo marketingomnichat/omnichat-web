@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 test.describe("acessibilidade", () => {
-  for (const path of ["/", "/styleguide", "/blog"]) {
+  for (const path of ["/", "/styleguide", "/blog", "/planos", "/empresa", "/chat-commerce-report"]) {
     test(`${path} sem violações críticas de a11y`, async ({ page }) => {
       await page.goto(path);
       const results = await new AxeBuilder({ page }).analyze();

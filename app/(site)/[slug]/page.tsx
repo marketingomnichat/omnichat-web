@@ -26,8 +26,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   if (slug === "home") notFound();
   const page = await sanityFetch<PageDoc>({ query: PAGE_QUERY, params: { slug }, tags: ["page", `page:${slug}`] });
   if (!page) notFound();
+  // Render an explicit h1 for pages whose first section is not a hero (e.g. legal pages).
+  // Hero sections render their own h1; richText-only pages need one for semantics and accessibility.
+  const hasHeroFirst = page.sections?.[0]?._type === "hero";
   return (
     <main>
+      {!hasHeroFirst && (
+        <h1 className="mx-auto max-w-[720px] px-6 pt-14 oc-h1">{page.title}</h1>
+      )}
       <SectionRenderer sections={page.sections} />
     </main>
   );
