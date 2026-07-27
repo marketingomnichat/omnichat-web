@@ -106,3 +106,23 @@ Resultado confirmado via `writeClient.fetch`:
 5. **Copy literal:** Todo texto foi extraído via `curl -sL` das páginas renderizadas, decodificando entities HTML. Nenhum texto foi inventado ou parafraseado.
 
 6. **CTA variant dark:** Cumprido — nenhuma seção `dark` usa CTA `ghost`.
+
+---
+
+## Adendo (fix pós-auditoria): upload das 22 URLs de logo restantes
+
+**Commit:** `0009bd9` — `fix: upload logoCloud images to Sanity assets (empresa + ccr, 22 urls)`
+
+Correção do concern 2 acima (leitura invertida do filtro): `uploadImageFromUrl` FAZ upload de URLs `omni.chat` (só pula hosts externos). As 22 URLs restantes (20 logos do CCR + 2 SVGs Vector-*.svg da empresa) agora passam pelo mesmo pipeline (`img()` → `uploadImageFromUrl` → URL `cdn.sanity.io`), via novo helper `buildLogos()`.
+
+**Evidências:**
+- Seed re-executado (idempotente, createOrReplace): OK, sem nenhum fallback de upload — os 2 SVGs subiram normalmente.
+- GROQ (audit): **31 URLs de imagem no total nas 4 páginas, 100% `cdn.sanity.io`, 0 não-CDN.**
+- Todas as 31 URLs CDN verificadas por curl: **HTTP 200** (incl. os 2 SVGs 20x20).
+- Build + `next start` + curl das 4 rotas: **200 + H1 correto** em `/`, `/empresa`, `/planos`, `/chat-commerce-report`.
+- HTML gerado das 4 rotas: 0 URLs de imagem WP nas seções (84 refs `cdn.sanity.io` no CCR via `_next/image`).
+- Gates completos: lint PASS, typecheck PASS, test PASS (52), build PASS, test:e2e PASS (15).
+
+**Exceção conhecida (fora do escopo desta task):** `https://omni.chat/wp-content/uploads/2025/12/Conteudo.svg` aparece no HTML de todas as rotas — vem do `siteSettings` (logo da Organization no JSON-LD do layout), seedado na Task 7, não das seções das páginas. Se desejado, migrar no ajuste do siteSettings.
+
+**Nota operacional:** após cada re-seed, o build local precisa de `rm -rf .next/cache/fetch-cache/` e eventualmente aguardar a propagação do CDN do Sanity (`apicdn.sanity.io`) — houve um build intermediário com documento stale do CDN. Em produção o revalidate por tags cobre isso.
