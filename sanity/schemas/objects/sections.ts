@@ -199,4 +199,82 @@ export const featureSplit = defineType({
   ],
 });
 
-export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit];
+export const pricingTable = defineType({
+  name: "pricingTable",
+  title: "Tabela de planos",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
+    defineField({
+      name: "plans",
+      title: "Planos",
+      type: "array",
+      validation: (r) => r.min(1),
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "name", title: "Nome", type: "string", validation: (r) => r.required() }),
+            defineField({ name: "description", title: "Descrição", type: "text", rows: 2 }),
+            defineField({ name: "highlight", title: "Destaque", type: "boolean", initialValue: false }),
+            defineField({
+              name: "features",
+              title: "Recursos",
+              type: "array",
+              of: [defineArrayMember({ type: "string" })],
+            }),
+            defineField({ name: "ctaLabel", title: "Rótulo do botão", type: "string", validation: (r) => r.required() }),
+            defineField({ name: "ctaHref", title: "Link do botão", type: "string", validation: (r) => r.required() }),
+          ],
+        }),
+      ],
+    }),
+  ],
+});
+
+export const ctaForm = defineType({
+  name: "ctaForm",
+  title: "Formulário de captura",
+  type: "object",
+  fields: [
+    defineField({ name: "overline", title: "Sobretítulo", type: "string" }),
+    defineField({ name: "title", title: "Título", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "body", title: "Corpo", type: "text", rows: 3 }),
+    defineField({ name: "formAction", title: "URL de envio", type: "url", validation: (r) => r.required() }),
+    defineField({ name: "buttonLabel", title: "Rótulo do botão", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "fields",
+      title: "Campos",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "name", title: "Nome do campo", type: "string", validation: (r) => r.required() }),
+            defineField({ name: "label", title: "Rótulo", type: "string", validation: (r) => r.required() }),
+            defineField({
+              name: "type",
+              title: "Tipo",
+              type: "string",
+              options: { list: ["text", "email", "tel"] },
+              initialValue: "text",
+            }),
+            defineField({ name: "required", title: "Obrigatório", type: "boolean", initialValue: false }),
+          ],
+        }),
+      ],
+    }),
+  ],
+});
+
+export const latestPosts = defineType({
+  name: "latestPosts",
+  title: "Últimos posts",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
+    defineField({ name: "limit", title: "Quantidade", type: "number", initialValue: 4 }),
+  ],
+});
+
+export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit, pricingTable, ctaForm, latestPosts];
