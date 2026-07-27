@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - **Next.js 16 tem breaking changes** — ler `node_modules/next/dist/docs/` antes de usar APIs (AGENTS.md).
-- **Deps fixadas**: `npm install --save-exact`. Novas deps permitidas nesta entrega: `@sanity/locale-pt-br`, `tsx` (dev). Remover: `@builder.io/sdk-react`, `styled-components` (era dep do SDK gen2; remover só se `grep -r styled-components app components services` não achar uso próprio).
+- **Deps fixadas**: `npm install --save-exact`. Novas deps permitidas nesta entrega: `@sanity/locale-pt-br`, `tsx` (dev), `node-html-parser` (dev, só scripts). Remover: `@builder.io/sdk-react`, `styled-components` (era dep do SDK gen2; remover só se `grep -r styled-components app components services` não achar uso próprio).
 - **Design system obrigatório**: tokens `oc-*`; roxo Whizz só em `components/whizz/`; Card borda XOR sombra; `#FFBC00` nunca com tinta branca; `<Image>` nunca `<img>` (hook bloqueia). Gate: `npm run lint`.
 - **Copy**: preservar o texto do WP fielmente (é conteúdo, não copy nova). Texto NOVO (labels de schema, mensagens) segue a skill `design-system-omnichat`: sentence case, sem emoji.
 - **Schema todo em pt-BR**: todo `defineField`/`defineType` novo ou tocado ganha `title` (e `description` quando útil) em português.
