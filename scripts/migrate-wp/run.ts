@@ -13,6 +13,8 @@ import { writeClient } from "./sanity-write";
 import { wpFetchAll } from "./wp-client";
 import { htmlToPortableText } from "./html-to-pt";
 import { uploadImageFromUrl } from "./media";
+import { migrateLegalPages } from "./legal-pages";
+import { migrateSiteSettings } from "./site-settings";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -334,6 +336,9 @@ async function main() {
 
   const { total, mediaUploaded, unmapped } = await migratePosts(categoryMap, authorMap);
 
+  await migrateLegalPages();
+  await migrateSiteSettings();
+
   console.log("\n=== Migration complete ===");
   console.log(`  Categories : ${categoryMap.size}`);
   console.log(`  Authors    : ${authorMap.size}`);
@@ -344,6 +349,8 @@ async function main() {
   } else {
     console.log("  Unmapped HTML tags: none");
   }
+  console.log("  Legal pages: lgpd, termos-de-uso, politicas-de-privacidade");
+  console.log("  siteSettings: nav + footer + social seeded");
 }
 
 main().catch((err) => {
