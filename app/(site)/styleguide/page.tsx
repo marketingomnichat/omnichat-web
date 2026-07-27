@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
 import { WhizzBlock } from "@/components/whizz/whizz-block";
+
+export const metadata: Metadata = {
+  title: "Styleguide — OmniChat",
+  robots: { index: false },
+};
 
 const BRAND_COLORS = [
   ["Amarelo massa", "bg-oc-yellow-mass"],
@@ -22,7 +28,7 @@ const SEMANTIC = [
   ["Progress", "bg-oc-progress", "bg-oc-progress-dark", "bg-oc-progress-light"],
 ] as const;
 
-export default function Home() {
+export default function StyleguidePage() {
   return (
     <main className="mx-auto w-full max-w-[1280px] px-6 py-14 flex flex-col gap-14">
       <header>
