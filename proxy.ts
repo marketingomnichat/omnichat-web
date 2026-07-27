@@ -1,20 +1,20 @@
 // proxy.ts
 import { type NextRequest, NextResponse } from "next/server";
-import { matchRedirect, type RedirectRule } from "./lib/redirects";
+import { isSafeRelativePath, matchRedirect, type RedirectRule } from "./lib/redirects";
 import { sanityFetch } from "./lib/sanity/client";
 import { REDIRECTS_QUERY } from "./lib/sanity/queries";
 
 const LP_HOST = process.env.NEXT_PUBLIC_LP_HOST ?? "lp.omni.chat";
 
 export async function proxy(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
+  const { pathname } = request.nextUrl;
   const host = request.headers.get("host") ?? "";
   const isLpHost = host === LP_HOST || host.startsWith("lp.localhost");
 
-  // 1. Host das LPs: tudo vira /lp/<path>; studio e rotas do site não existem lá.
+  // 1. Host das LPs: tudo vira /lp/<path>; studio e rotas /lp diretas não existem lá.
   if (isLpHost) {
-    if (pathname.startsWith("/lp/") || pathname.startsWith("/studio")) {
-      return NextResponse.redirect(new URL(`https://${LP_HOST}/`, request.url), 308);
+    if (pathname === "/lp" || pathname.startsWith("/lp/") || pathname.startsWith("/studio")) {
+      return new NextResponse(null, { status: 404 });
     }
     const url = request.nextUrl.clone();
     url.pathname = `/lp${pathname === "/" ? "" : pathname}`;
@@ -22,16 +22,22 @@ export async function proxy(request: NextRequest) {
   }
 
   // 2. Host principal não serve /lp/* direto (conteúdo duplicado entre hosts).
-  if (pathname.startsWith("/lp")) {
-    return NextResponse.redirect(new URL(pathname.replace(/^\/lp\/?/, "/"), request.url), 308);
+  if (pathname === "/lp" || pathname.startsWith("/lp/")) {
+    const rest = pathname.slice(3).replace(/^\/+/, "");
+    return NextResponse.redirect(new URL("/" + rest, request.url), 301);
   }
 
   // 3. Redirects 301 gerenciados no Sanity (cacheados por tag "redirect").
   const redirects = (await sanityFetch<RedirectRule[]>({ query: REDIRECTS_QUERY, tags: ["redirect"] })) ?? [];
   const match = matchRedirect(pathname, redirects);
-  if (match) {
-    const dest = new URL(match.to + search, request.url); // preserva query string
-    return NextResponse.redirect(dest, match.permanent ? 308 : 307);
+  if (match && isSafeRelativePath(match.to)) {
+    // Preserva a query string da request; se match.to já tiver query
+    // própria, os parâmetros são combinados via URLSearchParams.
+    const dest = new URL(match.to, request.url);
+    request.nextUrl.searchParams.forEach((value, key) => {
+      dest.searchParams.append(key, value);
+    });
+    return NextResponse.redirect(dest, match.permanent ? 301 : 302);
   }
 
   return NextResponse.next();
