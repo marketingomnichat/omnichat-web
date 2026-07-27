@@ -21,7 +21,7 @@ export function PricingTable({
 }) {
   return (
     <section className="bg-oc-surface">
-      <div className="mx-auto max-w-[1280px] px-6 py-24">
+      <div className="mx-auto max-w-oc-container px-6 py-oc-section">
         {title && (
           <h2 className="oc-h2 mb-12 text-center">{title}</h2>
         )}

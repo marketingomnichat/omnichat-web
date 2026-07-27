@@ -25,28 +25,52 @@ export function Hero({
 }) {
   const dark = theme === "dark";
   return (
-    <section className={dark ? "bg-oc-dark" : "bg-oc-surface"}>
-      <div className="mx-auto max-w-[1280px] px-6 py-24">
+    <section className={dark ? "bg-black" : "bg-white"}>
+      <div className="mx-auto max-w-oc-container px-6 py-oc-hero">
         {overline && (
           <p className={`oc-overline ${dark ? "text-oc-yellow-mass" : "text-oc-yellow-ink"}`}>{overline}</p>
         )}
-        <h1 className={`oc-display mt-3 max-w-[800px] ${dark ? "text-oc-surface" : ""}`}>{title}</h1>
+        <h1
+          className={
+            dark
+              ? "oc-h1 mt-3 max-w-[800px] text-white text-[44.8px] leading-[56px] font-bold"
+              : "mt-3 max-w-[800px] text-[60px] leading-[64px] font-bold"
+          }
+        >
+          {title}
+        </h1>
         {subtitle && (
-          <p className={`oc-body-lg mt-5 max-w-[640px] ${dark ? "text-oc-neutral" : "text-oc-neutral-dark"}`}>
+          <p
+            className={`mt-5 max-w-[640px] ${
+              dark
+                ? "text-white text-[32px] leading-[48px] font-normal"
+                : "oc-body-lg text-oc-neutral-dark"
+            }`}
+          >
             {subtitle}
           </p>
         )}
         {ctas.length > 0 && (
           <div className="mt-8 flex flex-wrap gap-4">
-            {ctas.map((cta) => (
-              <Link
-                key={cta.label}
-                href={safeHref(cta.href)}
-                className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${CTA_CLASS[cta.variant ?? "primary"]}`}
-              >
-                {cta.label}
-              </Link>
-            ))}
+            {ctas.map((cta) =>
+              dark && (cta.variant ?? "primary") === "primary" ? (
+                <Link
+                  key={cta.label}
+                  href={safeHref(cta.href)}
+                  className="bg-[#FFBC00] text-[#0B0C0E] rounded-[8px] px-[18px] py-[12px] text-[14px] font-semibold transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover active:bg-oc-yellow-press"
+                >
+                  {cta.label}
+                </Link>
+              ) : (
+                <Link
+                  key={cta.label}
+                  href={safeHref(cta.href)}
+                  className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${CTA_CLASS[cta.variant ?? "primary"]}`}
+                >
+                  {cta.label}
+                </Link>
+              )
+            )}
           </div>
         )}
       </div>

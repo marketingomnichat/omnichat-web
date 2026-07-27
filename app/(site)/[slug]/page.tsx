@@ -21,11 +21,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return buildMetadata({ seo: page.seo, title: page.title, path: `/${slug}` });
 }
 
+// Paridade visual com o WP: nessas rotas o hero é escuro no site ao vivo
+// (imagem/gradiente preto), mas o doc no Sanity está com theme "light".
+// Shim até o CMS ser atualizado — remove quando o Studio tiver theme correto.
+const DARK_HERO_SLUGS = new Set(["planos"]);
+
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   if (slug === "home") notFound();
   const page = await sanityFetch<PageDoc>({ query: PAGE_QUERY, params: { slug }, tags: ["page", `page:${slug}`] });
   if (!page) notFound();
+  if (DARK_HERO_SLUGS.has(slug) && page.sections?.[0]?._type === "hero") {
+    page.sections[0] = { ...page.sections[0], theme: "dark" } as SectionData;
+  }
   // Render an explicit h1 for pages whose first section is not a hero (e.g. legal pages).
   // Hero sections render their own h1; richText-only pages need one for semantics and accessibility.
   const hasHeroFirst = page.sections?.[0]?._type === "hero";

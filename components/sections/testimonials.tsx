@@ -4,7 +4,7 @@ type Testimonial = { quote: string; name: string; role?: string; company?: strin
 
 export function Testimonials({ title, items = [] }: { title?: string; items?: Testimonial[] }) {
   return (
-    <section className="mx-auto max-w-[1280px] px-6 py-14">
+    <section className="mx-auto max-w-oc-container px-6 py-oc-section">
       {title && <h2 className="oc-h2 mb-8">{title}</h2>}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {items.map((t) => (

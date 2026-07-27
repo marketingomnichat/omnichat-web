@@ -13,21 +13,21 @@ export function Footer({
   social?: Social[];
 }) {
   return (
-    <footer className="mt-auto bg-oc-dark">
-      <div className="mx-auto max-w-[1280px] px-6 py-12">
-        <p className="oc-h5 text-oc-yellow-mass">OmniChat</p>
+    <footer className="mt-auto bg-oc-yellow-mass">
+      <div className="mx-auto max-w-oc-container px-6 pt-8 pb-4">
+        <p className="oc-h5 text-oc-ink">OmniChat</p>
 
         {footerColumns.length > 0 && (
           <nav aria-label="Links do rodapé" className="mt-8 grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6">
             {footerColumns.map((col) => (
               <div key={col.title}>
-                <p className="oc-overline text-oc-neutral">{col.title}</p>
+                <p className="oc-overline text-oc-ink">{col.title}</p>
                 <ul className="mt-3 space-y-2">
                   {col.links.map((link) => (
                     <li key={link.href}>
                       <a
                         href={safeHref(link.href)}
-                        className="oc-caption text-oc-neutral hover:text-oc-yellow-mass transition-colors duration-150"
+                        className="oc-caption text-oc-ink hover:text-oc-dark transition-colors duration-150"
                         target={link.href.startsWith("http") ? "_blank" : undefined}
                         rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                       >
@@ -46,7 +46,7 @@ export function Footer({
             <a
               key={s.platform}
               href={s.url}
-              className="oc-caption text-oc-neutral hover:text-oc-yellow-mass transition-colors duration-150"
+              className="oc-caption text-oc-ink hover:text-oc-dark transition-colors duration-150"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -56,7 +56,7 @@ export function Footer({
         </div>
 
         {footerText && (
-          <p className="oc-body-sm mt-6 max-w-[480px] text-oc-neutral whitespace-pre-line">{footerText}</p>
+          <p className="oc-body-sm mt-6 max-w-[480px] text-oc-ink whitespace-pre-line">{footerText}</p>
         )}
       </div>
     </footer>

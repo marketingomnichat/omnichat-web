@@ -32,7 +32,7 @@ export function FeatureSplit({
 }) {
   return (
     <section className={dark ? "bg-oc-ink" : "bg-oc-surface"}>
-      <div className="mx-auto grid max-w-[1280px] items-center gap-12 px-6 py-24 md:grid-cols-2">
+      <div className="mx-auto grid max-w-oc-container items-center gap-12 px-6 py-oc-section md:grid-cols-2">
         {/* Text column */}
         <div className={mediaSide === "left" ? "md:order-last" : ""}>
           {overline && (

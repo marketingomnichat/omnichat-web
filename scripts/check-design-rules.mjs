@@ -2,7 +2,7 @@
 /**
  * Guardrails do Design System OmniChat. Roda em lint/CI.
  *
- * 1. Contraste: #FFBC00 nunca carrega tinta branca (WCAG AA com #21232C é
+ * 1. Contraste: #FFBC00 nunca carrega tinta branca (WCAG AA com #212529 é
  *    verificado por cálculo; combinações bg-amarelo + text-white são grep).
  * 2. Whizz: roxo #532673 / tint / tokens só podem aparecer em components/whizz/.
  * 3. Card: borda e sombra juntas na mesma className é erro.
@@ -32,7 +32,7 @@ function contrast(a, b) {
 }
 
 const CTA = "#FFBC00";
-const INK = "#21232C";
+const INK = "#212529";
 const WHITE = "#FFFFFF";
 
 // Tinta escura sobre o CTA precisa passar AA (4.5:1 para texto normal).

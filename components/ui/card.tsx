@@ -17,7 +17,7 @@ export function Card({
   const elevationClass =
     elevation === "border"
       ? "border border-oc-divider"
-      : "shadow-oc-sm";
+      : "shadow-oc-lg";
 
   return (
     <div

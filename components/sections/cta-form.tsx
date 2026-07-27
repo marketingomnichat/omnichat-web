@@ -24,14 +24,16 @@ export function CtaForm({
   fields?: FormField[];
 }) {
   return (
-    <section className="bg-oc-surface">
-      <div className="mx-auto max-w-[768px] px-6 py-24">
+    <section
+      style={{ background: "linear-gradient(32.58deg, #000000 66.85%, #21272A 108.34%)" }}
+    >
+      <div className="mx-auto max-w-oc-container px-6 py-oc-section">
         {overline && (
-          <p className="oc-overline text-oc-yellow-ink">{overline}</p>
+          <p className="oc-overline text-oc-yellow-mass">{overline}</p>
         )}
-        <h2 className="oc-h2 mt-3 text-oc-ink">{title}</h2>
+        <h2 className="oc-h2 mt-3 text-white">{title}</h2>
         {body && (
-          <p className="oc-body-lg mt-5 text-oc-neutral-dark">{body}</p>
+          <p className="oc-body-lg mt-5 text-white">{body}</p>
         )}
         <form
           // Mesma regra do validador do schema — https:// ou path de barra única;
@@ -44,11 +46,11 @@ export function CtaForm({
             <div key={field._key ?? i} className="flex flex-col gap-1.5">
               <label
                 htmlFor={`form-field-${field.name}`}
-                className="oc-body-sm font-medium text-oc-ink"
+                className="oc-body-sm font-medium text-white"
               >
                 {field.label}
                 {field.required && (
-                  <span className="ml-1 text-oc-yellow-ink" aria-hidden="true">*</span>
+                  <span className="ml-1 text-oc-yellow-mass" aria-hidden="true">*</span>
                 )}
               </label>
               <input
