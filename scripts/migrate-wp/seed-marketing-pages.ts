@@ -47,6 +47,22 @@ async function img(url: string, alt: string): Promise<{ imageUrl: string; alt: s
   return { imageUrl: imageUrl, alt };
 }
 
+/** Upload a list of logos and return logoCloud items with cdn.sanity.io URLs. */
+async function buildLogos(
+  prefix: string,
+  logos: Array<{ name: string; url: string }>
+): Promise<Array<{ _key: string; name: string; imageUrl: string }>> {
+  const out: Array<{ _key: string; name: string; imageUrl: string }> = [];
+  for (let i = 0; i < logos.length; i++) {
+    const { imageUrl } = await img(logos[i].url, logos[i].name);
+    if (imageUrl === logos[i].url) {
+      console.warn(`[seed] logo upload fallback (WP URL kept): ${logos[i].url}`);
+    }
+    out.push({ _key: `${prefix}-${i}`, name: logos[i].name, imageUrl });
+  }
+  return out;
+}
+
 // ── HOME PAGE ─────────────────────────────────────────────────────────────────
 
 async function buildHome() {
@@ -228,6 +244,10 @@ async function buildEmpresa() {
     "https://omni.chat/wp-content/uploads/2025/11/9b9bb98e38dca37353a39530dcc66ba5ac1bc52f.png",
     "Pessoa sorrindo com celular na mão"
   );
+  const pressLogos = await buildLogos("logo", [
+    { name: "Logo Marketing", url: "https://omni.chat/wp-content/uploads/2025/11/Vector-2.svg" },
+    { name: "Logo Vendas", url: "https://omni.chat/wp-content/uploads/2025/11/Vector-1.svg" },
+  ]);
 
   const sections = [
     // 1. Hero
@@ -300,10 +320,7 @@ async function buildEmpresa() {
       _type: "logoCloud",
       _key: key("s", 6),
       title: "A OmniChat está no radar das maiores empresas e veículos do mercado",
-      logos: [
-        { _key: "logo-0", name: "Logo Marketing", imageUrl: "https://omni.chat/wp-content/uploads/2025/11/Vector-2.svg" },
-        { _key: "logo-1", name: "Logo Vendas", imageUrl: "https://omni.chat/wp-content/uploads/2025/11/Vector-1.svg" },
-      ],
+      logos: pressLogos,
     },
     // 8. latestPosts
     {
@@ -475,6 +492,28 @@ async function buildChatCommerceReport() {
     "https://omni.chat/wp-content/uploads/2026/04/Image-04.png",
     "O consumidor já está comprando pelo WhatsApp"
   );
+  const ccrLogos = await buildLogos("l", [
+    { name: "Alô", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-alo-1.png" },
+    { name: "Mobly", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-mobly-1.png" },
+    { name: "Asics", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-asics-1.png" },
+    { name: "Reebok", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-reebok.png" },
+    { name: "Acer", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-acer.png" },
+    { name: "Pirelli", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-pirelli.png" },
+    { name: "Crocs", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-crocs.png" },
+    { name: "Azzas", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-azzas.png" },
+    { name: "La Moda", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-lamoda.png" },
+    { name: "Decathlon", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-decathlon-1.png" },
+    { name: "Natura", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-natura.png" },
+    { name: "AMC", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-amc.png" },
+    { name: "Montblanc", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-montblanc.png" },
+    { name: "Henry Schein", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-henryschein.png" },
+    { name: "L'Occitane", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-loccitane.png" },
+    { name: "Kiko Milano", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-kikomilano.png" },
+    { name: "Michael Kors", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-michaelkors.png" },
+    { name: "Tiffany & Co.", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-tiffanyco.png" },
+    { name: "TAG Heuer", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-tagheuer.png" },
+    { name: "Tory Burch", url: "https://omni.chat/wp-content/uploads/2026/04/Logo-toryburch.png" },
+  ]);
 
   const sections = [
     // 1. Hero
@@ -510,28 +549,7 @@ async function buildChatCommerceReport() {
       _type: "logoCloud",
       _key: key("s", 2),
       title: "Grandes marcas no Chat-Commerce Report 2026",
-      logos: [
-        { _key: "l-0", name: "Alô", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-alo-1.png" },
-        { _key: "l-1", name: "Mobly", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-mobly-1.png" },
-        { _key: "l-2", name: "Asics", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-asics-1.png" },
-        { _key: "l-3", name: "Reebok", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-reebok.png" },
-        { _key: "l-4", name: "Acer", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-acer.png" },
-        { _key: "l-5", name: "Pirelli", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-pirelli.png" },
-        { _key: "l-6", name: "Crocs", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-crocs.png" },
-        { _key: "l-7", name: "Azzas", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-azzas.png" },
-        { _key: "l-8", name: "La Moda", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-lamoda.png" },
-        { _key: "l-9", name: "Decathlon", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-decathlon-1.png" },
-        { _key: "l-10", name: "Natura", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-natura.png" },
-        { _key: "l-11", name: "AMC", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-amc.png" },
-        { _key: "l-12", name: "Montblanc", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-montblanc.png" },
-        { _key: "l-13", name: "Henry Schein", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-henryschein.png" },
-        { _key: "l-14", name: "L'Occitane", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-loccitane.png" },
-        { _key: "l-15", name: "Kiko Milano", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-kikomilano.png" },
-        { _key: "l-16", name: "Michael Kors", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-michaelkors.png" },
-        { _key: "l-17", name: "Tiffany & Co.", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-tiffanyco.png" },
-        { _key: "l-18", name: "TAG Heuer", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-tagheuer.png" },
-        { _key: "l-19", name: "Tory Burch", imageUrl: "https://omni.chat/wp-content/uploads/2026/04/Logo-toryburch.png" },
-      ],
+      logos: ccrLogos,
     },
     // 4. featureSplit – O consumidor já está comprando pelo WhatsApp
     {
