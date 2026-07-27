@@ -12,3 +12,4 @@
 - Conteúdo: Sanity (site/blog) com tags de cache `page`/`page:slug`, `post`/`post:slug`, `siteSettings`, `redirect`; webhook `/api/revalidate?secret=` revalida.
 - LPs de campanha: Builder.io, host `lp.omni.chat` → rewrite `/lp/*` no `proxy.ts`.
 - Env: ver `.env.example`. Nunca commitar credencial.
+- Utilizar a convenção de boas práticas do Next.js, tais quais: `<Image>` insted of `<img>`.
