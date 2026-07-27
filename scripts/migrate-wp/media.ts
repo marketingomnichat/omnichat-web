@@ -46,7 +46,8 @@ export async function uploadImageFromUrl(
   // Only upload media from omni.chat
   try {
     const parsed = new URL(url);
-    if (!parsed.hostname.endsWith(OMNICHAT_HOST)) {
+    const host = parsed.hostname;
+    if (host !== OMNICHAT_HOST && !host.endsWith("." + OMNICHAT_HOST)) {
       return "";
     }
   } catch {

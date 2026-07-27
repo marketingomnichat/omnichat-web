@@ -31,6 +31,7 @@ interface WpUser {
 interface WpPost {
   id: number;
   date: string;
+  date_gmt: string;
   slug: string;
   title: { rendered: string };
   content: { rendered: string };
@@ -238,6 +239,7 @@ async function migratePosts(
   };
   console.warn = patchWarn;
 
+  try {
   for (let i = 0; i < posts.length; i += BATCH) {
     const batch = posts.slice(i, i + BATCH);
     console.log(
@@ -295,7 +297,7 @@ async function migratePosts(
         title,
         slug: { _type: "slug", current: post.slug },
         excerpt,
-        publishedAt: post.date,
+        publishedAt: `${post.date_gmt}Z`,
         body,
         categories,
         seo,
@@ -313,8 +315,9 @@ async function migratePosts(
     }
     process.stdout.write("\n");
   }
-
-  console.warn = originalWarn;
+  } finally {
+    console.warn = originalWarn;
+  }
 
   return { total: posts.length, mediaUploaded, unmapped };
 }

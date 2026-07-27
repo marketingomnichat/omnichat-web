@@ -9,6 +9,12 @@ export const post = defineType({
     defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "title" }, validation: (r) => r.required() }),
     defineField({ name: "excerpt", title: "Resumo", type: "text", rows: 3 }),
     defineField({ name: "body", title: "Conteúdo", type: "array", of: [{ type: "block" }, { type: "image" }] }),
+    defineField({
+      name: "coverImage",
+      title: "Imagem de capa",
+      type: "image",
+      fields: [defineField({ name: "alt", title: "Texto alternativo", type: "string" })],
+    }),
     defineField({ name: "author", title: "Autor", type: "reference", to: [{ type: "author" }] }),
     defineField({ name: "categories", title: "Categorias", type: "array", of: [{ type: "reference", to: [{ type: "category" }] }] }),
     defineField({ name: "publishedAt", title: "Data de publicação", type: "datetime" }),
