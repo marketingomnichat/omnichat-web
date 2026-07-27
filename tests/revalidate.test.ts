@@ -15,4 +15,7 @@ describe("tagsFor", () => {
   it("tipo desconhecido não revalida nada", () => {
     expect(tagsFor("author")).toEqual([]);
   });
+  it("landingPage gera tags de coleção e slug", () => {
+    expect(tagsFor("landingPage", "black-friday")).toEqual(["landingPage", "landingPage:black-friday"]);
+  });
 });

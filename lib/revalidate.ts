@@ -1,4 +1,4 @@
-const SLUGGED = new Set(["page", "post"]);
+const SLUGGED = new Set(["page", "post", "landingPage"]);
 const GLOBAL = new Set(["siteSettings", "redirect"]);
 
 export function tagsFor(_type: string, slug?: string): string[] {

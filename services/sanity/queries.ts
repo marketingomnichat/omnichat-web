@@ -31,6 +31,13 @@ export const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   organization{name, legalName, url, logoUrl, sameAs}
 }`;
 
+export const LANDING_PAGE_QUERY = `*[_type == "landingPage" && slug.current == $slug][0]{
+  title, "slug": slug.current, ${SEO_FIELDS},
+  sections[]{..., _type, _key}
+}`;
+
+export const LANDING_PAGE_SLUGS_QUERY = `*[_type == "landingPage" && defined(slug.current)].slug.current`;
+
 export const REDIRECTS_QUERY = `*[_type == "redirect"]{ "from": from, "to": to, "permanent": permanent }`;
 
 export const LLMS_QUERY = `{

@@ -17,4 +17,10 @@ describe("sanity schema", () => {
   it("tem o objeto seo compartilhado", () => {
     expect(names).toContain("seo");
   });
+  it("landingPage existe com page builder e seo", () => {
+    const lp = schemaTypes.find((t) => t.name === "landingPage");
+    expect(lp).toBeDefined();
+    const fields = (lp as { fields: { name: string }[] }).fields.map((f) => f.name);
+    expect(fields).toEqual(expect.arrayContaining(["title", "slug", "seo", "sections"]));
+  });
 });
