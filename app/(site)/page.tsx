@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { SectionRenderer } from "@/components/sections/section-renderer";
-import { sanityFetch } from "@/lib/sanity/client";
-import { HOME_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { HOME_QUERY } from "@/services/sanity/queries";
 import { buildMetadata, type SeoData } from "@/lib/seo";
-import type { SectionData } from "@/components/sections/types";
+import type { SectionData } from "@/shared/types";
 
 type PageDoc = { title: string; seo?: SeoData; sections?: SectionData[] } | null;
 

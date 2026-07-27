@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { PortableText, type PortableTextBlock } from "next-sanity";
 import { Faq } from "@/components/sections/faq";
 import { JsonLd } from "@/components/seo/json-ld";
-import { sanityFetch } from "@/lib/sanity/client";
-import { POST_QUERY, POST_SLUGS_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { POST_QUERY, POST_SLUGS_QUERY } from "@/services/sanity/queries";
 import { buildMetadata, type SeoData } from "@/lib/seo";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://omni.chat";

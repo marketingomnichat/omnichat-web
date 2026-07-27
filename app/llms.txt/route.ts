@@ -1,6 +1,6 @@
 import { buildLlmsTxt } from "@/lib/llms";
-import { sanityFetch } from "@/lib/sanity/client";
-import { LLMS_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { LLMS_QUERY } from "@/services/sanity/queries";
 
 export async function GET() {
   const data = await sanityFetch<{

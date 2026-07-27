@@ -1,7 +1,7 @@
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
-import { sanityFetch } from "@/lib/sanity/client";
-import { SETTINGS_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { SETTINGS_QUERY } from "@/services/sanity/queries";
 
 type Settings = {
   nav?: { label: string; href: string }[];

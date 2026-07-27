@@ -1,4 +1,5 @@
-/* eslint-disable @next/next/no-img-element -- logos vêm do CDN OmniChat por URL */
+import Image from "next/image";
+
 type Logo = { name: string; imageUrl: string };
 
 export function LogoCloud({ title, logos = [] }: { title?: string; logos?: Logo[] }) {
@@ -8,7 +9,14 @@ export function LogoCloud({ title, logos = [] }: { title?: string; logos?: Logo[
       {title && <p className="oc-overline mb-6 text-center text-oc-neutral-dark">{title}</p>}
       <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
         {logos.map((l) => (
-          <img key={l.name} src={l.imageUrl} alt={l.name} className="h-8 w-auto" loading="lazy" />
+          <Image
+            key={l.name}
+            src={l.imageUrl}
+            alt={l.name}
+            width={160}
+            height={32}
+            className="h-8 w-auto"
+          />
         ))}
       </div>
     </section>

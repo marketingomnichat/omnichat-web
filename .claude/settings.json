@@ -1,6 +1,20 @@
 {
-    "attribution": {
-      "commit": "",
-      "pr": ""
-    }
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -e '(.tool_input.file_path // \"\" | test(\"\\\\.(tsx|jsx)$\")) and ((.tool_input.new_string // .tool_input.content // \"\") | test(\"<img[\\\\s/>]\"))' >/dev/null && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Convenção do projeto: use next/image (<Image>) em vez de <img>. Ver node_modules/next/dist/docs/01-app/01-getting-started/12-images.md\"}}' ; exit 0",
+            "statusMessage": "Checando convenção next/image"
+          }
+        ]
+      }
+    ]
   }
+}

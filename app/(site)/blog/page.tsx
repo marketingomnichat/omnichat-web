@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PostCard, type PostListItem } from "@/components/site/post-card";
-import { sanityFetch } from "@/lib/sanity/client";
-import { POSTS_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { POSTS_QUERY } from "@/services/sanity/queries";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({

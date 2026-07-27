@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Content, fetchOneEntry, isPreviewing } from "@builder.io/sdk-react";
 import { builderComponents } from "@/components/sections/builder-registry";
-import { BUILDER_API_KEY, BUILDER_MODEL, hasBuilderConfig } from "@/lib/builder";
+import { BUILDER_API_KEY, BUILDER_MODEL, hasBuilderConfig } from "@/services/builder";
 
 export default async function LandingPage({
   params,

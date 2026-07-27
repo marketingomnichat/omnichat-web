@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { isSafeRelativePath, matchRedirect } from "../lib/redirects";
 import { isFresh, fetchRedirectRules, __resetRedirectCacheForTest } from "../proxy";
-import type { sanityFetch } from "../lib/sanity/client";
+import type { sanityFetch } from "../services/sanity/client";
 
 const redirects = [
   { from: "/blog/antigo", to: "/blog/novo", permanent: true },

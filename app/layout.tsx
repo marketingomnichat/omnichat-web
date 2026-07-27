@@ -4,8 +4,8 @@ import { draftMode } from "next/headers";
 import { AnalyticsProvider } from "@/components/analytics/posthog-provider";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SanityVisualEditing } from "@/components/site/sanity-visual-editing";
-import { sanityFetch } from "@/lib/sanity/client";
-import { SETTINGS_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { SETTINGS_QUERY } from "@/services/sanity/queries";
 import "./globals.css";
 
 // Lato é a única fonte do sistema; Thin 100 é proibido pela spec.

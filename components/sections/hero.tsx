@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Cta } from "./types";
+import type { Cta } from "@/shared/types";
 
 const CTA_CLASS: Record<NonNullable<Cta["variant"]>, string> = {
   primary:

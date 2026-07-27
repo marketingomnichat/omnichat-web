@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Cta } from "./types";
+import type { Cta } from "@/shared/types";
 
 export function CtaBanner({ title, text, cta }: { title?: string; text?: string; cta?: Cta }) {
   return (

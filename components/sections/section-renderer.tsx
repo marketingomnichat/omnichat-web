@@ -1,5 +1,5 @@
 import { sectionRegistry } from "./registry";
-import type { SectionData } from "./types";
+import type { SectionData } from "@/shared/types";
 
 export function SectionRenderer({ sections }: { sections?: SectionData[] | null }) {
   if (!sections?.length) return null;

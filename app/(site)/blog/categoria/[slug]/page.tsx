@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PostCard, type PostListItem } from "@/components/site/post-card";
-import { sanityFetch } from "@/lib/sanity/client";
+import { sanityFetch } from "@/services/sanity/client";
 import { buildMetadata } from "@/lib/seo";
 
 const CATEGORY_POSTS_QUERY = `*[_type == "post" && $slug in categories[]->slug.current] | order(publishedAt desc){

@@ -6,7 +6,7 @@ import {
   POST_QUERY,
   REDIRECTS_QUERY,
   SETTINGS_QUERY,
-} from "../lib/sanity/queries";
+} from "../services/sanity/queries";
 
 describe("GROQ queries", () => {
   it("busca page por slug com sections", () => {

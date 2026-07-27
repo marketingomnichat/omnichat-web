@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { sanityFetch } from "@/lib/sanity/client";
-import { PAGE_SLUGS_QUERY, POSTS_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { PAGE_SLUGS_QUERY, POSTS_QUERY } from "@/services/sanity/queries";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://omni.chat";
 

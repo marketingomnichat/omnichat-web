@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SectionRenderer } from "@/components/sections/section-renderer";
-import { sanityFetch } from "@/lib/sanity/client";
-import { PAGE_QUERY, PAGE_SLUGS_QUERY } from "@/lib/sanity/queries";
+import { sanityFetch } from "@/services/sanity/client";
+import { PAGE_QUERY, PAGE_SLUGS_QUERY } from "@/services/sanity/queries";
 import { buildMetadata, type SeoData } from "@/lib/seo";
-import type { SectionData } from "@/components/sections/types";
+import type { SectionData } from "@/shared/types";
 
 type PageDoc = { title: string; slug: string; seo?: SeoData; sections?: SectionData[] } | null;
 

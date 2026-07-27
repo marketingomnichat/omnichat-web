@@ -1,8 +1,8 @@
 // proxy.ts
 import { type NextRequest, NextResponse } from "next/server";
 import { isSafeRelativePath, matchRedirect, type RedirectRule } from "./lib/redirects";
-import { sanityFetch } from "./lib/sanity/client";
-import { REDIRECTS_QUERY } from "./lib/sanity/queries";
+import { sanityFetch } from "./services/sanity/client";
+import { REDIRECTS_QUERY } from "./services/sanity/queries";
 
 const LP_HOST = process.env.NEXT_PUBLIC_LP_HOST ?? "lp.omni.chat";
 
