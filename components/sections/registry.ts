@@ -7,6 +7,7 @@ import { FeatureGrid } from "./feature-grid";
 import { Testimonials } from "./testimonials";
 import { LogoCloud } from "./logo-cloud";
 import { Faq } from "./faq";
+import { FeatureSplit } from "./feature-split";
 
 // Chaves = `name` dos schemas em sanity/schemas/objects/sections.ts.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,4 +20,5 @@ export const sectionRegistry: Record<string, ComponentType<any>> = {
   testimonials: Testimonials,
   logoCloud: LogoCloud,
   faq: Faq,
+  featureSplit: FeatureSplit,
 };

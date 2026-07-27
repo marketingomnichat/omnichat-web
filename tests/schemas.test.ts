@@ -9,8 +9,8 @@ describe("sanity schema", () => {
       expect(names).toContain(doc);
     }
   });
-  it("tem os 8 tipos de seção do page builder", () => {
-    for (const s of ["hero", "featureGrid", "testimonials", "logoCloud", "ctaBanner", "faq", "richText", "stats"]) {
+  it("tem os 9 tipos de seção do page builder", () => {
+    for (const s of ["hero", "featureGrid", "testimonials", "logoCloud", "ctaBanner", "faq", "richText", "stats", "featureSplit"]) {
       expect(names).toContain(s);
     }
   });

@@ -170,4 +170,33 @@ export const stats = defineType({
   ],
 });
 
-export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats];
+export const featureSplit = defineType({
+  name: "featureSplit",
+  title: "Bloco mídia + texto",
+  type: "object",
+  fields: [
+    defineField({ name: "overline", title: "Sobretítulo", type: "string" }),
+    defineField({ name: "title", title: "Título", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "body", title: "Corpo", type: "text", rows: 4 }),
+    defineField({
+      name: "image",
+      title: "Imagem",
+      type: "object",
+      fields: [
+        defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+      ],
+    }),
+    defineField({
+      name: "mediaSide",
+      title: "Lado da mídia",
+      type: "string",
+      options: { list: ["left", "right"] },
+      initialValue: "right",
+    }),
+    defineField({ ...cta, name: "cta", title: "Botão de ação" }),
+    defineField({ name: "dark", title: "Fundo escuro", type: "boolean", initialValue: false }),
+  ],
+});
+
+export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit];
