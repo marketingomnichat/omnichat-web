@@ -3,7 +3,7 @@
 # omni.chat — Next.js 16 + Sanity + Builder.io
 
 ## Comandos
-- `npm run dev` / `npm run build` / `npm run lint` (ESLint + guardrails DS) / `npm run typecheck` / `npm test`
+- `npm run dev` / `npm run build` / `npm run lint` (ESLint + guardrails DS) / `npm run typecheck` / `npm test` (vitest) / `npm run test:e2e` (Playwright)
 
 ## Estrutura
 - `services/` = I/O e APIs externas (Sanity, Builder.io, PostHog). `lib/` = lógica pura sem I/O (seo, llms, redirects, revalidate). `shared/` = tipos usados por 2+ camadas. `app/` = só rotas/layouts. `sanity/schemas/` = schema do CMS.

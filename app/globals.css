@@ -10,7 +10,7 @@
   /* Marca */
   --color-oc-yellow-mass: #FFD04D;   /* massa dominante, campos grandes */
   --color-oc-yellow-cta: #FFBC00;    /* botão primário — nunca com tinta branca */
-  --color-oc-yellow-ink: #E59900;    /* tipo/KPI/ícone amarelo sobre fundo claro */
+  --color-oc-yellow-ink: #996300;    /* tipo/KPI/ícone amarelo sobre fundo claro — AA 4.99:1 no branco */
   --color-oc-yellow-hover: #F0B000;  /* -6% */
   --color-oc-yellow-press: #E0A500;  /* -12% */
 

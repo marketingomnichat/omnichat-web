@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { Content, fetchOneEntry, isPreviewing } from "@builder.io/sdk-react";
+import { Content, isPreviewing } from "@builder.io/sdk-react";
 import { builderComponents } from "@/components/sections/builder-registry";
-import { BUILDER_API_KEY, BUILDER_MODEL, hasBuilderConfig } from "@/services/builder";
+import { BUILDER_API_KEY, BUILDER_MODEL, fetchLandingPage, hasBuilderConfig } from "@/services/builder";
 
 export default async function LandingPage({
   params,
@@ -13,11 +13,7 @@ export default async function LandingPage({
   const [{ slug }, search] = await Promise.all([params, searchParams]);
   if (!hasBuilderConfig) notFound();
   const urlPath = `/${(slug ?? []).join("/")}`;
-  const content = await fetchOneEntry({
-    model: BUILDER_MODEL,
-    apiKey: BUILDER_API_KEY,
-    userAttributes: { urlPath },
-  });
+  const content = await fetchLandingPage(urlPath);
   // No servidor, isPreviewing exige os search params (tipo Search = QueryObject
   // sem undefined) — filtra chaves sem valor antes de passar.
   const query = Object.fromEntries(

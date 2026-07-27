@@ -89,7 +89,7 @@ Plataforma de jornada conversacional no WhatsApp com três camadas:
 ### Regras de contraste (obrigatórias)
 - `#FFBC00` só carrega tinta escura (`#21232C`) — **nunca branca**
 - `#532673` carrega texto branco
-- Em fundos claros (branco, `#F6F7F8`), usar `#E59900` para tipo/KPIs/ícones amarelos (alto contraste)
+- Em fundos claros (branco, `#F6F7F8`), usar `#996300` para tipo/KPIs/ícones amarelos (AA 4.99:1; o antigo `#E59900` reprovava com 2.32:1)
 - Alvo: **WCAG AA**
 
 ### Gradient Whizz (exclusivo IA)
