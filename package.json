@@ -10,7 +10,8 @@
     "lint:design": "node scripts/check-design-rules.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "migrate:wp": "tsx scripts/migrate-wp/run.ts"
   },
   "dependencies": {
     "@sanity/image-url": "2.1.1",
@@ -33,7 +34,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
+    "node-html-parser": "9.0.0",
     "tailwindcss": "^4",
+    "tsx": "4.23.1",
     "typescript": "^5",
     "vitest": "4.1.10"
   }
