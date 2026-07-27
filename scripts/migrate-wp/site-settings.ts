@@ -13,10 +13,11 @@ import { writeClient } from "./sanity-write";
 // ── Nav items extracted from #menu-menu-principal in omni.chat header ─────────
 // (top-level items only; dropdowns are noted as comments)
 const NAV_ITEMS = [
-  // "Produtos" has sub-menu (Marketing Studio, Vendas) — kept as top-level entry
-  { label: "Produtos", href: "#" },
-  // "Soluções" has sub-menu (Varejo, Educacional) — kept as top-level entry
-  { label: "Soluções", href: "#" },
+  // "Produtos" has sub-menu (Marketing Studio, Vendas) — WP renders href="#";
+  // distinct anchors here because the header component keys nav items by href.
+  { label: "Produtos", href: "#produtos" },
+  // "Soluções" has sub-menu (Varejo, Educacional) — same reasoning
+  { label: "Soluções", href: "#solucoes" },
   { label: "Planos", href: "/planos/" },
   { label: "Empresa", href: "/empresa/" },
   { label: "Conteúdo", href: "/blog/" },
