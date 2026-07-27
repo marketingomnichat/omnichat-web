@@ -1,5 +1,4 @@
-import type { ComponentType } from "react";
-import React from "react";
+import type { ReactNode } from "react";
 import { Hero } from "./hero";
 import { RichText } from "./rich-text";
 import { CtaBanner } from "./cta-banner";
@@ -13,9 +12,13 @@ import { PricingTable } from "./pricing-table";
 import { CtaForm } from "./cta-form";
 import { LatestPosts } from "./latest-posts";
 
-// Chaves = `name` dos schemas em sanity/schemas/objects/sections.ts.
+// Componente de seção: função sync ou async (RSC). Props são validadas
+// por cada componente; o registry apaga o tipo específico de props.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const sectionRegistry: Record<string, ComponentType<any> | ((props: any) => Promise<React.ReactNode>)> = {
+export type SectionComponent = (props: any) => ReactNode | Promise<ReactNode>;
+
+// Chaves = `name` dos schemas em sanity/schemas/objects/sections.ts.
+export const sectionRegistry: Record<string, SectionComponent> = {
   hero: Hero,
   richText: RichText,
   ctaBanner: CtaBanner,

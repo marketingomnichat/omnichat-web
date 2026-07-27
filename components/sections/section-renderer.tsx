@@ -6,8 +6,7 @@ export function SectionRenderer({ sections }: { sections?: SectionData[] | null 
   return (
     <>
       {sections.map(({ _type, _key, ...props }) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const Section = sectionRegistry[_type] as any;
+        const Section = sectionRegistry[_type];
         if (!Section) {
           if (process.env.NODE_ENV === "development") {
             console.warn(`Seção sem componente no registry: ${_type}`);

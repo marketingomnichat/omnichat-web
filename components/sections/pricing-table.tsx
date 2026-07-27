@@ -39,7 +39,18 @@ export function PricingTable({
                 <ul className="mt-6 space-y-3">
                   {plan.features.map((feature, fi) => (
                     <li key={fi} className="flex items-start gap-2">
-                      <span className="ri-check-line mt-0.5 shrink-0 text-oc-yellow-ink" aria-hidden="true" />
+                      <svg
+                        className="mt-1 h-4 w-4 shrink-0 text-oc-yellow-ink"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M2.5 8.5l3.5 3.5 7.5-8" />
+                      </svg>
                       <span className="oc-body-sm text-oc-neutral-dark">{feature}</span>
                     </li>
                   ))}

@@ -240,7 +240,17 @@ export const ctaForm = defineType({
     defineField({ name: "overline", title: "Sobretítulo", type: "string" }),
     defineField({ name: "title", title: "Título", type: "string", validation: (r) => r.required() }),
     defineField({ name: "body", title: "Corpo", type: "text", rows: 3 }),
-    defineField({ name: "formAction", title: "URL de envio", type: "url", validation: (r) => r.required() }),
+    defineField({
+      name: "formAction",
+      title: "URL de envio",
+      type: "string",
+      validation: (r) =>
+        r.required().custom((value?: string) => {
+          if (!value) return true; // ausência já é coberta por required()
+          if (value.startsWith("https://") || value.startsWith("/")) return true;
+          return "Informe uma URL https:// ou um caminho relativo começando com /";
+        }),
+    }),
     defineField({ name: "buttonLabel", title: "Rótulo do botão", type: "string", validation: (r) => r.required() }),
     defineField({
       name: "fields",
