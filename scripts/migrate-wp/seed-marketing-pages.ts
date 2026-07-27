@@ -484,10 +484,6 @@ async function buildChatCommerceReport() {
   // HubSpot form endpoint: portal 20121735, form 4b6b3796-b24c-4786-ba60-39e2bba014b0
   const formAction = "https://api.hsforms.com/submissions/v3/integration/submit/20121735/4b6b3796-b24c-4786-ba60-39e2bba014b0";
 
-  const imgHero = await img(
-    "https://omni.chat/wp-content/uploads/2026/04/Image-02.png",
-    "Relatório de comércio por chat no Brasil 2026, análise de impacto e tendências do mercado digital."
-  );
   const imgFeatureSplit = await img(
     "https://omni.chat/wp-content/uploads/2026/04/Image-04.png",
     "O consumidor já está comprando pelo WhatsApp"
@@ -522,7 +518,6 @@ async function buildChatCommerceReport() {
       _key: key("s", 0),
       title: "Um retrato em dados da jornada conversacional e o impacto da IA no Brasil",
       subtitle: "Explore agora as melhores práticas do mercado conversacional",
-      image: imgHero,
       ctas: [
         { _key: "cta-0", label: "Acesse o Estudo", href: "#formulario", variant: "primary" },
       ],

@@ -111,21 +111,24 @@ export async function migrateSiteSettings(): Promise<void> {
     url: item.url,
   }));
 
-  // Build footer columns as part of footerText (plain text summary)
-  // The schema has `footerText` as a text field; store columns as JSON-ish description
-  // and use a separate footerColumns field is not in schema — we store as footerText.
-  // For richer data, we serialize columns list into the text field.
-  const footerColumnsText = FOOTER_COLUMNS.map(
-    (col) =>
-      `${col.title}:\n${col.links.map((l) => `  - ${l.label}: ${l.href}`).join("\n")}`
-  ).join("\n\n");
+  // Build footer columns as structured array for the footerColumns field
+  const footerColumns = FOOTER_COLUMNS.map((col, ci) => ({
+    _key: `col-${ci}`,
+    title: col.title,
+    links: col.links.map((l, li) => ({
+      _key: `link-${ci}-${li}`,
+      label: l.label,
+      href: l.href,
+    })),
+  }));
 
   const doc = {
     _id: "siteSettings",
     _type: "siteSettings",
     siteName: "OmniChat",
     nav,
-    footerText: `${FOOTER_TEXT}\n\n${footerColumnsText}`,
+    footerText: FOOTER_TEXT,
+    footerColumns,
     social,
     organization: {
       name: "OmniChat",
@@ -148,5 +151,6 @@ export async function migrateSiteSettings(): Promise<void> {
   console.log("[migrate] ✓ siteSettings upserted.");
   console.log(`[migrate]   Nav items: ${nav.length}`);
   console.log(`[migrate]   Social links: ${social.length}`);
+  console.log(`[migrate]   Footer columns: ${footerColumns.length}`);
   console.log("[migrate] siteSettings migration complete.");
 }

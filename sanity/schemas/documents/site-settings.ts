@@ -20,7 +20,34 @@ export const siteSettings = defineType({
         }),
       ],
     }),
-    defineField({ name: "footerText", title: "Texto do rodapé", type: "text", rows: 2 }),
+    defineField({ name: "footerText", title: "Texto do rodapé (copyright)", type: "text", rows: 2 }),
+    defineField({
+      name: "footerColumns",
+      title: "Colunas do rodapé",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Título da coluna", type: "string" }),
+            defineField({
+              name: "links",
+              title: "Links",
+              type: "array",
+              of: [
+                defineArrayMember({
+                  type: "object",
+                  fields: [
+                    defineField({ name: "label", title: "Rótulo", type: "string" }),
+                    defineField({ name: "href", title: "URL", type: "string" }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
     defineField({
       name: "social",
       title: "Redes sociais",
