@@ -217,14 +217,16 @@ async function processNode(
         const alt = imgAlt || captionEl?.text?.trim() || "";
         if (src) {
           const ref = await opts.uploadImage(src, alt);
-          const block: PortableTextBlock = {
-            _type: "image",
-            _key: shortKey(src, blocks.length),
-            asset: { _ref: ref },
-            alt,
-          };
-          if (captionEl?.text) block.caption = captionEl.text;
-          blocks.push(block);
+          if (ref) {
+            const block: PortableTextBlock = {
+              _type: "image",
+              _key: shortKey(src, blocks.length),
+              asset: { _ref: ref },
+              alt,
+            };
+            if (captionEl?.text) block.caption = captionEl.text;
+            blocks.push(block);
+          }
         }
       }
       break;
@@ -234,23 +236,76 @@ async function processNode(
       const alt = el.getAttribute("alt") ?? "";
       if (src) {
         const ref = await opts.uploadImage(src, alt);
-        blocks.push({
-          _type: "image",
-          _key: shortKey(src, blocks.length),
-          asset: { _ref: ref },
-          alt,
-        });
+        if (ref) {
+          blocks.push({
+            _type: "image",
+            _key: shortKey(src, blocks.length),
+            asset: { _ref: ref },
+            alt,
+          });
+        }
+      }
+      break;
+    }
+    case "picture": {
+      // <picture> wraps <source> variants + <img> fallback — use the <img>
+      const imgEl = el.querySelector("img");
+      if (imgEl) {
+        const src = imgEl.getAttribute("src") ?? "";
+        const alt = imgEl.getAttribute("alt") ?? "";
+        if (src) {
+          const ref = await opts.uploadImage(src, alt);
+          if (ref) {
+            blocks.push({
+              _type: "image",
+              _key: shortKey(src, blocks.length),
+              asset: { _ref: ref },
+              alt,
+            });
+          }
+        }
+      }
+      break;
+    }
+    case "h1": {
+      // WP sometimes uses h1 in body — map to h2 to avoid duplicate page-title semantics
+      blocks.push(makeTextBlock("h2", el, blocks.length));
+      break;
+    }
+    case "pre":
+    case "code": {
+      const text = el.text.trim();
+      if (text) {
+        blocks.push(makeTextBlock("normal", el, blocks.length));
+      }
+      break;
+    }
+    case "hr": {
+      // Horizontal rules have no Sanity PT equivalent — skip silently
+      break;
+    }
+    case "iframe":
+    case "video":
+    case "audio": {
+      // Embeds cannot be represented in Portable Text — skip silently
+      break;
+    }
+    case "table": {
+      // Tables: extract plain text as a normal block — no PT table type
+      const text = el.text.trim();
+      if (text) {
+        blocks.push(makeTextBlock("normal", el, blocks.length));
       }
       break;
     }
     default: {
       // Recurse into container-like unknowns (div, section, article…)
-      const containerTags = new Set(["div", "section", "article", "main", "header", "footer", "aside"]);
+      const containerTags = new Set(["div", "section", "article", "main", "header", "footer", "aside", "nav", "span"]);
       if (containerTags.has(tag)) {
         for (const child of el.childNodes) {
           await processNode(child as HTMLElement, opts, blocks, listContext);
         }
-      } else if (tag !== "script" && tag !== "style" && tag !== "") {
+      } else if (tag !== "script" && tag !== "style" && tag !== "" && tag !== "noscript") {
         console.warn(`[migrate] bloco não mapeado: <${tag}>`);
         const text = el.text.trim();
         if (text) {

@@ -60,10 +60,18 @@ describe("htmlToPortableText", () => {
     expect(blocks[0]).toMatchObject({ _type: "image", asset: { _ref: "image-fig" } });
   });
 
-  it("avisa sobre blocos não mapeados", async () => {
+  it("avisa sobre blocos não mapeados (tags desconhecidas)", async () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-    await htmlToPortableText("<video><source src='x.mp4'></video>", noUpload);
-    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("video"));
+    await htmlToPortableText("<blink>texto</blink>", noUpload);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("blink"));
+    warnSpy.mockRestore();
+  });
+
+  it("ignora <video> silenciosamente", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const blocks = await htmlToPortableText("<video><source src='x.mp4'></video>", noUpload);
+    expect(blocks).toHaveLength(0);
+    expect(warnSpy).not.toHaveBeenCalledWith(expect.stringContaining("video"));
     warnSpy.mockRestore();
   });
 
