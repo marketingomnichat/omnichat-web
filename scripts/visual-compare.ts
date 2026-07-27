@@ -26,12 +26,33 @@ const WP_BASE = "https://omni.chat";
 const LOCAL_BASE = "http://localhost:3000";
 const VIEWPORT_WIDTH = 1280;
 
-async function captureScreenshot(
-  page: Awaited<ReturnType<Awaited<ReturnType<typeof chromium.launch>>["newPage"]>>,
-  url: string,
-  outputPath: string,
-): Promise<void> {
+type Page = Awaited<ReturnType<Awaited<ReturnType<typeof chromium.launch>>["newPage"]>>;
+
+/**
+ * Scroll the whole document in steps so lazy-loaded images and
+ * scroll-triggered animations (common on the WP site) render before
+ * the full-page screenshot. Returns to the top before capture.
+ */
+async function scrollFullPage(page: Page): Promise<void> {
+  const step = 700;
+  const pauseMs = 400;
+  const maxSteps = 80;
+  for (let i = 0; i < maxSteps; i++) {
+    const atBottom = await page.evaluate(
+      () => window.innerHeight + window.scrollY >= document.body.scrollHeight - 2,
+    );
+    if (atBottom) break;
+    await page.mouse.wheel(0, step);
+    await page.waitForTimeout(pauseMs);
+  }
+  await page.waitForTimeout(2000);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(500);
+}
+
+async function captureScreenshot(page: Page, url: string, outputPath: string): Promise<void> {
   await page.goto(url, { waitUntil: "networkidle", timeout: 60_000 });
+  await scrollFullPage(page);
   await page.screenshot({ path: outputPath, fullPage: true });
   console.log(`  saved: ${outputPath}`);
 }

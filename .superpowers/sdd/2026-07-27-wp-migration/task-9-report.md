@@ -85,3 +85,16 @@ O débito conhecido (CTA ghost em background dark) não disparou porque as seç�
 - O `/lgpd` não tinha `h1` no HTML gerado — era um débito de arquitetura (páginas legais sem seção hero não tinham `h1`). Fix aplicado no `[slug]/page.tsx` é minimal e reversível.
 - `scripts/visual-compare.ts` requer servidor local rodando (`npm start`) — não faz parte do `test:e2e` (intencional: é ferramenta de revisão do owner, não CI).
 - WP live aceita cookies/popups que podem aparecer nos screenshots WP — diferença esperada; os PNGs são para comparação visual de estrutura/layout.
+
+---
+
+## Follow-up (revisão do coordenador)
+
+**Problema:** `home-wp.png` capturava só o hero — lazy-load/animações do WP não disparam sem scroll.
+
+**Fix (commit `fix: scroll before capture...`):**
+1. `scripts/visual-compare.ts`: novo `scrollFullPage()` — rola o documento em passos de 700px (`mouse.wheel`) com pausa de 400ms até o fim, aguarda 2s, volta ao topo e só então captura. Aplicado a WP e local.
+2. 8 PNGs regenerados e verificados visualmente: todos os `-wp` agora mostram a página completa (seções abaixo do fold, CTAs, footer).
+3. `/lgpd` adicionado ao sweep de a11y (valida o h1 novo) — axe passou.
+
+**Gates re-executados:** lint ✓, typecheck ✓, vitest 52 ✓, build ✓, e2e **25 passed** (24 → 25 com /lgpd a11y).
