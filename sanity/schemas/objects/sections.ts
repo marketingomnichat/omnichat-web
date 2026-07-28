@@ -154,6 +154,15 @@ export const ctaBanner = defineType({
     defineField({ name: "title", title: "Título", type: "string" }),
     defineField({ name: "text", title: "Texto", type: "text", rows: 2 }),
     defineField({ ...cta, name: "cta", title: "Botão de ação" }),
+    defineField({
+      name: "image",
+      title: "Imagem lateral",
+      type: "object",
+      fields: [
+        defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+      ],
+    }),
   ],
 });
 
@@ -371,6 +380,15 @@ export const ctaForm = defineType({
             defineField({ name: "required", title: "Obrigatório", type: "boolean", initialValue: false }),
           ],
         }),
+      ],
+    }),
+    defineField({
+      name: "asideImage",
+      title: "Imagem lateral",
+      type: "object",
+      fields: [
+        defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
       ],
     }),
   ],

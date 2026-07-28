@@ -89,6 +89,14 @@ async function buildHome() {
     "https://omni.chat/wp-content/uploads/2026/03/card-home05.png",
     "Campanhas de marketing conversacional no WhatsApp"
   );
+  const imgCtaBanner = await img(
+    "https://omni.chat/wp-content/uploads/2025/10/Case-LaModa-Email-Img-4-2.png",
+    "Pessoa sorrindo com celular na mão"
+  );
+  const imgFormAside = await img(
+    "https://omni.chat/wp-content/uploads/2026/01/SITE-Forms-1.jpg",
+    "Interface de chat omnichannel em smartphone exibindo conversas de atendimento e vendas"
+  );
   const [imgColuna1, imgColuna2, imgColuna3, imgColuna4] = await Promise.all([
     img(
       "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-1.jpg",
@@ -327,6 +335,7 @@ async function buildHome() {
       title: "Descubra a solução ideal",
       text: "Temos o plano certo para escalar suas vendas no WhatsApp. Escolha entre soluções flexíveis que combinam IA para vendas, marketing conversacional e integração com seus sistemas. Comece a vender mais no WhatsApp hoje.",
       cta: { label: "Saiba mais sobre nossos planos", href: "/planos", variant: "primary" },
+      image: imgCtaBanner,
     },
     // 13. ctaForm – Evolua sua empresa com nossas soluções
     {
@@ -335,6 +344,7 @@ async function buildHome() {
       title: "Evolua sua empresa com nossas soluções",
       formAction: "https://api.hsforms.com/submissions/v3/integration/submit/20121735/4b6b3796-b24c-4786-ba60-39e2bba014b0",
       buttonLabel: "Fale com um especialista",
+      asideImage: imgFormAside,
       fields: [
         { _key: "f-0", name: "nome", label: "Nome e sobrenome", type: "text", required: true },
         { _key: "f-1", name: "cargo", label: "Cargo", type: "select", required: true, options: ["CEO", "Diretor", "Gerente", "Analista", "Outro"] },
