@@ -4,7 +4,8 @@ type FormField = {
   _key?: string;
   name: string;
   label: string;
-  type?: "text" | "email" | "tel";
+  type?: "text" | "email" | "tel" | "select";
+  options?: string[];
   required?: boolean;
 };
 
@@ -53,13 +54,32 @@ export function CtaForm({
                   <span className="ml-1 text-oc-yellow-mass" aria-hidden="true">*</span>
                 )}
               </label>
-              <input
-                id={`form-field-${field.name}`}
-                name={field.name}
-                type={field.type ?? "text"}
-                required={field.required}
-                className="rounded-oc-button border border-oc-divider bg-white px-4 py-3 text-oc-ink placeholder:text-oc-neutral-dark focus:border-oc-yellow-cta focus:outline-none focus:ring-2 focus:ring-oc-yellow-cta/30"
-              />
+              {field.type === "select" ? (
+                <select
+                  id={`form-field-${field.name}`}
+                  name={field.name}
+                  required={field.required}
+                  className="rounded-oc-button border border-oc-divider bg-white px-4 py-3 text-oc-ink focus:border-oc-yellow-cta focus:outline-none focus:ring-2 focus:ring-oc-yellow-cta/30"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    {field.label}
+                  </option>
+                  {(field.options ?? []).map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  id={`form-field-${field.name}`}
+                  name={field.name}
+                  type={field.type ?? "text"}
+                  required={field.required}
+                  className="rounded-oc-button border border-oc-divider bg-white px-4 py-3 text-oc-ink placeholder:text-oc-neutral-dark focus:border-oc-yellow-cta focus:outline-none focus:ring-2 focus:ring-oc-yellow-cta/30"
+                />
+              )}
             </div>
           ))}
           <button
