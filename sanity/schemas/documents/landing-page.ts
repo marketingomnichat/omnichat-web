@@ -18,7 +18,7 @@ export const landingPage = defineType({
       name: "sections",
       title: "Seções",
       type: "array",
-      of: ["hero", "featureGrid", "testimonials", "logoCloud", "ctaBanner", "faq", "richText", "stats", "featureSplit", "pricingTable", "ctaForm", "latestPosts"].map((type) =>
+      of: ["hero", "featureGrid", "testimonials", "logoCloud", "ctaBanner", "faq", "richText", "stats", "featureSplit", "pricingTable", "ctaForm", "latestPosts", "mediaBlock"].map((type) =>
         defineArrayMember({ type })
       ),
     }),

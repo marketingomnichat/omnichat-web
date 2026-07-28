@@ -12,7 +12,7 @@ export const page = defineType({
       name: "sections",
       title: "Seções",
       type: "array",
-      of: ["hero", "featureGrid", "testimonials", "logoCloud", "ctaBanner", "faq", "richText", "stats", "featureSplit", "pricingTable", "ctaForm", "latestPosts"].map(
+      of: ["hero", "featureGrid", "testimonials", "logoCloud", "ctaBanner", "faq", "richText", "stats", "featureSplit", "pricingTable", "ctaForm", "latestPosts", "mediaBlock"].map(
         (type) => defineArrayMember({ type })
       ),
     }),

@@ -292,4 +292,32 @@ export const latestPosts = defineType({
   ],
 });
 
-export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit, pricingTable, ctaForm, latestPosts];
+export const mediaBlock = defineType({
+  name: "mediaBlock",
+  title: "Bloco de mídia",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
+    defineField({
+      name: "image",
+      title: "Imagem desktop",
+      type: "object",
+      validation: (r) => r.required(),
+      fields: [
+        defineField({ name: "imageUrl", title: "URL", type: "url", validation: (r) => r.required() }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string", validation: (r) => r.required() }),
+      ],
+    }),
+    defineField({
+      name: "imageMobile",
+      title: "Imagem mobile",
+      type: "object",
+      fields: [
+        defineField({ name: "imageUrl", title: "URL", type: "url" }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+      ],
+    }),
+  ],
+});
+
+export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit, pricingTable, ctaForm, latestPosts, mediaBlock];

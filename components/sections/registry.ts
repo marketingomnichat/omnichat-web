@@ -11,6 +11,7 @@ import { FeatureSplit } from "./feature-split";
 import { PricingTable } from "./pricing-table";
 import { CtaForm } from "./cta-form";
 import { LatestPosts } from "./latest-posts";
+import { MediaBlock } from "./media-block";
 
 // Componente de seção: função sync ou async (RSC). Props são validadas
 // por cada componente; o registry apaga o tipo específico de props.
@@ -31,4 +32,5 @@ export const sectionRegistry: Record<string, SectionComponent> = {
   pricingTable: PricingTable,
   ctaForm: CtaForm,
   latestPosts: LatestPosts,
+  mediaBlock: MediaBlock,
 };

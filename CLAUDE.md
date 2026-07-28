@@ -12,7 +12,7 @@
 ## Convenções
 - Design system: tokens `oc-*` em `app/globals.css`; skill `design-system-omnichat` é a fonte da verdade de marca/copy.
 - Roxo Whizz só em `components/whizz/`. Card: borda XOR sombra (prop `elevation`). `#FFBC00` nunca com texto branco. Gate: `npm run lint:design`.
-- Seção nova = schema em `sanity/schemas/objects/sections.ts` + componente em `components/sections/` + entrada no `registry.ts`. Teste `tests/registry.test.ts` força a paridade. Seções disponíveis (12): `hero`, `richText`, `ctaBanner`, `stats`, `featureGrid`, `testimonials`, `logoCloud`, `faq`, `featureSplit`, `pricingTable`, `ctaForm`, `latestPosts`.
+- Seção nova = schema em `sanity/schemas/objects/sections.ts` + componente em `components/sections/` + entrada no `registry.ts`. Teste `tests/registry.test.ts` força a paridade. Seções disponíveis (13): `hero`, `richText`, `ctaBanner`, `stats`, `featureGrid`, `testimonials`, `logoCloud`, `faq`, `featureSplit`, `pricingTable`, `ctaForm`, `latestPosts`, `mediaBlock`.
 - Conteúdo: Sanity (site/blog) com tags de cache `page`/`page:slug`, `post`/`post:slug`, `siteSettings`, `redirect`; webhook `/api/revalidate?secret=` revalida.
 - LPs de campanha: tipo `landingPage` no Sanity; host `lp.omni.chat` → middleware reescreve para `app/lp/[slug]`. Tags de cache: `landingPage`/`landingPage:slug`. Sem builder externo.
 - Env: ver `.env.example`. Nunca commitar credencial.
