@@ -43,6 +43,9 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
                 open={openMenu === item.href}
                 onMouseEnter={() => setOpenMenu(item.href)}
                 onMouseLeave={() => setOpenMenu(null)}
+                onToggle={(event) => {
+                  setOpenMenu(event.currentTarget.open ? item.href : null);
+                }}
                 onFocus={() => setOpenMenu(item.href)}
                 onBlur={(event) => {
                   if (!event.currentTarget.contains(event.relatedTarget)) {
