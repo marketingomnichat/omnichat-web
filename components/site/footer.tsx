@@ -88,7 +88,7 @@ export function Footer({
               <p className="oc-overline text-oc-ink">{col.title}</p>
               <ul className="mt-3 space-y-2">
                 {col.links.map((link) => (
-                  <li key={link.href}>
+                  <li key={`${col.title}-${link.label}-${link.href}`}>
                     <a
                       href={safeHref(link.href)}
                       className="oc-caption text-oc-ink transition-colors duration-150 hover:text-oc-dark"
