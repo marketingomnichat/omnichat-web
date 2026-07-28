@@ -46,6 +46,22 @@ export const hero = defineType({
     defineField({ name: "subtitle", title: "Subtítulo", type: "text", rows: 2 }),
     defineField({ name: "ctas", title: "Botões de ação", type: "array", of: [defineArrayMember(cta)] }),
     defineField({
+      name: "backgroundMedia",
+      title: "Mídia de fundo",
+      type: "object",
+      fields: [
+        defineField({
+          name: "type",
+          title: "Tipo",
+          type: "string",
+          options: { list: ["video", "image"] },
+          validation: (r) => r.required(),
+        }),
+        defineField({ name: "url", title: "URL", type: "url", validation: (r) => r.required() }),
+        defineField({ name: "poster", title: "Poster (vídeo)", type: "url" }),
+      ],
+    }),
+    defineField({
       name: "theme",
       title: "Tema",
       type: "string",

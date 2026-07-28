@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { safeHref } from "@/lib/safe-href";
 import type { Cta } from "@/shared/types";
@@ -12,6 +13,37 @@ const CTA_CLASS: Record<NonNullable<Cta["variant"]>, string> = {
   ghost: "text-oc-ink hover:oc-ghost-hover active:oc-ghost-press",
 };
 
+type BackgroundMedia = {
+  type: "video" | "image";
+  url: string;
+  poster?: string;
+};
+
+function HeroBackgroundMedia({ media }: { media: BackgroundMedia }) {
+  if (media.type === "video") {
+    return (
+      <div className="pointer-events-none absolute inset-0 overflow-hidden bg-black">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={media.poster}
+          className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover"
+        >
+          <source src={media.url} type="video/mp4" />
+        </video>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      <Image src={media.url} alt="" fill className="object-cover" priority sizes="100vw" />
+    </div>
+  );
+}
+
 export function Hero({
   overline,
   title,
@@ -20,6 +52,7 @@ export function Hero({
   subtitle,
   ctas = [],
   theme = "light",
+  backgroundMedia,
 }: {
   overline?: string;
   title: string;
@@ -28,6 +61,7 @@ export function Hero({
   subtitle?: string;
   ctas?: Cta[];
   theme?: "light" | "dark";
+  backgroundMedia?: BackgroundMedia;
 }) {
   const dark = theme === "dark";
   const highlightIndex = highlightPhrase ? title.indexOf(highlightPhrase) : -1;
@@ -36,8 +70,9 @@ export function Hero({
   const afterHighlight = hasHighlight ? title.slice(highlightIndex + highlightPhrase.length) : "";
 
   return (
-    <section className={dark ? "bg-black" : "bg-white"}>
-      <div className="mx-auto max-w-oc-container px-6 py-oc-hero">
+    <section className={`relative overflow-hidden ${dark ? "bg-black" : "bg-white"}`}>
+      {backgroundMedia && <HeroBackgroundMedia media={backgroundMedia} />}
+      <div className="relative z-10 mx-auto max-w-oc-container px-6 py-oc-hero">
         {overline && (
           <p className={`oc-overline ${dark ? "text-oc-yellow-mass" : "text-oc-yellow-ink"}`}>{overline}</p>
         )}

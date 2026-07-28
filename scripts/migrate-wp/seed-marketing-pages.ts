@@ -18,6 +18,9 @@ function key(prefix: string, i: number): string {
   return `${prefix}-${i}`;
 }
 
+const HERO_VIDEO_URL =
+  "https://omni.chat/wp-content/themes/omni.chat/assets/img/video-hero.mp4";
+
 /** Build a richText section with plain paragraphs (Portable Text). */
 function richTextSection(paragraphs: string[], align?: "start" | "center") {
   return {
@@ -160,6 +163,10 @@ async function buildHome() {
         { _key: "cta-0", label: "Fale com um especialista", href: "#formulario", variant: "primary" },
       ],
       theme: "dark",
+      backgroundMedia: {
+        type: "video",
+        url: HERO_VIDEO_URL,
+      },
     },
     // 2. Lead
     {

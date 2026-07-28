@@ -89,6 +89,16 @@ describe("sanity schema", () => {
     expect(promptFields.map((field) => field.name)).toEqual(expect.arrayContaining(["prefix", "phrases"]));
     expect(promptFields.every((field) => field.title)).toBe(true);
   });
+  it("hero expõe backgroundMedia opcional (vídeo ou imagem)", () => {
+    const hero = schemaTypes.find((t) => t.name === "hero") as {
+      fields: { name: string; fields?: { name: string }[] }[];
+    };
+    const backgroundMedia = hero.fields.find((field) => field.name === "backgroundMedia");
+    expect(backgroundMedia).toBeDefined();
+    expect(backgroundMedia?.fields?.map((field) => field.name)).toEqual(
+      expect.arrayContaining(["type", "url", "poster"]),
+    );
+  });
   it("ctaBanner expõe image opcional lateral", () => {
     const ctaBanner = schemaTypes.find((t) => t.name === "ctaBanner") as {
       fields: { name: string; fields?: { name: string }[] }[];
