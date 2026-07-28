@@ -68,7 +68,7 @@ async function buildLogos(
 // ── HOME PAGE ─────────────────────────────────────────────────────────────────
 
 async function buildHome() {
-  // Images used in home featureSplits
+  // Images used in home featureCarousel
   const imgAgenteIA = await img(
     "https://omni.chat/wp-content/uploads/2026/01/Home-carrossel-1.jpg",
     "Whizz Agent – agente de IA para vendas no WhatsApp"
@@ -219,60 +219,57 @@ async function buildHome() {
         },
       ],
     },
-    // 4. featureSplit – Converta com agentes de IA (mediaSide: right)
+    // 4. featureCarousel – produtos OmniChat
     {
-      _type: "featureSplit",
+      _type: "featureCarousel",
       _key: key("s", 3),
-      title: "Converta com agentes de IA especialistas em vendas",
-      body: "Conte com o Whizz Agent, nosso agente de IA, que qualifica conversas e vende produtos como um humano: 24 horas por dia, 7 dias por semana. Ele entende dúvidas, recomenda produtos e conduz o cliente até o checkout, enquanto seu time foca nas conversas estratégicas que geram valor.",
-      image: imgAgenteIA,
-      mediaSide: "right",
-      cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-      dark: false,
-    },
-    // 5. featureSplit – Empodere seu time (mediaSide: left)
-    {
-      _type: "featureSplit",
-      _key: key("s", 4),
-      title: "Empodere seu time para entregar experiências melhores com IA",
-      body: "O Whizz Copilot é o assistente de IA do vendedor: gera respostas para objeções, ajusta gramática e tom de voz, tira dúvidas de produtos e mantém consistência na comunicação. Seu time atende mais pessoas por dia, com mais qualidade e menos esforço — enquanto o cliente avança na compra sem atrito.",
-      image: imgCopilot,
-      mediaSide: "left",
-      cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-      dark: false,
-    },
-    // 6. featureSplit – Pós-venda (mediaSide: right)
-    {
-      _type: "featureSplit",
-      _key: key("s", 5),
-      title: "Pós-venda que antecipa, resolve e fideliza",
-      body: "Com até 70% das demandas automatizadas pela IA, sua operação ganha velocidade, reduz retrabalho e entrega uma experiência superior ao cliente.",
-      image: imgPosVenda,
-      mediaSide: "right",
-      cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-      dark: false,
-    },
-    // 7. featureSplit – Gerencie conversas (mediaSide: left)
-    {
-      _type: "featureSplit",
-      _key: key("s", 6),
-      title: "Gerencie conversas com clareza e consistência",
-      body: "Centralize WhatsApp, site, Instagram e Facebook em uma única visão para acompanhar cada cliente em toda a jornada. Sua equipe resolve mais rápido, reduz retrabalho e oferece uma experiência contínua que aumenta satisfação e recompra.",
-      image: imgConversas,
-      mediaSide: "left",
-      cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-      dark: false,
-    },
-    // 8. featureSplit – Campanhas de marketing (mediaSide: right)
-    {
-      _type: "featureSplit",
-      _key: key("s", 7),
-      title: "Crie campanhas de marketing com resultados reais",
-      body: "Alcance seu público no canal onde ele mais responde, com mensagens segmentadas e jornadas personalizadas que mantêm o cliente engajado. Do anúncio ao fluxo de reengajamento, cada ação traz impacto mensurável em conversão, engajamento e retorno de mídia.",
-      image: imgCampanhas,
-      mediaSide: "right",
-      cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-      dark: false,
+      items: [
+        {
+          _key: "feature-0",
+          title: "Converta com agentes de IA especialistas em vendas",
+          body: "Conte com o Whizz Agent, nosso agente de IA, que qualifica conversas e vende produtos como um humano: 24 horas por dia, 7 dias por semana. Ele entende dúvidas, recomenda produtos e conduz o cliente até o checkout, enquanto seu time foca nas conversas estratégicas que geram valor.",
+          image: imgAgenteIA,
+          mediaSide: "right",
+          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
+          dark: false,
+        },
+        {
+          _key: "feature-1",
+          title: "Empodere seu time para entregar experiências melhores com IA",
+          body: "O Whizz Copilot é o assistente de IA do vendedor: gera respostas para objeções, ajusta gramática e tom de voz, tira dúvidas de produtos e mantém consistência na comunicação. Seu time atende mais pessoas por dia, com mais qualidade e menos esforço — enquanto o cliente avança na compra sem atrito.",
+          image: imgCopilot,
+          mediaSide: "left",
+          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
+          dark: false,
+        },
+        {
+          _key: "feature-2",
+          title: "Pós-venda que antecipa, resolve e fideliza",
+          body: "Com até 70% das demandas automatizadas pela IA, sua operação ganha velocidade, reduz retrabalho e entrega uma experiência superior ao cliente.",
+          image: imgPosVenda,
+          mediaSide: "right",
+          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
+          dark: false,
+        },
+        {
+          _key: "feature-3",
+          title: "Gerencie conversas com clareza e consistência",
+          body: "Centralize WhatsApp, site, Instagram e Facebook em uma única visão para acompanhar cada cliente em toda a jornada. Sua equipe resolve mais rápido, reduz retrabalho e oferece uma experiência contínua que aumenta satisfação e recompra.",
+          image: imgConversas,
+          mediaSide: "left",
+          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
+          dark: false,
+        },
+        {
+          _key: "feature-4",
+          title: "Crie campanhas de marketing com resultados reais",
+          body: "Alcance seu público no canal onde ele mais responde, com mensagens segmentadas e jornadas personalizadas que mantêm o cliente engajado. Do anúncio ao fluxo de reengajamento, cada ação traz impacto mensurável em conversão, engajamento e retorno de mídia.",
+          image: imgCampanhas,
+          mediaSide: "right",
+          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
+          dark: false,
+        },
+      ],
     },
     // 9. Stats – Por que o canal conversacional é o canal que vende?
     {

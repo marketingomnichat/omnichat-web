@@ -248,6 +248,48 @@ export const featureSplit = defineType({
   ],
 });
 
+export const featureCarousel = defineType({
+  name: "featureCarousel",
+  title: "Carrossel de recursos",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
+    defineField({
+      name: "items",
+      title: "Itens",
+      type: "array",
+      validation: (r) => r.min(1),
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Título", type: "string", validation: (r) => r.required() }),
+            defineField({ name: "body", title: "Corpo", type: "text", rows: 4 }),
+            defineField({
+              name: "image",
+              title: "Imagem",
+              type: "object",
+              fields: [
+                defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+                defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+              ],
+            }),
+            defineField({
+              name: "mediaSide",
+              title: "Lado da mídia",
+              type: "string",
+              options: { list: ["left", "right"] },
+              initialValue: "right",
+            }),
+            defineField({ ...cta, name: "cta", title: "Botão de ação" }),
+            defineField({ name: "dark", title: "Fundo escuro", type: "boolean", initialValue: false }),
+          ],
+        }),
+      ],
+    }),
+  ],
+});
+
 export const pricingTable = defineType({
   name: "pricingTable",
   title: "Tabela de planos",
@@ -372,4 +414,4 @@ export const mediaBlock = defineType({
   ],
 });
 
-export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit, pricingTable, ctaForm, latestPosts, mediaBlock];
+export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit, featureCarousel, pricingTable, ctaForm, latestPosts, mediaBlock];

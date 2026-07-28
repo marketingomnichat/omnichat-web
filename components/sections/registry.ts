@@ -8,6 +8,7 @@ import { Testimonials } from "./testimonials";
 import { LogoCloud } from "./logo-cloud";
 import { Faq } from "./faq";
 import { FeatureSplit } from "./feature-split";
+import { FeatureCarousel } from "./feature-carousel";
 import { PricingTable } from "./pricing-table";
 import { CtaForm } from "./cta-form";
 import { LatestPosts } from "./latest-posts";
@@ -29,6 +30,7 @@ export const sectionRegistry: Record<string, SectionComponent> = {
   logoCloud: LogoCloud,
   faq: Faq,
   featureSplit: FeatureSplit,
+  featureCarousel: FeatureCarousel,
   pricingTable: PricingTable,
   ctaForm: CtaForm,
   latestPosts: LatestPosts,
