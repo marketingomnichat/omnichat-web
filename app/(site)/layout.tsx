@@ -16,6 +16,7 @@ type Settings = {
   footerColumns?: FooterColumn[];
   social?: { platform: string; url: string }[];
   appStoreLinks?: { appStoreUrl?: string; googlePlayUrl?: string };
+  footerBadges?: { imageUrl: string; alt: string; href: string }[];
 } | null;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -29,6 +30,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         footerColumns={settings?.footerColumns ?? []}
         social={settings?.social ?? []}
         appStoreLinks={settings?.appStoreLinks}
+        footerBadges={settings?.footerBadges ?? []}
       />
     </>
   );

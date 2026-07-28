@@ -88,6 +88,21 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
+      name: "footerBadges",
+      title: "Selos do rodapé (lojas e ISO)",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+            defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+            defineField({ name: "href", title: "Link", type: "string" }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
       name: "organization",
       title: "Organização",
       type: "object",

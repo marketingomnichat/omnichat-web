@@ -127,6 +127,35 @@ const APP_STORE_LINKS = {
   googlePlayUrl: "https://play.google.com/store/apps/details?id=chat.omni.app.omniapp&pli=1",
 };
 
+// ── Footer badges: store buttons + ISO certificates (omni.chat footer 2026-07) ─
+const FOOTER_BADGE_SOURCES = [
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button.png",
+    alt: "Logo App Store",
+    href: APP_STORE_LINKS.appStoreUrl,
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button-1.png",
+    alt: "Logo Google Play",
+    href: APP_STORE_LINKS.googlePlayUrl,
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27001.pt.jpg",
+    alt: "ISO-IEC 27001",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27001.pt.jpg",
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27701.pt.jpg",
+    alt: "ISO-IEC 27701",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27701.pt.jpg",
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27018.pt.jpg",
+    alt: "ISO-IEC 27018",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27018.pt.jpg",
+  },
+];
+
 // ── Footer copyright text ──────────────────────────────────────────────────────
 const FOOTER_TEXT =
   "OmniChat. Todos os direitos reservados.\nAvenida Pref. Osmar Cunha, 416 – Centro, Florianópolis/SC CEP: 88015-100";
@@ -148,6 +177,29 @@ export async function migrateSiteSettings(): Promise<void> {
     })
   );
   const uploadedIconUrls = new Map(assetUrls);
+
+  const badgeAssets = await Promise.all(
+    FOOTER_BADGE_SOURCES.map(async (badge) => {
+      const assetId = await uploadImageFromUrl(badge.wpImageUrl, badge.alt);
+      if (!assetId) {
+        throw new Error(`Não foi possível enviar o selo do rodapé: ${badge.alt}`);
+      }
+      const asset = await writeClient.getDocument(assetId);
+      if (!asset || typeof asset.url !== "string") {
+        throw new Error(`Não foi possível obter a URL Sanity do selo: ${badge.alt}`);
+      }
+      return {
+        imageUrl: asset.url,
+        alt: badge.alt,
+        href: badge.href,
+      };
+    })
+  );
+
+  const footerBadges = badgeAssets.map((badge, i) => ({
+    _key: `badge-${i}`,
+    ...badge,
+  }));
 
   // Build nav array with _key for Sanity array items
   const nav = NAV_ITEMS.map((item, i) => ({
@@ -190,6 +242,7 @@ export async function migrateSiteSettings(): Promise<void> {
     footerColumns,
     social,
     appStoreLinks: APP_STORE_LINKS,
+    footerBadges,
     organization: {
       name: "OmniChat",
       legalName: "OmniChat Tecnologia da Informação Ltda",
@@ -212,5 +265,6 @@ export async function migrateSiteSettings(): Promise<void> {
   console.log(`[migrate]   Nav items: ${nav.length}`);
   console.log(`[migrate]   Social links: ${social.length}`);
   console.log(`[migrate]   Footer columns: ${footerColumns.length}`);
+  console.log(`[migrate]   Footer badges: ${footerBadges.length}`);
   console.log("[migrate] siteSettings migration complete.");
 }

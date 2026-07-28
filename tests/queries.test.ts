@@ -34,6 +34,9 @@ describe("GROQ queries", () => {
       "nav[]{label, href, children[]{label, href, iconUrl, iconAlt}}"
     );
   });
+  it("settings projeta footerBadges", () => {
+    expect(SETTINGS_QUERY).toContain("footerBadges[]{imageUrl, alt, href}");
+  });
   it("redirects trazem from/to/permanent", () => {
     for (const f of ["from", "to", "permanent"]) {
       expect(REDIRECTS_QUERY).toContain(f);

@@ -32,6 +32,7 @@ export const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   footerColumns[]{title, links[]{label, href}},
   social[]{platform, url},
   appStoreLinks{appStoreUrl, googlePlayUrl},
+  footerBadges[]{imageUrl, alt, href},
   organization{name, legalName, url, logoUrl, sameAs}
 }`;
 

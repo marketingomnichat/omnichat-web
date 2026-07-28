@@ -30,6 +30,14 @@ describe("sanity schema", () => {
     const childFields = children?.of?.[0]?.fields.map((field) => field.name);
     expect(childFields).toEqual(expect.arrayContaining(["label", "href", "iconUrl", "iconAlt"]));
   });
+  it("siteSettings expõe footerBadges (lojas e ISO)", () => {
+    type Field = { name: string; of?: { fields: { name: string }[] }[] };
+    const settings = schemaTypes.find((t) => t.name === "siteSettings") as { fields: Field[] };
+    const footerBadges = settings.fields.find((field) => field.name === "footerBadges");
+    expect(footerBadges?.of).toBeDefined();
+    const badgeFields = footerBadges?.of?.[0]?.fields.map((field) => field.name);
+    expect(badgeFields).toEqual(expect.arrayContaining(["imageUrl", "alt", "href"]));
+  });
   it("landingPage existe com page builder e seo", () => {
     const lp = schemaTypes.find((t) => t.name === "landingPage");
     expect(lp).toBeDefined();
