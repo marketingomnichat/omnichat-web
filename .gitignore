@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Migration cache
 scripts/migrate-wp/.media-cache.json
+
+# Superdesign (CLI local — init/tmp; drafts HTML de referência vão em docs/)
+.superdesign/
