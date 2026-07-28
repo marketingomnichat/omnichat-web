@@ -16,3 +16,11 @@
     #FFD04D 93%
   );
 }
+
+.oc-whizz .whizz-text-gradient {
+  background: var(--oc-whizz-gradient);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

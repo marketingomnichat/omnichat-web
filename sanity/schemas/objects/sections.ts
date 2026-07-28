@@ -23,6 +23,26 @@ export const hero = defineType({
   fields: [
     defineField({ name: "overline", title: "Sobretítulo", type: "string" }),
     defineField({ name: "title", title: "Título", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "highlightPhrase",
+      title: "Trecho em destaque (Whizz)",
+      type: "string",
+      description: "Substring de título que recebe o gradiente Whizz",
+    }),
+    defineField({
+      name: "agentPrompt",
+      title: "Prompt Criar agente",
+      type: "object",
+      fields: [
+        defineField({ name: "prefix", title: "Prefixo", type: "string" }),
+        defineField({
+          name: "phrases",
+          title: "Frases rotativas",
+          type: "array",
+          of: [defineArrayMember({ type: "string" })],
+        }),
+      ],
+    }),
     defineField({ name: "subtitle", title: "Subtítulo", type: "text", rows: 2 }),
     defineField({ name: "ctas", title: "Botões de ação", type: "array", of: [defineArrayMember(cta)] }),
     defineField({

@@ -55,4 +55,21 @@ describe("sanity schema", () => {
       ?.of?.[0]?.fields.map((f) => f.name);
     expect(itemFields).toEqual(expect.arrayContaining(["logoUrl", "logoAlt", "href"]));
   });
+  it("hero expõe destaque Whizz e prompt de agente", () => {
+    const hero = schemaTypes.find((t) => t.name === "hero") as {
+      fields: {
+        name: string;
+        title?: string;
+        fields?: { name: string; title?: string }[];
+      }[];
+    };
+    const fields = hero.fields.map((field) => field.name);
+
+    expect(fields).toEqual(expect.arrayContaining(["highlightPhrase", "agentPrompt"]));
+    expect(hero.fields.find((field) => field.name === "highlightPhrase")?.title).toBe("Trecho em destaque (Whizz)");
+
+    const promptFields = hero.fields.find((field) => field.name === "agentPrompt")?.fields ?? [];
+    expect(promptFields.map((field) => field.name)).toEqual(expect.arrayContaining(["prefix", "phrases"]));
+    expect(promptFields.every((field) => field.title)).toBe(true);
+  });
 });

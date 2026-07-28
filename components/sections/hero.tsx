@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { safeHref } from "@/lib/safe-href";
 import type { Cta } from "@/shared/types";
+import { HeroHighlight } from "@/components/whizz/hero-highlight";
+import { HeroAgentPrompt } from "./hero-agent-prompt";
 
 const CTA_CLASS: Record<NonNullable<Cta["variant"]>, string> = {
   primary:
@@ -13,17 +15,26 @@ const CTA_CLASS: Record<NonNullable<Cta["variant"]>, string> = {
 export function Hero({
   overline,
   title,
+  highlightPhrase,
+  agentPrompt,
   subtitle,
   ctas = [],
   theme = "light",
 }: {
   overline?: string;
   title: string;
+  highlightPhrase?: string;
+  agentPrompt?: { prefix?: string; phrases?: string[] };
   subtitle?: string;
   ctas?: Cta[];
   theme?: "light" | "dark";
 }) {
   const dark = theme === "dark";
+  const highlightIndex = highlightPhrase ? title.indexOf(highlightPhrase) : -1;
+  const hasHighlight = highlightIndex >= 0 && highlightPhrase;
+  const beforeHighlight = hasHighlight ? title.slice(0, highlightIndex) : title;
+  const afterHighlight = hasHighlight ? title.slice(highlightIndex + highlightPhrase.length) : "";
+
   return (
     <section className={dark ? "bg-black" : "bg-white"}>
       <div className="mx-auto max-w-oc-container px-6 py-oc-hero">
@@ -37,8 +48,19 @@ export function Hero({
               : "mt-3 max-w-[800px] text-[60px] leading-[64px] font-bold"
           }
         >
-          {title}
+          {hasHighlight ? (
+            <>
+              {beforeHighlight}
+              <HeroHighlight>{highlightPhrase}</HeroHighlight>
+              {afterHighlight}
+            </>
+          ) : (
+            title
+          )}
         </h1>
+        {agentPrompt?.prefix && agentPrompt.phrases && (
+          <HeroAgentPrompt prefix={agentPrompt.prefix} phrases={agentPrompt.phrases} />
+        )}
         {subtitle && (
           <p
             className={`mt-5 max-w-[640px] ${
@@ -57,7 +79,7 @@ export function Hero({
                 <Link
                   key={cta.label}
                   href={safeHref(cta.href)}
-                  className="bg-[#FFBC00] text-[#0B0C0E] rounded-[8px] px-[18px] py-[12px] text-[14px] font-semibold transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover active:bg-oc-yellow-press"
+                  className="rounded-oc-button bg-oc-yellow-cta px-[18px] py-3 text-[14px] font-semibold text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover active:bg-oc-yellow-press"
                 >
                   {cta.label}
                 </Link>
