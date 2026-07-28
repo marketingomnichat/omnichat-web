@@ -5,8 +5,9 @@ import { SETTINGS_QUERY } from "@/services/sanity/queries";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
+type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
 type Settings = {
-  nav?: { label: string; href: string }[];
+  nav?: NavItem[];
   footerText?: string;
   footerColumns?: FooterColumn[];
   social?: { platform: string; url: string }[];

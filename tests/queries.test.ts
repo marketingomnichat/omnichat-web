@@ -29,6 +29,9 @@ describe("GROQ queries", () => {
     expect(SETTINGS_QUERY).toContain('_type == "siteSettings"');
     expect(SETTINGS_QUERY).toContain("[0]");
   });
+  it("settings projeta subitens da navegação", () => {
+    expect(SETTINGS_QUERY).toContain("nav[]{label, href, children[]{label, href}}");
+  });
   it("redirects trazem from/to/permanent", () => {
     for (const f of ["from", "to", "permanent"]) {
       expect(REDIRECTS_QUERY).toContain(f);

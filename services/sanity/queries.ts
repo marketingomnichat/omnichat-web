@@ -28,7 +28,7 @@ export const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(
 export const POST_SLUGS_QUERY = `*[_type == "post" && defined(slug.current)].slug.current`;
 
 export const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
-  siteName, nav[]{label, href}, footerText,
+  siteName, nav[]{label, href, children[]{label, href}}, footerText,
   footerColumns[]{title, links[]{label, href}},
   social[]{platform, url},
   organization{name, legalName, url, logoUrl, sameAs}

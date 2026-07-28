@@ -11,13 +11,23 @@
 import { writeClient } from "./sanity-write";
 
 // ── Nav items extracted from #menu-menu-principal in omni.chat header ─────────
-// (top-level items only; dropdowns are noted as comments)
 const NAV_ITEMS = [
-  // "Produtos" has sub-menu (Marketing Studio, Vendas) — WP renders href="#";
-  // distinct anchors here because the header component keys nav items by href.
-  { label: "Produtos", href: "#produtos" },
-  // "Soluções" has sub-menu (Varejo, Educacional) — same reasoning
-  { label: "Soluções", href: "#solucoes" },
+  {
+    label: "Produtos",
+    href: "#produtos",
+    children: [
+      { label: "Marketing Studio", href: "/produto/marketing-studio/" },
+      { label: "Vendas", href: "/produto/sales-studio/" },
+    ],
+  },
+  {
+    label: "Soluções",
+    href: "#solucoes",
+    children: [
+      { label: "Varejo", href: "/solucao/varejo/" },
+      { label: "Educacional", href: "/solucao/educacional/" },
+    ],
+  },
   { label: "Planos", href: "/planos/" },
   { label: "Empresa", href: "/empresa/" },
   { label: "Conteúdo", href: "/blog/" },
@@ -102,6 +112,11 @@ export async function migrateSiteSettings(): Promise<void> {
     _key: `nav-${i}`,
     label: item.label,
     href: item.href,
+    children: item.children?.map((child, childIndex) => ({
+      _key: `nav-${i}-child-${childIndex}`,
+      label: child.label,
+      href: child.href,
+    })),
   }));
 
   // Build social array with _key

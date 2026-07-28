@@ -16,6 +16,20 @@ export const siteSettings = defineType({
           fields: [
             defineField({ name: "label", title: "Rótulo", type: "string" }),
             defineField({ name: "href", title: "Link", type: "string" }),
+            defineField({
+              name: "children",
+              title: "Subitens",
+              type: "array",
+              of: [
+                defineArrayMember({
+                  type: "object",
+                  fields: [
+                    defineField({ name: "label", title: "Rótulo", type: "string" }),
+                    defineField({ name: "href", title: "Link", type: "string" }),
+                  ],
+                }),
+              ],
+            }),
           ],
         }),
       ],
