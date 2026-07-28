@@ -95,6 +95,13 @@ export const testimonials = defineType({
   fields: [
     defineField({ name: "title", title: "Título", type: "string" }),
     defineField({
+      name: "variant",
+      title: "Variante",
+      type: "string",
+      options: { list: ["grid", "carousel"] },
+      initialValue: "grid",
+    }),
+    defineField({
       name: "items",
       title: "Itens",
       type: "array",

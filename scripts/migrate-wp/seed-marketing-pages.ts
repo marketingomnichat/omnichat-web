@@ -167,6 +167,7 @@ async function buildHome() {
     {
       _type: "testimonials",
       _key: key("s", 2),
+      variant: "carousel",
       items: [
         {
           _key: "t-0",

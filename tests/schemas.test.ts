@@ -55,12 +55,16 @@ describe("sanity schema", () => {
     const statsFields = (stats as { fields: { name: string }[] }).fields.map((f) => f.name);
     expect(statsFields).toContain("title");
 
-    const testimonials = schemaTypes.find((t) => t.name === "testimonials");
-    const itemFields = (
-      testimonials as {
-        fields: { name: string; of?: { fields: { name: string }[] }[] }[];
-      }
-    ).fields
+    const testimonials = schemaTypes.find((t) => t.name === "testimonials") as {
+      fields: { name: string; initialValue?: string; options?: { list?: string[] }; of?: { fields: { name: string }[] }[] }[];
+    };
+    const variant = testimonials.fields.find((f) => f.name === "variant");
+    expect(variant).toMatchObject({
+      initialValue: "grid",
+      options: { list: ["grid", "carousel"] },
+    });
+
+    const itemFields = testimonials.fields
       .find((f) => f.name === "items")
       ?.of?.[0]?.fields.map((f) => f.name);
     expect(itemFields).toEqual(expect.arrayContaining(["logoUrl", "logoAlt", "href"]));
