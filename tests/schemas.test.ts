@@ -30,4 +30,19 @@ describe("sanity schema", () => {
       }
     }
   });
+  it("stats e testimonials expõem campos de fidelidade home", () => {
+    const stats = schemaTypes.find((t) => t.name === "stats");
+    const statsFields = (stats as { fields: { name: string }[] }).fields.map((f) => f.name);
+    expect(statsFields).toContain("title");
+
+    const testimonials = schemaTypes.find((t) => t.name === "testimonials");
+    const itemFields = (
+      testimonials as {
+        fields: { name: string; of?: { fields: { name: string }[] }[] }[];
+      }
+    ).fields
+      .find((f) => f.name === "items")
+      ?.of?.[0]?.fields.map((f) => f.name);
+    expect(itemFields).toEqual(expect.arrayContaining(["logoUrl", "logoAlt", "href"]));
+  });
 });

@@ -77,6 +77,9 @@ export const testimonials = defineType({
             defineField({ name: "name", title: "Nome", type: "string" }),
             defineField({ name: "role", title: "Cargo", type: "string" }),
             defineField({ name: "company", title: "Empresa", type: "string" }),
+            defineField({ name: "logoUrl", title: "URL do logo", type: "url" }),
+            defineField({ name: "logoAlt", title: "Alt do logo", type: "string" }),
+            defineField({ name: "href", title: "Link Saiba mais", type: "string" }),
           ],
         }),
       ],
@@ -153,6 +156,7 @@ export const stats = defineType({
   title: "Estatísticas",
   type: "object",
   fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
     defineField({
       name: "items",
       title: "Itens",
