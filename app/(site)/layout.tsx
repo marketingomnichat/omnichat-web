@@ -11,6 +11,7 @@ type Settings = {
   footerText?: string;
   footerColumns?: FooterColumn[];
   social?: { platform: string; url: string }[];
+  appStoreLinks?: { appStoreUrl?: string; googlePlayUrl?: string };
 } | null;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -19,7 +20,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     <>
       <Header nav={settings?.nav ?? []} />
       {children}
-      <Footer footerText={settings?.footerText} footerColumns={settings?.footerColumns ?? []} social={settings?.social ?? []} />
+      <Footer
+        footerText={settings?.footerText}
+        footerColumns={settings?.footerColumns ?? []}
+        social={settings?.social ?? []}
+        appStoreLinks={settings?.appStoreLinks}
+      />
     </>
   );
 }

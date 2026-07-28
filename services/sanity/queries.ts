@@ -31,6 +31,7 @@ export const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
   siteName, nav[]{label, href, children[]{label, href}}, footerText,
   footerColumns[]{title, links[]{label, href}},
   social[]{platform, url},
+  appStoreLinks{appStoreUrl, googlePlayUrl},
   organization{name, legalName, url, logoUrl, sameAs}
 }`;
 

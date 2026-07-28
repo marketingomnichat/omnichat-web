@@ -19,9 +19,10 @@ function key(prefix: string, i: number): string {
 }
 
 /** Build a richText section with plain paragraphs (Portable Text). */
-function richTextSection(paragraphs: string[]) {
+function richTextSection(paragraphs: string[], align?: "start" | "center") {
   return {
     _type: "richText",
+    ...(align ? { align } : {}),
     content: paragraphs.map((text, i) => ({
       _type: "block",
       _key: `rt-block-${i}`,
@@ -137,9 +138,12 @@ async function buildHome() {
     // 2. Lead
     {
       _key: key("s", 1),
-      ...richTextSection([
-        "A OmniChat conecta marketing, vendas e relacionamento no WhatsApp com uma IA Conversacional que garante experiências encantadoras, produtividade e conversas que vendem",
-      ]),
+      ...richTextSection(
+        [
+          "A OmniChat conecta marketing, vendas e relacionamento no WhatsApp com uma IA Conversacional que garante experiências encantadoras, produtividade e conversas que vendem",
+        ],
+        "center",
+      ),
     },
     // 3. Testimonials
     {

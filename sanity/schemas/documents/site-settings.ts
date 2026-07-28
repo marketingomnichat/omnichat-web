@@ -77,6 +77,15 @@ export const siteSettings = defineType({
       ],
     }),
     defineField({
+      name: "appStoreLinks",
+      title: "Links das lojas de aplicativo",
+      type: "object",
+      fields: [
+        defineField({ name: "appStoreUrl", title: "App Store", type: "url" }),
+        defineField({ name: "googlePlayUrl", title: "Google Play", type: "url" }),
+      ],
+    }),
+    defineField({
       name: "organization",
       title: "Organização",
       type: "object",

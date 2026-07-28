@@ -168,7 +168,16 @@ export const richText = defineType({
   name: "richText",
   title: "Texto livre",
   type: "object",
-  fields: [defineField({ name: "content", title: "Conteúdo", type: "array", of: [{ type: "block" }] })],
+  fields: [
+    defineField({ name: "content", title: "Conteúdo", type: "array", of: [{ type: "block" }] }),
+    defineField({
+      name: "align",
+      title: "Alinhamento",
+      type: "string",
+      options: { list: [{ title: "Esquerda", value: "start" }, { title: "Centro", value: "center" }] },
+      initialValue: "start",
+    }),
+  ],
 });
 
 export const stats = defineType({

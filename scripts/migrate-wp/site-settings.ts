@@ -100,6 +100,12 @@ const SOCIAL_LINKS = [
   { platform: "youtube", url: "https://www.youtube.com/@OmniChat" },
 ];
 
+// ── App store links (footer "Baixe o aplicativo") ─────────────────────────────
+const APP_STORE_LINKS = {
+  appStoreUrl: "https://apps.apple.com/us/app/omniapp/id6444033217",
+  googlePlayUrl: "https://play.google.com/store/apps/details?id=chat.omni.app.omniapp&pli=1",
+};
+
 // ── Footer copyright text ──────────────────────────────────────────────────────
 const FOOTER_TEXT =
   "OmniChat. Todos os direitos reservados.\nAvenida Pref. Osmar Cunha, 416 – Centro, Florianópolis/SC CEP: 88015-100";
@@ -145,6 +151,7 @@ export async function migrateSiteSettings(): Promise<void> {
     footerText: FOOTER_TEXT,
     footerColumns,
     social,
+    appStoreLinks: APP_STORE_LINKS,
     organization: {
       name: "OmniChat",
       legalName: "OmniChat Tecnologia da Informação Ltda",

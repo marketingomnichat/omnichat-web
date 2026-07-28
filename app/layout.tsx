@@ -35,6 +35,12 @@ export default async function RootLayout({
   const org = settings?.organization;
   return (
     <html lang="pt-BR" className={`${lato.variable} h-full antialiased`}>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         {org && (
           <JsonLd
