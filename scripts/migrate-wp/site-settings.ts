@@ -9,6 +9,7 @@
  */
 
 import { writeClient } from "./sanity-write";
+import { uploadImageFromUrl } from "./media";
 
 // ── Nav items extracted from #menu-menu-principal in omni.chat header ─────────
 const NAV_ITEMS = [
@@ -16,16 +17,36 @@ const NAV_ITEMS = [
     label: "Produtos",
     href: "#produtos",
     children: [
-      { label: "Marketing Studio", href: "/produto/marketing-studio/" },
-      { label: "Vendas", href: "/produto/sales-studio/" },
+      {
+        label: "Marketing Studio",
+        href: "/produto/marketing-studio/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-intelligent-search.png",
+        iconAlt: "Ícone de busca para Marketing Studio",
+      },
+      {
+        label: "Vendas",
+        href: "/produto/sales-studio/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-specialist.png",
+        iconAlt: "Ícone de especialista para Vendas",
+      },
     ],
   },
   {
     label: "Soluções",
     href: "#solucoes",
     children: [
-      { label: "Varejo", href: "/solucao/varejo/" },
-      { label: "Educacional", href: "/solucao/educacional/" },
+      {
+        label: "Varejo",
+        href: "/solucao/varejo/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-shopping-cart-line.png",
+        iconAlt: "Ícone de carrinho para Varejo",
+      },
+      {
+        label: "Educacional",
+        href: "/solucao/educacional/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-improve-message.png",
+        iconAlt: "Ícone de mensagem para Educacional",
+      },
     ],
   },
   { label: "Planos", href: "/planos/" },
@@ -113,6 +134,21 @@ const FOOTER_TEXT =
 export async function migrateSiteSettings(): Promise<void> {
   console.log("\n[migrate] Seeding siteSettings…");
 
+  const assetUrls = await Promise.all(
+    NAV_ITEMS.flatMap((item) => item.children ?? []).map(async (child) => {
+      const assetId = await uploadImageFromUrl(child.iconUrl, child.iconAlt);
+      if (!assetId) {
+        throw new Error(`Não foi possível enviar o ícone de menu: ${child.label}`);
+      }
+      const asset = await writeClient.getDocument(assetId);
+      if (!asset || typeof asset.url !== "string") {
+        throw new Error(`Não foi possível obter a URL Sanity do ícone: ${child.label}`);
+      }
+      return [child.iconUrl, asset.url] as const;
+    })
+  );
+  const uploadedIconUrls = new Map(assetUrls);
+
   // Build nav array with _key for Sanity array items
   const nav = NAV_ITEMS.map((item, i) => ({
     _key: `nav-${i}`,
@@ -122,6 +158,8 @@ export async function migrateSiteSettings(): Promise<void> {
       _key: `nav-${i}-child-${childIndex}`,
       label: child.label,
       href: child.href,
+      iconUrl: uploadedIconUrls.get(child.iconUrl),
+      iconAlt: child.iconAlt,
     })),
   }));
 

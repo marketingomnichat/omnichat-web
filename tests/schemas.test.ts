@@ -18,14 +18,17 @@ describe("sanity schema", () => {
     expect(names).toContain("seo");
   });
   it("siteSettings permite subitens na navegação", () => {
+    type Field = { name: string; title?: string; of?: { fields: Field[] }[] };
     const settings = schemaTypes.find((t) => t.name === "siteSettings") as {
-      fields: { name: string; of?: { fields: { name: string; title?: string; of?: unknown[] }[] }[] }[];
+      fields: Field[];
     };
     const navFields = settings.fields.find((field) => field.name === "nav")?.of?.[0]?.fields ?? [];
     const children = navFields.find((field) => field.name === "children");
 
     expect(children?.title).toBe("Subitens");
     expect(children?.of).toBeDefined();
+    const childFields = children?.of?.[0]?.fields.map((field) => field.name);
+    expect(childFields).toEqual(expect.arrayContaining(["label", "href", "iconUrl", "iconAlt"]));
   });
   it("landingPage existe com page builder e seo", () => {
     const lp = schemaTypes.find((t) => t.name === "landingPage");

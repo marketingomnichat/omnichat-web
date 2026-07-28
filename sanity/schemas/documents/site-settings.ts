@@ -26,6 +26,8 @@ export const siteSettings = defineType({
                   fields: [
                     defineField({ name: "label", title: "Rótulo", type: "string" }),
                     defineField({ name: "href", title: "Link", type: "string" }),
+                    defineField({ name: "iconUrl", title: "URL do ícone", type: "url" }),
+                    defineField({ name: "iconAlt", title: "Texto alternativo do ícone", type: "string" }),
                   ],
                 }),
               ],

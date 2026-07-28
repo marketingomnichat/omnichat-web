@@ -5,7 +5,11 @@ import { SETTINGS_QUERY } from "@/services/sanity/queries";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
-type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
+type NavItem = {
+  label: string;
+  href: string;
+  children?: { label: string; href: string; iconUrl?: string; iconAlt?: string }[];
+};
 type Settings = {
   nav?: NavItem[];
   footerText?: string;
