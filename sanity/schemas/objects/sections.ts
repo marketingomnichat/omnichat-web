@@ -70,6 +70,15 @@ export const featureGrid = defineType({
           type: "object",
           fields: [
             defineField({ name: "icon", title: "Ícone", type: "string", description: "Nome Remix Icon, ex. ri-flashlight-line" }),
+            defineField({
+              name: "image",
+              title: "Imagem",
+              type: "object",
+              fields: [
+                defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+                defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+              ],
+            }),
             defineField({ name: "title", title: "Título", type: "string" }),
             defineField({ name: "text", title: "Texto", type: "text", rows: 3 }),
           ],

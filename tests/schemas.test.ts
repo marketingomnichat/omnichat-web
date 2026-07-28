@@ -40,6 +40,16 @@ describe("sanity schema", () => {
       }
     }
   });
+  it("featureGrid expõe image opcional no membro features", () => {
+    const featureGrid = schemaTypes.find((t) => t.name === "featureGrid") as {
+      fields: { name: string; of?: { fields: { name: string; fields?: { name: string }[] }[] }[] }[];
+    };
+    const featureFields =
+      featureGrid.fields.find((f) => f.name === "features")?.of?.[0]?.fields ?? [];
+    const image = featureFields.find((f) => f.name === "image");
+    expect(image).toBeDefined();
+    expect(image?.fields?.map((f) => f.name)).toEqual(expect.arrayContaining(["imageUrl", "alt"]));
+  });
   it("stats e testimonials expõem campos de fidelidade home", () => {
     const stats = schemaTypes.find((t) => t.name === "stats");
     const statsFields = (stats as { fields: { name: string }[] }).fields.map((f) => f.name);

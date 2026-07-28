@@ -89,6 +89,24 @@ async function buildHome() {
     "https://omni.chat/wp-content/uploads/2026/03/card-home05.png",
     "Campanhas de marketing conversacional no WhatsApp"
   );
+  const [imgColuna1, imgColuna2, imgColuna3, imgColuna4] = await Promise.all([
+    img(
+      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-1.jpg",
+      "Comece rápido, escale fácil"
+    ),
+    img(
+      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-2.jpg",
+      "Cresça com acompanhamento especializado"
+    ),
+    img(
+      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-3.jpg",
+      "Suporte humano quando você precisar"
+    ),
+    img(
+      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-4.jpg",
+      "Acesse nossa comunidade"
+    ),
+  ]);
   const [
     heringLogo,
     kappesbergLogo,
@@ -280,25 +298,25 @@ async function buildHome() {
       features: [
         {
           _key: "fg-0",
-          icon: "ri-rocket-line",
+          image: imgColuna1,
           title: "Comece rápido, escale fácil",
           text: "Implante rapidamente e comece a vender desde o primeiro dia sem fricção e sem depender de longos projetos técnicos.",
         },
         {
           _key: "fg-1",
-          icon: "ri-team-line",
+          image: imgColuna2,
           title: "Cresça com acompanhamento especializado",
           text: "Conte com um time de especialistas dedicado para acompanhar sua evolução, ajustar jornadas e garantir que tudo esteja operando no máximo desempenho.",
         },
         {
           _key: "fg-2",
-          icon: "ri-customer-service-2-line",
+          image: imgColuna3,
           title: "Suporte humano quando você precisar",
           text: "Respostas rápidas, resolução na primeira interação e continuidade da operação para não deixar o canal parar.",
         },
         {
           _key: "fg-3",
-          icon: "ri-community-line",
+          image: imgColuna4,
           title: "Acesse nossa comunidade",
           text: "Guias, tutoriais, templates e o OmniChat Academy para entender como criar fluxos, agentes e jornadas com total autonomia sem depender de terceiros.",
         },
