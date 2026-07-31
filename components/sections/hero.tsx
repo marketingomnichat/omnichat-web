@@ -19,6 +19,10 @@ type BackgroundMedia = {
   poster?: string;
 };
 
+export function heroContentAlignClass(layout: "default" | "productEmerge" = "default") {
+  return layout === "productEmerge" ? "flex flex-col items-center text-center mx-auto" : "";
+}
+
 function HeroBackgroundMedia({ media }: { media: BackgroundMedia }) {
   if (media.type === "video") {
     return (
@@ -53,6 +57,7 @@ export function Hero({
   ctas = [],
   theme = "light",
   backgroundMedia,
+  layout = "default",
 }: {
   overline?: string;
   title: string;
@@ -62,8 +67,10 @@ export function Hero({
   ctas?: Cta[];
   theme?: "light" | "dark";
   backgroundMedia?: BackgroundMedia;
+  layout?: "default" | "productEmerge";
 }) {
   const dark = theme === "dark";
+  const productEmerge = layout === "productEmerge";
   const highlightIndex = highlightPhrase ? title.indexOf(highlightPhrase) : -1;
   const hasHighlight = highlightIndex >= 0 && highlightPhrase;
   const beforeHighlight = hasHighlight ? title.slice(0, highlightIndex) : title;
@@ -71,16 +78,22 @@ export function Hero({
 
   return (
     <section className={`relative overflow-hidden ${dark ? "bg-black" : "bg-white"}`}>
-      {backgroundMedia && <HeroBackgroundMedia media={backgroundMedia} />}
-      <div className="relative z-10 mx-auto max-w-oc-container px-6 py-oc-hero">
+      {backgroundMedia && !productEmerge && <HeroBackgroundMedia media={backgroundMedia} />}
+      <div
+        className={`relative z-10 mx-auto max-w-oc-container px-6 py-oc-hero ${
+          productEmerge ? `pb-10 ${heroContentAlignClass(layout)}` : ""
+        }`}
+      >
         {overline && (
           <p className={`oc-overline ${dark ? "text-oc-yellow-mass" : "text-oc-yellow-ink"}`}>{overline}</p>
         )}
         <h1
           className={
             dark
-              ? "oc-h1 mt-3 max-w-[800px] text-white text-[44.8px] leading-[56px] font-bold"
-              : "mt-3 max-w-[800px] text-[60px] leading-[64px] font-bold"
+              ? `oc-h1 mt-3 max-w-[800px] text-white text-[44.8px] leading-[56px] font-bold ${
+                  productEmerge ? "mx-auto" : ""
+                }`
+              : `mt-3 max-w-[800px] text-[60px] leading-[64px] font-bold ${productEmerge ? "mx-auto" : ""}`
           }
         >
           {hasHighlight ? (
@@ -98,7 +111,7 @@ export function Hero({
         )}
         {subtitle && (
           <p
-            className={`mt-5 max-w-[640px] ${
+            className={`mt-5 max-w-[640px] ${productEmerge ? "mx-auto" : ""} ${
               dark
                 ? "text-white text-[32px] leading-[48px] font-normal"
                 : "oc-body-lg text-oc-neutral-dark"
@@ -108,9 +121,11 @@ export function Hero({
           </p>
         )}
         {ctas.length > 0 && (
-          <div className="mt-8 flex flex-wrap gap-4">
-            {ctas.map((cta) =>
-              dark && (cta.variant ?? "primary") === "primary" ? (
+          <div className={`mt-8 flex flex-wrap gap-4 ${productEmerge ? "justify-center" : ""}`}>
+            {ctas.map((cta) => {
+              const variant = cta.variant ?? "primary";
+
+              return dark && variant === "primary" ? (
                 <Link
                   key={cta.label}
                   href={safeHref(cta.href)}
@@ -118,19 +133,33 @@ export function Hero({
                 >
                   {cta.label}
                 </Link>
+              ) : dark && variant === "ghost" ? (
+                <Link
+                  key={cta.label}
+                  href={safeHref(cta.href)}
+                  className="oc-button-label rounded-oc-button px-6 py-3 text-white transition-colors duration-150 ease-oc hover:bg-white/10 active:bg-white/20"
+                >
+                  {cta.label}
+                </Link>
               ) : (
                 <Link
                   key={cta.label}
                   href={safeHref(cta.href)}
-                  className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${CTA_CLASS[cta.variant ?? "primary"]}`}
+                  className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${CTA_CLASS[variant]}`}
                 >
                   {cta.label}
                 </Link>
-              )
-            )}
+              );
+            })}
           </div>
         )}
       </div>
+      {productEmerge && backgroundMedia && (
+        <div className="relative h-[42vh] min-h-[320px] overflow-hidden rounded-t-oc-panel shadow-oc-lg">
+          <HeroBackgroundMedia media={backgroundMedia} />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-oc-dark/80 via-oc-dark/10 to-transparent" />
+        </div>
+      )}
     </section>
   );
 }

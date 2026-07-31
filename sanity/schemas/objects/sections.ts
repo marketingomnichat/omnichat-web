@@ -68,6 +68,19 @@ export const hero = defineType({
       options: { list: ["light", "dark"] },
       initialValue: "light",
     }),
+    defineField({
+      name: "layout",
+      title: "Layout",
+      type: "string",
+      options: {
+        list: [
+          { title: "Padrão", value: "default" },
+          { title: "Produto emergindo", value: "productEmerge" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "default",
+    }),
   ],
 });
 
