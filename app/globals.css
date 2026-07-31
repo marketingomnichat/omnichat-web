@@ -70,10 +70,12 @@
 
   /* Espaçamento, grade base 4px */
   --spacing: 4px;
+  --space-oc-header: 76px;
+  --space-oc-content-top: 56px;
 
   /* Layout — WP live */
   --container-oc-max: 1150px;        /* container max-width — WP = 1150px */
-  --space-oc-section: 96px;          /* densidade equilibrada ~80–112px (substitui 64px) */
+  --space-oc-section: 48px;          /* 48px por seção = 96px entre painéis empilhados */
 
   /* Raios */
   --radius-oc-button: 8px;
@@ -195,8 +197,8 @@
   padding-top: 140px;
   padding-bottom: 200px;
 }
-@utility shadow-oc-panel {
-  box-shadow: var(--shadow-oc-panel);
+@utility pt-oc-page {
+  padding-top: calc(var(--space-oc-header) + var(--space-oc-content-top));
 }
 
 /* Ghost (tertiary) — rgba de ink, não vira token de cor */

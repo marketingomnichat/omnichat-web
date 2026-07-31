@@ -17,6 +17,7 @@ import { LogoCloud } from "../components/sections/logo-cloud";
 import { Stats } from "../components/sections/stats";
 import { Testimonials } from "../components/sections/testimonials";
 import { Card } from "../components/ui/card";
+import { isSvgUrl } from "../components/ui/image-utils";
 import { Panel } from "../components/ui/panel";
 
 type ElementProps = Record<string, unknown>;
@@ -58,5 +59,18 @@ describe("seções de marketing em Panel", () => {
     const section = Testimonials({ items: [{ quote: "Resultado comprovado." }] });
 
     expect(containsComponent(section, Card)).toBe(false);
+  });
+
+  it("passa a superfície escura explicitamente ao painel do carrossel", () => {
+    const section = FeatureCarousel({ items: [{ title: "Whizz", dark: true }] });
+    const panel = descendantElements(section).find((element) => element.type === Panel);
+
+    expect(panel?.props.surface).toBe("dark");
+  });
+
+  it("identifica logos SVG, inclusive com query string", () => {
+    expect(isSvgUrl("https://cdn.sanity.io/logo.svg")).toBe(true);
+    expect(isSvgUrl("https://cdn.sanity.io/logo.svg?version=2")).toBe(true);
+    expect(isSvgUrl("https://cdn.sanity.io/logo.png")).toBe(false);
   });
 });

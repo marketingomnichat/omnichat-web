@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Panel } from "@/components/ui/panel";
+import { isSvgUrl } from "@/components/ui/image-utils";
 import { safeHref } from "@/lib/safe-href";
 import { TestimonialsCarousel } from "./testimonials-carousel";
 
@@ -24,6 +25,7 @@ function TestimonialItem({ testimonial }: { testimonial: Testimonial }) {
           width={160}
           height={48}
           className="mb-6 h-12 w-auto object-contain"
+          unoptimized={isSvgUrl(testimonial.logoUrl)}
         />
       )}
       <blockquote className="oc-body-lg">&quot;{testimonial.quote}&quot;</blockquote>

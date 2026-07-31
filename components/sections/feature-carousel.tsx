@@ -86,7 +86,7 @@ export function FeatureCarousel({
               aria-label={`${item.title} (${index + 1} de ${items.length})`}
             >
               <div className="mx-auto max-w-oc-container px-6 py-oc-section">
-                <Panel elevation="border" className={item.dark ? "bg-oc-dark" : ""}>
+                <Panel elevation="border" surface={item.dark ? "dark" : "light"}>
                   <div className="grid items-center gap-12 md:grid-cols-2">
                     <div className={item.mediaSide === "left" ? "md:order-last" : ""}>
                       <h3 className={`oc-h2 ${item.dark ? "text-oc-surface" : ""}`}>{item.title}</h3>

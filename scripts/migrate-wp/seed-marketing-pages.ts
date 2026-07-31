@@ -18,9 +18,6 @@ function key(prefix: string, i: number): string {
   return `${prefix}-${i}`;
 }
 
-const HERO_VIDEO_URL =
-  "https://omni.chat/wp-content/themes/omni.chat/assets/img/video-hero.mp4";
-
 /** Build a richText section with plain paragraphs (Portable Text). */
 function richTextSection(paragraphs: string[], align?: "start" | "center") {
   return {
@@ -121,8 +118,8 @@ async function buildHome() {
       theme: "dark",
       layout: "productEmerge",
       backgroundMedia: {
-        type: "video",
-        url: HERO_VIDEO_URL,
+        type: "image",
+        url: imgConversas.imageUrl,
       },
     },
     // 2. Whizz Agent

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Panel } from "@/components/ui/panel";
+import { isSvgUrl } from "@/components/ui/image-utils";
 
 type Logo = { name: string; imageUrl: string };
 
@@ -19,6 +20,7 @@ export function LogoCloud({ title, logos = [] }: { title?: string; logos?: Logo[
                 width={160}
                 height={32}
                 className="h-8 w-auto"
+                unoptimized={isSvgUrl(l.imageUrl)}
               />
             ))}
           </div>
