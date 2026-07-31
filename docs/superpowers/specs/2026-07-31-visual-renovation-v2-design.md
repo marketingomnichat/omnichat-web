@@ -1,6 +1,6 @@
 # Renovação visual v2 — sistema de site (product-led)
 
-Data: 2026-07-31 · Status: aguardando review do owner  
+Data: 2026-07-31 · Status: aprovado pelo owner  
 Branch base: `feat/home-superdesign-fidelity` (ou main após merge da fidelidade)  
 Inspiração: ClickUp / Intercom (product-forward), **não** clone WP  
 Abordagem: evoluir o page builder Sanity + tokens `oc-*` (kit visual v2 nas seções/chrome existentes)
