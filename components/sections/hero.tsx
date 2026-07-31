@@ -168,7 +168,7 @@ export function Hero({
         )}
       </div>
       {productEmerge && backgroundMedia && (
-        <div className="relative h-[42vh] min-h-[320px] overflow-hidden rounded-t-oc-panel shadow-oc-lg">
+        <div className="relative h-[42vh] min-h-[320px] overflow-hidden rounded-t-oc-panel shadow-oc-lg motion-safe:animate-oc-enter-up">
           <HeroBackgroundMedia media={backgroundMedia} objectPosition="top" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-oc-dark/80 via-oc-dark/10 to-transparent" />
         </div>

@@ -68,7 +68,7 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
 
   return (
     <header
-      className={`top-0 right-0 left-0 z-50 transition-colors duration-200 ease-oc ${
+      className={`top-0 right-0 left-0 z-50 transition-colors duration-200 ease-oc motion-reduce:transition-none ${
         isDark
           ? "absolute bg-transparent"
           : "fixed border-b border-oc-divider bg-oc-surface/95 backdrop-blur-sm"

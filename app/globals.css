@@ -88,6 +88,18 @@
 
   /* Movimento */
   --ease-oc: cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-oc-enter-up: oc-enter-up 0.55s var(--ease-oc) both;
+
+  @keyframes oc-enter-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 /* Classes de tipografia — px fixo conforme spec.

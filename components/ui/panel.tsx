@@ -16,9 +16,14 @@ export function Panel({
   children,
   ...props
 }: PanelProps) {
+  const hoverMotionClass =
+    elevation === "border"
+      ? "transition-shadow duration-200 ease-oc motion-reduce:transition-none hover:shadow-oc-panel"
+      : "";
+
   return (
     <div
-      className={`bg-oc-surface rounded-[var(--radius-oc-panel)] p-6 md:p-10 ${panelElevationClass(elevation)} ${className}`}
+      className={`bg-oc-surface rounded-[var(--radius-oc-panel)] p-6 md:p-10 ${panelElevationClass(elevation)} ${hoverMotionClass} ${className}`}
       {...props}
     >
       {children}
