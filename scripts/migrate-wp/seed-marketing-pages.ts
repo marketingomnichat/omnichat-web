@@ -80,10 +80,6 @@ async function buildHome() {
     "https://omni.chat/wp-content/uploads/2026/01/Home-carrossel-2.jpg",
     "Whizz Copilot – assistente de IA para times de vendas"
   );
-  const imgPosVenda = await img(
-    "https://omni.chat/wp-content/uploads/2026/01/Home-carrossel-3.jpg",
-    "Pós-venda automatizado com IA"
-  );
   const imgConversas = await img(
     "https://omni.chat/wp-content/uploads/2026/03/card-home04-e1777070369518.png",
     "Gestão de conversas em múltiplos canais"
@@ -92,32 +88,10 @@ async function buildHome() {
     "https://omni.chat/wp-content/uploads/2026/03/card-home05.png",
     "Campanhas de marketing conversacional no WhatsApp"
   );
-  const imgCtaBanner = await img(
-    "https://omni.chat/wp-content/uploads/2025/10/Case-LaModa-Email-Img-4-2.png",
-    "Pessoa sorrindo com celular na mão"
-  );
   const imgFormAside = await img(
     "https://omni.chat/wp-content/uploads/2026/01/SITE-Forms-1.jpg",
     "Interface de chat omnichannel em smartphone exibindo conversas de atendimento e vendas"
   );
-  const [imgColuna1, imgColuna2, imgColuna3, imgColuna4] = await Promise.all([
-    img(
-      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-1.jpg",
-      "Comece rápido, escale fácil"
-    ),
-    img(
-      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-2.jpg",
-      "Cresça com acompanhamento especializado"
-    ),
-    img(
-      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-3.jpg",
-      "Suporte humano quando você precisar"
-    ),
-    img(
-      "https://omni.chat/wp-content/uploads/2026/01/Home-coluna-4.jpg",
-      "Acesse nossa comunidade"
-    ),
-  ]);
   const [
     heringLogo,
     kappesbergLogo,
@@ -125,8 +99,6 @@ async function buildHome() {
     moblyLogo,
     vesteLogo,
     espacoSmartLogo,
-    ecossistemaDesktop,
-    ecossistemaMobile,
   ] = await Promise.all([
     img("https://omni.chat/wp-content/uploads/2025/10/logo-hering.png", "Hering"),
     img("https://omni.chat/wp-content/uploads/2025/11/Kappesberg.svg", "Kappesberg"),
@@ -134,14 +106,6 @@ async function buildHome() {
     img("https://omni.chat/wp-content/uploads/2025/11/Logo-Mobly.svg", "Mobly"),
     img("https://omni.chat/wp-content/uploads/2025/11/Logo-Veste.svg", "Veste"),
     img("https://omni.chat/wp-content/uploads/2025/11/Logo-Espaco-Smart.svg", "Espaço Smart"),
-    img(
-      "https://omni.chat/wp-content/uploads/2026/03/ecossistema-omni.png",
-      "Ecossistema OmniChat"
-    ),
-    img(
-      "https://omni.chat/wp-content/uploads/2026/03/ecossistema-omni-mobile.png",
-      "Ecossistema OmniChat"
-    ),
   ]);
 
   const sections = [
@@ -149,39 +113,94 @@ async function buildHome() {
     {
       _type: "hero",
       _key: key("s", 0),
-      title: "Domine marketing e vendas no WhatsApp com uma IA especialista em experiências que realmente convertem",
-      highlightPhrase: "IA especialista",
-      agentPrompt: {
-        prefix: "Criar agente de IA para...",
-        phrases: [
-          "conversar com o aluno que sumiu e convencer ele a se rematricular",
-          "recuperar vendas de carrinhos abandonados",
-          "qualificar leads e avançar clientes até o checkout",
-        ],
-      },
+      title: "Venda no WhatsApp com IA que conhece seu negócio",
+      subtitle: "Whizz Agent qualifica e fecha. Seu time escala.",
       ctas: [
-        { _key: "cta-0", label: "Fale com um especialista", href: "#formulario", variant: "primary" },
+        { _key: "cta-0", label: "Agendar demo", href: "#formulario", variant: "primary" },
       ],
       theme: "dark",
+      layout: "productEmerge",
       backgroundMedia: {
         type: "video",
         url: HERO_VIDEO_URL,
       },
     },
-    // 2. Lead
+    // 2. Whizz Agent
     {
+      _type: "featureSplit",
       _key: key("s", 1),
-      ...richTextSection(
-        [
-          "A OmniChat conecta marketing, vendas e relacionamento no WhatsApp com uma IA Conversacional que garante experiências encantadoras, produtividade e conversas que vendem",
-        ],
-        "center",
-      ),
+      overline: "Whizz Agent",
+      title: "IA com profundidade de negócio",
+      body: "Treinado com o catálogo, as regras comerciais e o tom de voz da sua marca, o Whizz Agent qualifica leads, recomenda produtos e conduz cada conversa até a compra.",
+      image: imgAgenteIA,
+      mediaSide: "right",
+      cta: { label: "Ver Whizz", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
+      dark: true,
     },
-    // 3. Testimonials
+    // 3. Soluções para toda a jornada
+    {
+      _type: "featureCarousel",
+      _key: key("s", 2),
+      title: "Uma plataforma para cada conversa",
+      items: [
+        {
+          _key: "feature-0",
+          title: "Marketing",
+          body: "Crie campanhas segmentadas e transforme conversas em receita no WhatsApp.",
+          image: imgCampanhas,
+          mediaSide: "right",
+          cta: { label: "Conheça o Marketing Studio", href: "/planos", variant: "primary" },
+          dark: false,
+        },
+        {
+          _key: "feature-1",
+          title: "Vendas",
+          body: "Dê ao seu time e à sua IA o contexto para converter mais em cada interação.",
+          image: imgCopilot,
+          mediaSide: "left",
+          cta: { label: "Conheça o Sales Studio", href: "/planos", variant: "primary" },
+          dark: false,
+        },
+        {
+          _key: "feature-2",
+          title: "Atendimento",
+          body: "Centralize os canais e mantenha o contexto para responder com agilidade e consistência.",
+          image: imgConversas,
+          mediaSide: "right",
+          cta: { label: "Conheça a plataforma", href: "#formulario", variant: "primary" },
+          dark: false,
+        },
+      ],
+    },
+    // 4. Marcas que crescem com a OmniChat
+    {
+      _type: "logoCloud",
+      _key: key("s", 3),
+      title: "Marcas que vendem mais com conversas",
+      logos: [
+        { _key: "logo-0", name: "Hering", imageUrl: heringLogo.imageUrl },
+        { _key: "logo-1", name: "Kappesberg", imageUrl: kappesbergLogo.imageUrl },
+        { _key: "logo-2", name: "iPlace", imageUrl: iPlaceLogo.imageUrl },
+        { _key: "logo-3", name: "Mobly", imageUrl: moblyLogo.imageUrl },
+        { _key: "logo-4", name: "Veste", imageUrl: vesteLogo.imageUrl },
+        { _key: "logo-5", name: "Espaço Smart", imageUrl: espacoSmartLogo.imageUrl },
+      ],
+    },
+    // 5. Resultados do canal conversacional
+    {
+      _type: "stats",
+      _key: key("s", 4),
+      title: "Conversas que geram resultado",
+      items: [
+        { _key: "stat-0", value: "12,5%", label: "em conversões totais no WhatsApp - 6x mais do que e-mail" },
+        { _key: "stat-1", value: "27x", label: "mais retorno em campanhas de Marketing" },
+        { _key: "stat-2", value: "60%", label: "de redução de tempo no atendimento ao consumidor com IA" },
+      ],
+    },
+    // 6. Depoimentos
     {
       _type: "testimonials",
-      _key: key("s", 2),
+      _key: key("s", 5),
       variant: "carousel",
       items: [
         {
@@ -234,123 +253,13 @@ async function buildHome() {
         },
       ],
     },
-    // 4. featureCarousel – produtos OmniChat
-    {
-      _type: "featureCarousel",
-      _key: key("s", 3),
-      items: [
-        {
-          _key: "feature-0",
-          title: "Converta com agentes de IA especialistas em vendas",
-          body: "Conte com o Whizz Agent, nosso agente de IA, que qualifica conversas e vende produtos como um humano: 24 horas por dia, 7 dias por semana. Ele entende dúvidas, recomenda produtos e conduz o cliente até o checkout, enquanto seu time foca nas conversas estratégicas que geram valor.",
-          image: imgAgenteIA,
-          mediaSide: "right",
-          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-          dark: false,
-        },
-        {
-          _key: "feature-1",
-          title: "Empodere seu time para entregar experiências melhores com IA",
-          body: "O Whizz Copilot é o assistente de IA do vendedor: gera respostas para objeções, ajusta gramática e tom de voz, tira dúvidas de produtos e mantém consistência na comunicação. Seu time atende mais pessoas por dia, com mais qualidade e menos esforço — enquanto o cliente avança na compra sem atrito.",
-          image: imgCopilot,
-          mediaSide: "left",
-          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-          dark: false,
-        },
-        {
-          _key: "feature-2",
-          title: "Pós-venda que antecipa, resolve e fideliza",
-          body: "Com até 70% das demandas automatizadas pela IA, sua operação ganha velocidade, reduz retrabalho e entrega uma experiência superior ao cliente.",
-          image: imgPosVenda,
-          mediaSide: "right",
-          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-          dark: false,
-        },
-        {
-          _key: "feature-3",
-          title: "Gerencie conversas com clareza e consistência",
-          body: "Centralize WhatsApp, site, Instagram e Facebook em uma única visão para acompanhar cada cliente em toda a jornada. Sua equipe resolve mais rápido, reduz retrabalho e oferece uma experiência contínua que aumenta satisfação e recompra.",
-          image: imgConversas,
-          mediaSide: "left",
-          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-          dark: false,
-        },
-        {
-          _key: "feature-4",
-          title: "Crie campanhas de marketing com resultados reais",
-          body: "Alcance seu público no canal onde ele mais responde, com mensagens segmentadas e jornadas personalizadas que mantêm o cliente engajado. Do anúncio ao fluxo de reengajamento, cada ação traz impacto mensurável em conversão, engajamento e retorno de mídia.",
-          image: imgCampanhas,
-          mediaSide: "right",
-          cta: { label: "Veja uma demonstração", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
-          dark: false,
-        },
-      ],
-    },
-    // 9. Stats – Por que o canal conversacional é o canal que vende?
-    {
-      _type: "stats",
-      _key: key("s", 8),
-      title: "Por que o canal conversacional é o canal que vende?",
-      items: [
-        { _key: "stat-0", value: "12,5%", label: "em conversões totais no WhatsApp - 6x mais do que e-mail" },
-        { _key: "stat-1", value: "27x", label: "mais retorno em campanhas de Marketing" },
-        { _key: "stat-2", value: "60%", label: "de redução de tempo no atendimento ao consumidor com IA" },
-      ],
-    },
-    // 10. Media block – ecossistema OmniChat
-    {
-      _type: "mediaBlock",
-      _key: key("s", 9),
-      image: ecossistemaDesktop,
-      imageMobile: ecossistemaMobile,
-    },
-    // 11. featureGrid – Comece rápido / Cresça / Suporte / Comunidade
-    {
-      _type: "featureGrid",
-      _key: key("s", 10),
-      features: [
-        {
-          _key: "fg-0",
-          image: imgColuna1,
-          title: "Comece rápido, escale fácil",
-          text: "Implante rapidamente e comece a vender desde o primeiro dia sem fricção e sem depender de longos projetos técnicos.",
-        },
-        {
-          _key: "fg-1",
-          image: imgColuna2,
-          title: "Cresça com acompanhamento especializado",
-          text: "Conte com um time de especialistas dedicado para acompanhar sua evolução, ajustar jornadas e garantir que tudo esteja operando no máximo desempenho.",
-        },
-        {
-          _key: "fg-2",
-          image: imgColuna3,
-          title: "Suporte humano quando você precisar",
-          text: "Respostas rápidas, resolução na primeira interação e continuidade da operação para não deixar o canal parar.",
-        },
-        {
-          _key: "fg-3",
-          image: imgColuna4,
-          title: "Acesse nossa comunidade",
-          text: "Guias, tutoriais, templates e o OmniChat Academy para entender como criar fluxos, agentes e jornadas com total autonomia sem depender de terceiros.",
-        },
-      ],
-    },
-    // 12. ctaBanner – Descubra a solução ideal
-    {
-      _type: "ctaBanner",
-      _key: key("s", 11),
-      title: "Descubra a solução ideal",
-      text: "Temos o plano certo para escalar suas vendas no WhatsApp. Escolha entre soluções flexíveis que combinam IA para vendas, marketing conversacional e integração com seus sistemas. Comece a vender mais no WhatsApp hoje.",
-      cta: { label: "Saiba mais sobre nossos planos", href: "/planos", variant: "primary" },
-      image: imgCtaBanner,
-    },
-    // 13. ctaForm – Evolua sua empresa com nossas soluções
+    // 7. Agende uma demonstração
     {
       _type: "ctaForm",
-      _key: key("s", 12),
-      title: "Evolua sua empresa com nossas soluções",
+      _key: key("s", 6),
+      title: "Agende uma demo",
       formAction: "https://api.hsforms.com/submissions/v3/integration/submit/20121735/4b6b3796-b24c-4786-ba60-39e2bba014b0",
-      buttonLabel: "Fale com um especialista",
+      buttonLabel: "Agendar demo",
       asideImage: imgFormAside,
       fields: [
         { _key: "f-0", name: "nome", label: "Nome e sobrenome", type: "text", required: true },
