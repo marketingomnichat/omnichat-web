@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Card } from "@/components/ui/card";
+import { Panel } from "@/components/ui/panel";
 import { safeHref } from "@/lib/safe-href";
 import { TestimonialsCarousel } from "./testimonials-carousel";
 
@@ -14,9 +14,9 @@ type Testimonial = {
   href?: string;
 };
 
-function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+function TestimonialItem({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <Card elevation="shadow" className="flex h-full flex-col items-center text-center">
+    <div className="flex h-full flex-col items-center text-center">
       {testimonial.logoUrl && (
         <Image
           src={testimonial.logoUrl}
@@ -43,7 +43,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           Saiba mais
         </Link>
       )}
-    </Card>
+    </div>
   );
 }
 
@@ -57,29 +57,33 @@ export function Testimonials({
   variant?: "grid" | "carousel";
 }) {
   return (
-    <section className="mx-auto max-w-oc-container px-6 py-oc-section">
-      {title && <h2 className="oc-h2 mb-8 text-center">{title}</h2>}
-      {variant === "carousel" ? (
-        <TestimonialsCarousel itemCount={items.length}>
-          {items.map((testimonial, index) => (
-            <div
-              key={testimonial.name ?? testimonial.logoAlt ?? index}
-              className="min-w-full shrink-0 snap-start md:min-w-[calc(50%-12px)]"
-            >
-              <TestimonialCard testimonial={testimonial} />
+    <section className="bg-oc-body">
+      <div className="mx-auto max-w-oc-container px-6 py-oc-section">
+        <Panel elevation="border">
+          {title && <h2 className="oc-h2 mb-8 text-center">{title}</h2>}
+          {variant === "carousel" ? (
+            <TestimonialsCarousel itemCount={items.length}>
+              {items.map((testimonial, index) => (
+                <div
+                  key={testimonial.name ?? testimonial.logoAlt ?? index}
+                  className="min-w-full shrink-0 snap-start md:min-w-[calc(50%-12px)]"
+                >
+                  <TestimonialItem testimonial={testimonial} />
+                </div>
+              ))}
+            </TestimonialsCarousel>
+          ) : (
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+              {items.map((testimonial, index) => (
+                <TestimonialItem
+                  key={testimonial.name ?? testimonial.logoAlt ?? index}
+                  testimonial={testimonial}
+                />
+              ))}
             </div>
-          ))}
-        </TestimonialsCarousel>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((testimonial, index) => (
-            <TestimonialCard
-              key={testimonial.name ?? testimonial.logoAlt ?? index}
-              testimonial={testimonial}
-            />
-          ))}
-        </div>
-      )}
+          )}
+        </Panel>
+      </div>
     </section>
   );
 }

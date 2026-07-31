@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Panel } from "@/components/ui/panel";
 import { safeHref } from "@/lib/safe-href";
 import type { Cta } from "@/shared/types";
 
@@ -70,7 +71,7 @@ export function FeatureCarousel({
   if (items.length === 0) return null;
 
   return (
-    <section aria-label={title ?? "Produtos OmniChat"}>
+    <section className="bg-oc-body" aria-label={title ?? "Produtos OmniChat"}>
       {title && <h2 className="oc-h2 mx-auto mb-8 max-w-oc-container px-6 text-center">{title}</h2>}
       <div role="region" aria-roledescription="carousel" aria-label={title ?? "Produtos OmniChat"}>
         <div
@@ -81,41 +82,45 @@ export function FeatureCarousel({
           {items.map((item, index) => (
             <article
               key={item.title}
-              className={`min-w-full shrink-0 snap-start ${item.dark ? "bg-oc-ink" : "bg-oc-surface"}`}
+              className="min-w-full shrink-0 snap-start"
               aria-label={`${item.title} (${index + 1} de ${items.length})`}
             >
-              <div className="mx-auto grid max-w-oc-container items-center gap-12 px-6 py-oc-section md:grid-cols-2">
-                <div className={item.mediaSide === "left" ? "md:order-last" : ""}>
-                  <h3 className={`oc-h2 ${item.dark ? "text-oc-surface" : ""}`}>{item.title}</h3>
-                  {item.body && (
-                    <p className={`oc-body-lg mt-5 ${item.dark ? "text-oc-neutral" : "text-oc-neutral-dark"}`}>
-                      {item.body}
-                    </p>
-                  )}
-                  {item.cta && (
-                    <div className="mt-8">
-                      <Link
-                        href={safeHref(item.cta.href)}
-                        className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${
-                          CTA_CLASS[item.cta.variant ?? "primary"]
-                        }`}
-                      >
-                        {item.cta.label}
-                      </Link>
+              <div className="mx-auto max-w-oc-container px-6 py-oc-section">
+                <Panel elevation="border" className={item.dark ? "bg-oc-dark" : ""}>
+                  <div className="grid items-center gap-12 md:grid-cols-2">
+                    <div className={item.mediaSide === "left" ? "md:order-last" : ""}>
+                      <h3 className={`oc-h2 ${item.dark ? "text-oc-surface" : ""}`}>{item.title}</h3>
+                      {item.body && (
+                        <p className={`oc-body-lg mt-5 ${item.dark ? "text-oc-neutral" : "text-oc-neutral-dark"}`}>
+                          {item.body}
+                        </p>
+                      )}
+                      {item.cta && (
+                        <div className="mt-8">
+                          <Link
+                            href={safeHref(item.cta.href)}
+                            className={`oc-button-label rounded-oc-button px-6 py-3 transition-colors duration-150 ease-oc ${
+                              CTA_CLASS[item.cta.variant ?? "primary"]
+                            }`}
+                          >
+                            {item.cta.label}
+                          </Link>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                {item.image?.imageUrl && (
-                  <div className={item.mediaSide === "left" ? "md:order-first" : ""}>
-                    <Image
-                      src={item.image.imageUrl}
-                      alt={item.image.alt ?? ""}
-                      width={600}
-                      height={400}
-                      className="h-auto w-full rounded-lg object-cover"
-                    />
+                    {item.image?.imageUrl && (
+                      <div className={item.mediaSide === "left" ? "md:order-first" : ""}>
+                        <Image
+                          src={item.image.imageUrl}
+                          alt={item.image.alt ?? ""}
+                          width={600}
+                          height={400}
+                          className="h-auto w-full rounded-lg object-cover"
+                        />
+                      </div>
+                    )}
                   </div>
-                )}
+                </Panel>
               </div>
             </article>
           ))}
