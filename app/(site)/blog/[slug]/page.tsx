@@ -77,7 +77,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const post = await sanityFetch<PostDoc>({ query: POST_QUERY, params: { slug }, tags: ["post", `post:${slug}`] });
   if (!post) notFound();
   return (
-    <main className="mx-auto max-w-[720px] px-6 py-14">
+    <main className="mx-auto max-w-[720px] px-6 pt-[76px] pb-14">
       <article>
         <JsonLd
           data={{

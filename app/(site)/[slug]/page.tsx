@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   return (
     <main>
       {!hasHeroFirst && (
-        <h1 className="mx-auto max-w-[720px] px-6 pt-14 oc-h1">{page.title}</h1>
+        <h1 className="mx-auto max-w-[720px] px-6 pt-[76px] oc-h1">{page.title}</h1>
       )}
       <SectionRenderer sections={page.sections} />
     </main>

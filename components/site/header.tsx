@@ -5,6 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { safeHref } from "@/lib/safe-href";
+import {
+  HEADER_SCROLL_THRESHOLD_PX,
+  resolveHeaderAppearance,
+} from "@/components/site/header-appearance";
 
 type NavChild = {
   label: string;
@@ -31,11 +35,16 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const onDark = DARK_HERO_ROUTES.has(pathname);
+  const [scrolled, setScrolled] = useState(false);
+  const appearance = resolveHeaderAppearance({
+    onDarkHeroRoute: DARK_HERO_ROUTES.has(pathname),
+    scrolled,
+  });
+  const isDark = appearance === "darkOverlay";
 
-  const linkColor = onDark ? "text-[#FFBC00]" : "text-oc-ink";
-  const logoColor = onDark ? "text-white" : "text-oc-ink";
-  const ghostColor = onDark ? "text-[#FFBC00]" : "text-oc-dark";
+  const linkColor = isDark ? "text-oc-yellow-cta" : "text-oc-ink";
+  const logoColor = isDark ? "text-white" : "text-oc-ink";
+  const ghostColor = isDark ? "text-oc-yellow-cta" : "text-oc-dark";
 
   useEffect(() => {
     if (!drawerOpen) return;
@@ -47,8 +56,24 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [drawerOpen]);
 
+  useEffect(() => {
+    const updateScrolled = () => {
+      setScrolled(window.scrollY > HEADER_SCROLL_THRESHOLD_PX);
+    };
+
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled);
+    return () => window.removeEventListener("scroll", updateScrolled);
+  }, []);
+
   return (
-    <header className="absolute top-0 left-0 right-0 z-50 bg-transparent">
+    <header
+      className={`top-0 right-0 left-0 z-50 transition-colors duration-200 ease-oc ${
+        isDark
+          ? "absolute bg-transparent"
+          : "fixed border-b border-oc-divider bg-oc-surface/95 backdrop-blur-sm"
+      }`}
+    >
       <div className="mx-auto flex max-w-oc-container items-center justify-between px-3 py-4">
         <Link href="/" className={`oc-h5 ${logoColor}`}>
           OmniChat
@@ -135,7 +160,7 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
           </Link>
           <Link
             href="#formulario"
-            className="rounded-[8px] bg-[#FFBC00] text-[#0B0C0E] px-[18px] py-[12px] text-[14px] font-semibold transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
+            className="rounded-[8px] bg-oc-yellow-cta px-[18px] py-[12px] text-[14px] font-semibold text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
           >
             Demo
           </Link>
@@ -144,7 +169,7 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
           aria-controls="mobile-navigation"
           aria-expanded={drawerOpen}
           aria-label={drawerOpen ? "Fechar menu" : "Abrir menu"}
-          className="flex size-11 items-center justify-center rounded-[8px] bg-[#FFBC00] text-[#0B0C0E] md:hidden"
+          className="flex size-11 items-center justify-center rounded-[8px] bg-oc-yellow-cta text-oc-ink md:hidden"
           onClick={() => setDrawerOpen((open) => !open)}
           type="button"
         >
@@ -212,13 +237,13 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
           <div className="grid gap-3 pt-6">
             <Link
               href="https://app.omni.chat/"
-              className="rounded-[8px] border border-[#FFBC00] px-[18px] py-[12px] text-center text-[14px] font-semibold text-[#FFBC00]"
+              className="rounded-[8px] border border-oc-yellow-cta px-[18px] py-[12px] text-center text-[14px] font-semibold text-oc-yellow-cta"
             >
               Login
             </Link>
             <Link
               href="#formulario"
-              className="rounded-[8px] bg-[#FFBC00] px-[18px] py-[12px] text-center text-[14px] font-semibold text-[#0B0C0E] transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
+              className="rounded-[8px] bg-oc-yellow-cta px-[18px] py-[12px] text-center text-[14px] font-semibold text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
               onClick={() => setDrawerOpen(false)}
             >
               Demo
