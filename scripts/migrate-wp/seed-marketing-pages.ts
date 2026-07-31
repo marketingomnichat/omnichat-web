@@ -306,11 +306,13 @@ async function buildEmpresa() {
     {
       _type: "hero",
       _key: key("s", 0),
-      title: "Criamos tecnologia para aproximar marcas e consumidores com conversas que geram valor.",
+      title: "Tecnologia para transformar conversas em crescimento.",
+      subtitle: "Ajudamos marcas a vender, atender e crescer pelo WhatsApp.",
       ctas: [
         { _key: "cta-0", label: "Venha ser um Omnier", href: "https://omni.chat/empresa/#vagas", variant: "primary" },
       ],
       theme: "light",
+      layout: "default",
     },
     // 2. richText – manifesto
     {
@@ -406,12 +408,13 @@ async function buildPlanos() {
     {
       _type: "hero",
       _key: key("s", 0),
-      title: "Escolha o plano ideal para aumentar as vendas da sua empresa",
-      subtitle: "Planos flexíveis que se adaptam ao seu momento, com as funcionalidades que você realmente precisa para escalar vendas.",
+      title: "Planos para vender mais no WhatsApp.",
+      subtitle: "Escolha a solução certa para sua operação.",
       ctas: [
         { _key: "cta-0", label: "Descubra o plano certo para você", href: WA_CTA, variant: "primary" },
       ],
-      theme: "light",
+      theme: "dark",
+      layout: "default",
     },
     // 2. pricingTable
     {
@@ -568,12 +571,13 @@ async function buildChatCommerceReport() {
     {
       _type: "hero",
       _key: key("s", 0),
-      title: "Um retrato em dados da jornada conversacional e o impacto da IA no Brasil",
-      subtitle: "Explore agora as melhores práticas do mercado conversacional",
+      title: "Dados para vender melhor no WhatsApp.",
+      subtitle: "O retrato da jornada conversacional e da IA no Brasil.",
       ctas: [
         { _key: "cta-0", label: "Acesse o Estudo", href: "#formulario", variant: "primary" },
       ],
       theme: "dark",
+      layout: "default",
     },
     // 2. ctaForm – captura do report
     {
