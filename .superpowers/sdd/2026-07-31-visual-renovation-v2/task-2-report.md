@@ -21,3 +21,17 @@
 - `npm run lint && npm run typecheck && npm test` — concluído com sucesso.
 - A etapa de lint mantém 3 avisos preexistentes e não relacionados em `scripts/extract-wp-tokens.mjs` e `.claire/worktrees/wp-migration/scripts/migrate-wp/check-token.ts`; não há erros.
 - `npm run lint:design` aprovou 54 arquivos.
+
+## Correção pós-review — estado de scroll em navegação
+
+### Alteração
+
+- Incluído `pathname` nas dependências do efeito que mede `window.scrollY` em `components/site/header.tsx`.
+- Como o `Header` persiste no layout, a troca de rota agora recria o efeito e chama `updateScrolled()` imediatamente, evitando que o estado da rota anterior mantenha o header claro na chegada ao topo de uma rota com hero escuro.
+
+### Cobertura e comandos
+
+- Mantido o teste focado `tests/header-appearance.test.ts`: 3 testes aprovados.
+- Não foi adicionado teste de efeito do componente: a suíte Vitest atual não configura ambiente DOM/renderização React; o comportamento é coberto pela dependência explícita de rota e pela reexecução síncrona de `updateScrolled()` no efeito.
+- Executado: `npm test -- tests/header-appearance.test.ts && npm run lint && npm run typecheck && npm test`.
+- Saída: 3/3 testes focados e 73/73 testes totais aprovados; typecheck e design lint aprovados. ESLint mantém 3 avisos preexistentes, sem erros.

@@ -64,7 +64,7 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
     updateScrolled();
     window.addEventListener("scroll", updateScrolled);
     return () => window.removeEventListener("scroll", updateScrolled);
-  }, []);
+  }, [pathname]);
 
   return (
     <header
