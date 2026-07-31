@@ -23,7 +23,7 @@ export function heroContentAlignClass(layout: "default" | "productEmerge" = "def
   return layout === "productEmerge" ? "flex flex-col items-center text-center mx-auto" : "";
 }
 
-function HeroBackgroundMedia({ media }: { media: BackgroundMedia }) {
+function HeroBackgroundMedia({ media, objectPosition }: { media: BackgroundMedia; objectPosition?: "top" }) {
   if (media.type === "video") {
     return (
       <div className="pointer-events-none absolute inset-0 overflow-hidden bg-black">
@@ -33,7 +33,11 @@ function HeroBackgroundMedia({ media }: { media: BackgroundMedia }) {
           loop
           playsInline
           poster={media.poster}
-          className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover"
+          className={
+            objectPosition === "top"
+              ? "absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover object-top"
+              : "absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover"
+          }
         >
           <source src={media.url} type="video/mp4" />
         </video>
@@ -43,7 +47,14 @@ function HeroBackgroundMedia({ media }: { media: BackgroundMedia }) {
 
   return (
     <div className="pointer-events-none absolute inset-0">
-      <Image src={media.url} alt="" fill className="object-cover" priority sizes="100vw" />
+      <Image
+        src={media.url}
+        alt=""
+        fill
+        className={objectPosition === "top" ? "object-cover object-top" : "object-cover"}
+        priority
+        sizes="100vw"
+      />
     </div>
   );
 }
@@ -71,6 +82,8 @@ export function Hero({
 }) {
   const dark = theme === "dark";
   const productEmerge = layout === "productEmerge";
+  const titleMaxWidth = productEmerge ? "max-w-[720px]" : "max-w-[800px]";
+  const subtitleMaxWidth = productEmerge ? "max-w-[720px]" : "max-w-[640px]";
   const highlightIndex = highlightPhrase ? title.indexOf(highlightPhrase) : -1;
   const hasHighlight = highlightIndex >= 0 && highlightPhrase;
   const beforeHighlight = hasHighlight ? title.slice(0, highlightIndex) : title;
@@ -90,10 +103,10 @@ export function Hero({
         <h1
           className={
             dark
-              ? `oc-h1 mt-3 max-w-[800px] text-white text-[44.8px] leading-[56px] font-bold ${
+              ? `oc-h1 mt-3 ${titleMaxWidth} text-white text-[44.8px] leading-[56px] font-bold ${
                   productEmerge ? "mx-auto" : ""
                 }`
-              : `mt-3 max-w-[800px] text-[60px] leading-[64px] font-bold ${productEmerge ? "mx-auto" : ""}`
+              : `mt-3 ${titleMaxWidth} text-[60px] leading-[64px] font-bold ${productEmerge ? "mx-auto" : ""}`
           }
         >
           {hasHighlight ? (
@@ -111,7 +124,7 @@ export function Hero({
         )}
         {subtitle && (
           <p
-            className={`mt-5 max-w-[640px] ${productEmerge ? "mx-auto" : ""} ${
+            className={`mt-5 ${subtitleMaxWidth} ${productEmerge ? "mx-auto" : ""} ${
               dark
                 ? "text-white text-[32px] leading-[48px] font-normal"
                 : "oc-body-lg text-oc-neutral-dark"
@@ -156,7 +169,7 @@ export function Hero({
       </div>
       {productEmerge && backgroundMedia && (
         <div className="relative h-[42vh] min-h-[320px] overflow-hidden rounded-t-oc-panel shadow-oc-lg">
-          <HeroBackgroundMedia media={backgroundMedia} />
+          <HeroBackgroundMedia media={backgroundMedia} objectPosition="top" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-oc-dark/80 via-oc-dark/10 to-transparent" />
         </div>
       )}
