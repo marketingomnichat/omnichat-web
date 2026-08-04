@@ -48,8 +48,9 @@ components/connection/
   os tokens `oc-*` da marca; a regra do DS se mantém (`#FFBC00` nunca com texto branco —
   o HTML já usa ink sobre amarelo).
 - Imagens (speakers, sponsors, favicon) hoje apontam para
-  `hubspotusercontent-na1.net`. Serão realocadas no CDN OmniChat e servidas via
-  `<Image>` (obrigatório pelo lint), com host no `images.remotePatterns` se necessário.
+  `hubspotusercontent-na1.net`. Serão baixadas para `public/connection/` (assets
+  exclusivos desta LP, sem dependência da conta HubSpot nem de
+  `images.remotePatterns`) e servidas via `<Image>` (obrigatório pelo lint).
 - Favicon próprio da LP servido localmente (route metadata `icons`).
 
 ## Interatividade e formulário
