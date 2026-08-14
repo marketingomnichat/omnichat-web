@@ -16,6 +16,22 @@ export const siteSettings = defineType({
           fields: [
             defineField({ name: "label", title: "Rótulo", type: "string" }),
             defineField({ name: "href", title: "Link", type: "string" }),
+            defineField({
+              name: "children",
+              title: "Subitens",
+              type: "array",
+              of: [
+                defineArrayMember({
+                  type: "object",
+                  fields: [
+                    defineField({ name: "label", title: "Rótulo", type: "string" }),
+                    defineField({ name: "href", title: "Link", type: "string" }),
+                    defineField({ name: "iconUrl", title: "URL do ícone", type: "url" }),
+                    defineField({ name: "iconAlt", title: "Texto alternativo do ícone", type: "string" }),
+                  ],
+                }),
+              ],
+            }),
           ],
         }),
       ],
@@ -58,6 +74,38 @@ export const siteSettings = defineType({
           fields: [
             defineField({ name: "platform", title: "Plataforma", type: "string" }),
             defineField({ name: "url", title: "URL", type: "url" }),
+          ],
+        }),
+      ],
+    }),
+    defineField({
+      name: "appStoreLinks",
+      title: "Links das lojas de aplicativo",
+      type: "object",
+      fields: [
+        defineField({ name: "appStoreUrl", title: "App Store", type: "url" }),
+        defineField({ name: "googlePlayUrl", title: "Google Play", type: "url" }),
+      ],
+    }),
+    defineField({
+      name: "footerBadges",
+      title: "Selos do rodapé (lojas e ISO)",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+            defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+            defineField({ name: "href", title: "Link", type: "string" }),
+            defineField({
+              name: "kind",
+              title: "Tipo",
+              type: "string",
+              options: { list: [{ title: "Loja de aplicativo", value: "store" }, { title: "Certificado", value: "certificate" }] },
+            }),
+            defineField({ name: "width", title: "Largura (px)", type: "number", validation: (rule) => rule.positive().integer() }),
+            defineField({ name: "height", title: "Altura (px)", type: "number", validation: (rule) => rule.positive().integer() }),
           ],
         }),
       ],

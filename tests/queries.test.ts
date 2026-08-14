@@ -16,6 +16,8 @@ describe("GROQ queries", () => {
   });
   it("home é a page de slug 'home'", () => {
     expect(HOME_QUERY).toContain('"home"');
+    expect(HOME_QUERY).toContain("home{");
+    expect(HOME_QUERY).toContain("asset->metadata.lqip");
   });
   it("post traz seo e faq", () => {
     expect(POST_QUERY).toContain('_type == "post"');
@@ -28,6 +30,14 @@ describe("GROQ queries", () => {
   it("settings é singleton", () => {
     expect(SETTINGS_QUERY).toContain('_type == "siteSettings"');
     expect(SETTINGS_QUERY).toContain("[0]");
+  });
+  it("settings projeta subitens da navegação", () => {
+    expect(SETTINGS_QUERY).toContain(
+      "nav[]{label, href, children[]{label, href, iconUrl, iconAlt}}"
+    );
+  });
+  it("settings projeta footerBadges", () => {
+    expect(SETTINGS_QUERY).toContain("footerBadges[]{imageUrl, alt, href, kind, width, height}");
   });
   it("redirects trazem from/to/permanent", () => {
     for (const f of ["from", "to", "permanent"]) {

@@ -2,6 +2,8 @@ const SEO_FIELDS = `seo{metaTitle, metaDescription, canonical, "ogImage": ogImag
 
 export const COVER_IMAGE_FIELDS = `coverImage{alt, "url": asset->url, "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height}`;
 
+const HOME_IMAGE_FIELDS = `crop, hotspot, alt, "url": asset->url, "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height, "lqip": asset->metadata.lqip`;
+
 export const PAGE_QUERY = `*[_type == "page" && slug.current == $slug][0]{
   title, "slug": slug.current, ${SEO_FIELDS},
   sections[]{..., _type, _key}
@@ -9,6 +11,16 @@ export const PAGE_QUERY = `*[_type == "page" && slug.current == $slug][0]{
 
 export const HOME_QUERY = `*[_type == "page" && slug.current == "home"][0]{
   title, "slug": slug.current, ${SEO_FIELDS},
+  home{
+    hero{title, description, cta, proof, tabs[]{_key, "id": id.current, label, description, image{${HOME_IMAGE_FIELDS}}, imageMobile{${HOME_IMAGE_FIELDS}}}},
+    logos{title, items[]{_key, name, image{${HOME_IMAGE_FIELDS}}}},
+    journey{title, text, steps},
+    whizz{title, text, items[]{_key, label, title, text, benefits, image{${HOME_IMAGE_FIELDS}}, imageMobile{${HOME_IMAGE_FIELDS}}}},
+    stories{title, items[]{_key, overline, title, text, benefits, image{${HOME_IMAGE_FIELDS}}, imageMobile{${HOME_IMAGE_FIELDS}}}},
+    proof{title, text, cases[]{_key, company, quote, sourceLabel, sourceUrl, logo{${HOME_IMAGE_FIELDS}}, image{${HOME_IMAGE_FIELDS}}, imageMobile{${HOME_IMAGE_FIELDS}}}, metrics[]{_key, value, label, source, sourceUrl}},
+    integrations{title, text, items[]{_key, label, detail, logo{${HOME_IMAGE_FIELDS}}}},
+    finalCta{title, text, primary, secondary}
+  },
   sections[]{..., _type, _key}
 }`;
 
@@ -28,9 +40,11 @@ export const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(
 export const POST_SLUGS_QUERY = `*[_type == "post" && defined(slug.current)].slug.current`;
 
 export const SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
-  siteName, nav[]{label, href}, footerText,
+  siteName, nav[]{label, href, children[]{label, href, iconUrl, iconAlt}}, footerText,
   footerColumns[]{title, links[]{label, href}},
   social[]{platform, url},
+  appStoreLinks{appStoreUrl, googlePlayUrl},
+  footerBadges[]{imageUrl, alt, href, kind, width, height},
   organization{name, legalName, url, logoUrl, sameAs}
 }`;
 

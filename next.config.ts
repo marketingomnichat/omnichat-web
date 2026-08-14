@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io" },
+      { protocol: "https", hostname: "omni.chat", pathname: "/wp-content/uploads/**" },
+      // CDN oficial de logos/cases (colorida | cinza)
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        pathname: "/omnichat-cdn-assets/**",
+      },
       ...(assetCdnUrl
         ? [
             {

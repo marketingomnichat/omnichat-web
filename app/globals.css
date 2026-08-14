@@ -19,6 +19,9 @@
   --color-oc-surface: #FDFDFD;       /* fundo de página */
   --color-oc-surface-alt: #F6F7F8;
   --color-oc-surface-gray: #F0F1F4;  /* card-menor bg */
+  --color-oc-body: #F4F5F8;          /* body claro v2 — atrás dos painéis */
+  --shadow-oc-panel: 0 8px 28px rgba(11, 12, 14, 0.08);
+  --radius-oc-panel: 24px;           /* bandeja; cards grandes podem manter 32px */
   --color-oc-orange-icon: #E59900;   /* ícone-card bg */
   --color-oc-dark: #0B0C0E;          /* superfícies escuras */
 
@@ -67,10 +70,12 @@
 
   /* Espaçamento, grade base 4px */
   --spacing: 4px;
+  --space-oc-header: 76px;
+  --space-oc-content-top: 56px;
 
   /* Layout — WP live */
   --container-oc-max: 1150px;        /* container max-width — WP = 1150px */
-  --space-oc-section: 64px;          /* py-5 do Bootstrap WP */
+  --space-oc-section: 48px;          /* 48px por seção = 96px entre painéis empilhados */
 
   /* Raios */
   --radius-oc-button: 8px;
@@ -85,6 +90,18 @@
 
   /* Movimento */
   --ease-oc: cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-oc-enter-up: oc-enter-up 0.55s var(--ease-oc) both;
+
+  @keyframes oc-enter-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 /* Classes de tipografia — px fixo conforme spec.
@@ -180,6 +197,9 @@
   padding-top: 140px;
   padding-bottom: 200px;
 }
+@utility pt-oc-page {
+  padding-top: calc(var(--space-oc-header) + var(--space-oc-content-top));
+}
 
 /* Ghost (tertiary) — rgba de ink, não vira token de cor */
 @utility oc-ghost-hover {
@@ -189,12 +209,44 @@
   background-color: rgba(33, 35, 44, 0.12);
 }
 
+@keyframes oc-logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes oc-tab-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oc-case-enter {
+  from { opacity: 0; transform: translateX(4px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@utility animate-oc-logo-marquee {
+  animation: oc-logo-marquee 28s linear infinite;
+}
+
 body {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-oc-ink);
-  background: var(--color-oc-surface);
+  background: var(--color-oc-body);
   -webkit-font-smoothing: antialiased;
 }
 

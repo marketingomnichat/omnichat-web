@@ -8,9 +8,11 @@ import { Testimonials } from "./testimonials";
 import { LogoCloud } from "./logo-cloud";
 import { Faq } from "./faq";
 import { FeatureSplit } from "./feature-split";
+import { FeatureCarousel } from "./feature-carousel";
 import { PricingTable } from "./pricing-table";
 import { CtaForm } from "./cta-form";
 import { LatestPosts } from "./latest-posts";
+import { MediaBlock } from "./media-block";
 
 // Componente de seção: função sync ou async (RSC). Props são validadas
 // por cada componente; o registry apaga o tipo específico de props.
@@ -28,7 +30,9 @@ export const sectionRegistry: Record<string, SectionComponent> = {
   logoCloud: LogoCloud,
   faq: Faq,
   featureSplit: FeatureSplit,
+  featureCarousel: FeatureCarousel,
   pricingTable: PricingTable,
   ctaForm: CtaForm,
   latestPosts: LatestPosts,
+  mediaBlock: MediaBlock,
 };

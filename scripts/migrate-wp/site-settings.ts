@@ -9,18 +9,86 @@
  */
 
 import { writeClient } from "./sanity-write";
+import { uploadImageFromUrl } from "./media";
 
 // ── Nav items extracted from #menu-menu-principal in omni.chat header ─────────
-// (top-level items only; dropdowns are noted as comments)
-const NAV_ITEMS = [
-  // "Produtos" has sub-menu (Marketing Studio, Vendas) — WP renders href="#";
-  // distinct anchors here because the header component keys nav items by href.
-  { label: "Produtos", href: "#produtos" },
-  // "Soluções" has sub-menu (Varejo, Educacional) — same reasoning
-  { label: "Soluções", href: "#solucoes" },
+type SeedNavChild = {
+  label: string;
+  href: string;
+  iconUrl?: string;
+  iconAlt?: string;
+};
+
+type SeedNavItem = {
+  label: string;
+  href: string;
+  children?: SeedNavChild[];
+};
+
+const NAV_ITEMS: SeedNavItem[] = [
+  {
+    label: "Produtos",
+    href: "#produtos",
+    children: [
+      {
+        label: "Marketing Studio",
+        href: "/produto/marketing-studio/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-intelligent-search.png",
+        iconAlt: "Ícone de busca para Marketing Studio",
+      },
+      {
+        label: "Vendas",
+        href: "/produto/sales-studio/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-specialist.png",
+        iconAlt: "Ícone de especialista para Vendas",
+      },
+    ],
+  },
+  {
+    label: "Soluções",
+    href: "#solucoes",
+    children: [
+      {
+        label: "Varejo",
+        href: "/solucao/varejo/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-shopping-cart-line.png",
+        iconAlt: "Ícone de carrinho para Varejo",
+      },
+      {
+        label: "Educacional",
+        href: "/solucao/educacional/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-improve-message.png",
+        iconAlt: "Ícone de mensagem para Educacional",
+      },
+    ],
+  },
+  {
+    label: "Recursos",
+    href: "#recursos",
+    children: [
+      { label: "Blog", href: "/blog/" },
+      {
+        label: "Casos de Estudo",
+        href: "/blog/categoria/cases-de-sucesso/",
+      },
+      { label: "Eventos", href: "/blog/categoria/eventos/" },
+      { label: "Relatórios", href: "/chat-commerce-report/" },
+    ],
+  },
+  {
+    label: "Sobre",
+    href: "#sobre",
+    children: [
+      { label: "Sobre nós", href: "/empresa/" },
+      { label: "Carreiras", href: "/empresa/#vagas" },
+      { label: "Imprensa", href: "/imprensa/" },
+      {
+        label: "Suporte",
+        href: "https://api.whatsapp.com/send/?phone=554137950418&type=phone_number&app_absent=0",
+      },
+    ],
+  },
   { label: "Planos", href: "/planos/" },
-  { label: "Empresa", href: "/empresa/" },
-  { label: "Conteúdo", href: "/blog/" },
 ];
 
 // ── Footer columns extracted from omni.chat footer (2026-07-27) ───────────────
@@ -90,6 +158,57 @@ const SOCIAL_LINKS = [
   { platform: "youtube", url: "https://www.youtube.com/@OmniChat" },
 ];
 
+// ── App store links (footer "Baixe o aplicativo") ─────────────────────────────
+const APP_STORE_LINKS = {
+  appStoreUrl: "https://apps.apple.com/us/app/omniapp/id6444033217",
+  googlePlayUrl: "https://play.google.com/store/apps/details?id=chat.omni.app.omniapp&pli=1",
+};
+
+// ── Footer badges: store buttons + ISO certificates (omni.chat footer 2026-07) ─
+const FOOTER_BADGE_SOURCES = [
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button.png",
+    alt: "Logo App Store",
+    href: APP_STORE_LINKS.appStoreUrl,
+    kind: "store",
+    width: 135,
+    height: 40,
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button-1.png",
+    alt: "Logo Google Play",
+    href: APP_STORE_LINKS.googlePlayUrl,
+    kind: "store",
+    width: 135,
+    height: 40,
+  },
+  // Selo (PNG real do rodapé) como imagem; certificado completo como destino do link.
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/11/ISO-IEC-27001-V2-1.png",
+    alt: "ISO-IEC 27001",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27001.pt.jpg",
+    kind: "certificate",
+    width: 89,
+    height: 128,
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO-IEC-27701-V3.png",
+    alt: "ISO-IEC 27701",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27701.pt.jpg",
+    kind: "certificate",
+    width: 95,
+    height: 128,
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/11/ISO-IEC-27018-V2-1.png",
+    alt: "ISO-IEC 27018",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27018.pt.jpg",
+    kind: "certificate",
+    width: 95,
+    height: 128,
+  },
+];
+
 // ── Footer copyright text ──────────────────────────────────────────────────────
 const FOOTER_TEXT =
   "OmniChat. Todos os direitos reservados.\nAvenida Pref. Osmar Cunha, 416 – Centro, Florianópolis/SC CEP: 88015-100";
@@ -97,11 +216,68 @@ const FOOTER_TEXT =
 export async function migrateSiteSettings(): Promise<void> {
   console.log("\n[migrate] Seeding siteSettings…");
 
+  const navChildrenWithIcons = NAV_ITEMS.flatMap(
+    (item) => item.children ?? []
+  ).filter(
+    (
+      child
+    ): child is SeedNavChild & Required<Pick<SeedNavChild, "iconUrl" | "iconAlt">> =>
+      Boolean(child.iconUrl && child.iconAlt)
+  );
+
+  const assetUrls = await Promise.all(
+    navChildrenWithIcons.map(async (child) => {
+      const assetId = await uploadImageFromUrl(child.iconUrl, child.iconAlt);
+      if (!assetId) {
+        throw new Error(`Não foi possível enviar o ícone de menu: ${child.label}`);
+      }
+      const asset = await writeClient.getDocument(assetId);
+      if (!asset || typeof asset.url !== "string") {
+        throw new Error(`Não foi possível obter a URL Sanity do ícone: ${child.label}`);
+      }
+      return [child.iconUrl, asset.url] as const;
+    })
+  );
+  const uploadedIconUrls = new Map(assetUrls);
+
+  const badgeAssets = await Promise.all(
+    FOOTER_BADGE_SOURCES.map(async (badge) => {
+      const assetId = await uploadImageFromUrl(badge.wpImageUrl, badge.alt);
+      if (!assetId) {
+        throw new Error(`Não foi possível enviar o selo do rodapé: ${badge.alt}`);
+      }
+      const asset = await writeClient.getDocument(assetId);
+      if (!asset || typeof asset.url !== "string") {
+        throw new Error(`Não foi possível obter a URL Sanity do selo: ${badge.alt}`);
+      }
+      return {
+        imageUrl: asset.url,
+        alt: badge.alt,
+        href: badge.href,
+        kind: badge.kind,
+        width: badge.width,
+        height: badge.height,
+      };
+    })
+  );
+
+  const footerBadges = badgeAssets.map((badge, i) => ({
+    _key: `badge-${i}`,
+    ...badge,
+  }));
+
   // Build nav array with _key for Sanity array items
   const nav = NAV_ITEMS.map((item, i) => ({
     _key: `nav-${i}`,
     label: item.label,
     href: item.href,
+    children: item.children?.map((child, childIndex) => ({
+      _key: `nav-${i}-child-${childIndex}`,
+      label: child.label,
+      href: child.href,
+      iconUrl: child.iconUrl ? uploadedIconUrls.get(child.iconUrl) : undefined,
+      iconAlt: child.iconAlt,
+    })),
   }));
 
   // Build social array with _key
@@ -130,6 +306,8 @@ export async function migrateSiteSettings(): Promise<void> {
     footerText: FOOTER_TEXT,
     footerColumns,
     social,
+    appStoreLinks: APP_STORE_LINKS,
+    footerBadges,
     organization: {
       name: "OmniChat",
       legalName: "OmniChat Tecnologia da Informação Ltda",
@@ -152,5 +330,6 @@ export async function migrateSiteSettings(): Promise<void> {
   console.log(`[migrate]   Nav items: ${nav.length}`);
   console.log(`[migrate]   Social links: ${social.length}`);
   console.log(`[migrate]   Footer columns: ${footerColumns.length}`);
+  console.log(`[migrate]   Footer badges: ${footerBadges.length}`);
   console.log("[migrate] siteSettings migration complete.");
 }
