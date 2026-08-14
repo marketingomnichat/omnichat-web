@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness — popup demo A/B (simulação WordPress omni.chat)</title>
+<style>
+  body { font-family: Roboto, system-ui, sans-serif; margin: 0; color: #212529; }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid #DCDEE5; }
+  .btn-demo { background: #FFBC00; color: #212529; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px; }
+  section { margin: 40px 0; }
+  .hero { min-height: 40vh; }
+  .controls { background: #F6F7F8; border: 1px solid #DCDEE5; border-radius: 12px; padding: 16px; font-size: 14px; }
+  .controls a { margin-right: 12px; }
+  .formulario { background: #F0F1F4; border-radius: 12px; padding: 24px; }
+  .formulario input { display: block; margin: 8px 0; padding: 10px; width: 280px; }
+  .formulario button { padding: 10px 20px; }
+  #log { background: #0B0C0E; color: #C4C8D4; border-radius: 12px; padding: 16px; font: 12px/1.6 monospace; min-height: 80px; white-space: pre-wrap; }
+  .cta-abs { color: #212529; font-weight: 700; }
+</style>
+</head>
+<body>
+<header>
+  <strong>omni.chat (simulação WP)</strong>
+  <a href="#formulario" class="btn-demo">Demo</a>
+</header>
+
+<main>
+  <section class="controls">
+    <p><strong>Controles do harness</strong> — variante atual: <code id="variant-label"></code> · página simulada: <code id="page-label"></code></p>
+    <p>
+      Variante:
+      <a href="?variant=popup">popup</a>
+      <a href="?variant=control">control</a>
+      <a href="?variant=none&delay=99999">timeout (PostHog mudo)</a>
+    </p>
+    <p>
+      Página:
+      <a href="?variant=popup&page=/">home</a>
+      <a href="?variant=popup&page=/produto/marketing-studio/">marketing-studio</a>
+      <a href="?variant=popup&page=/produto/sales-studio/">sales-studio</a>
+      <a href="?variant=popup&page=/solucao/varejo">varejo</a>
+      <a href="?variant=popup&page=/solucao/educacional">educacional</a>
+      <a href="?variant=popup&page=/blog/qualquer">fora da allowlist</a>
+    </p>
+    <p>Envio ao HubSpot é mockado (600ms, sucesso). Use <code>&amp;real=1</code> para enviar de verdade — cria lead real no portal.</p>
+  </section>
+
+  <section class="hero">
+    <h1>Página de exemplo</h1>
+    <p>CTAs abaixo replicam o markup real do tema WP (href absoluto com target _blank e âncora relativa).</p>
+    <p><a class="cta-abs font-roboto" href="https://omni.chat/produto/marketing-studio#formulario" target="_blank">Veja uma demonstração →</a></p>
+    <p><a class="btn-demo" href="#formulario">Demo (âncora relativa)</a></p>
+  </section>
+
+  <section class="formulario py-5" id="formulario">
+    <h2>Formulário embutido (Contact Form 7 fake)</h2>
+    <div class="wpcf7" id="wpcf7-f98-o1">
+      <form class="wpcf7-form init" method="post">
+        <input type="text" placeholder="Nome" name="your-name">
+        <input type="email" placeholder="E-mail" name="your-email">
+        <button type="submit">Enviar (dispara wpcf7mailsent)</button>
+      </form>
+    </div>
+  </section>
+
+  <section>
+    <h2>Eventos PostHog capturados</h2>
+    <div id="log">aguardando…</div>
+  </section>
+</main>
+
+<script>
+  // ---- stub do ambiente WordPress + PostHog ----
+  var params = new URLSearchParams(location.search);
+  var variant = params.get('variant') || 'popup';
+  var flagDelay = Number(params.get('delay') || 100);
+  var page = params.get('page') || '/';
+
+  document.getElementById('variant-label').textContent = variant;
+  document.getElementById('page-label').textContent = page;
+
+  // o snippet lê este hook em vez de location.pathname (só em harness/teste)
+  window.__OCDP_FORCE_PATH__ = page;
+
+  window.__phEvents = [];
+  window.posthog = {
+    onFeatureFlags: function (cb) { setTimeout(cb, flagDelay); },
+    getFeatureFlag: function (key) {
+      if (variant === 'none') return undefined;
+      return key === 'demo-popup-ab' ? variant : undefined;
+    },
+    capture: function (name, props) {
+      window.__phEvents.push({ name: name, props: props });
+      renderLog();
+    }
+  };
+
+  // CF7 fake: dispara wpcf7mailsent como o plugin real (CustomEvent com bubbles)
+  document.querySelector('.wpcf7-form').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    this.closest('.wpcf7').dispatchEvent(new CustomEvent('wpcf7mailsent', { bubbles: true }));
+  });
+
+  // mock do envio HubSpot, a menos que ?real=1
+  if (params.get('real') !== '1') {
+    var origFetch = window.fetch.bind(window);
+    window.fetch = function (url, opts) {
+      if (String(url).indexOf('api.hsforms.com') !== -1) {
+        logLine('MOCK HubSpot POST → ' + (opts && opts.body));
+        return new Promise(function (resolve) {
+          setTimeout(function () { resolve(new Response('{}', { status: 200 })); }, 600);
+        });
+      }
+      return origFetch(url, opts);
+    };
+  }
+
+  var extraLines = [];
+  function logLine(line) { extraLines.push(line); renderLog(); }
+  function renderLog() {
+    var el = document.getElementById('log');
+    var events = window.__phEvents.map(function (e) {
+      return e.name + ' ' + JSON.stringify(e.props);
+    });
+    el.textContent = events.concat(extraLines).join('\n') || 'nenhum evento ainda';
+  }
+</script>
+
+<!-- snippet em teste, carregado como no footer do WPCode -->
+<script src="wp-demo-popup-ab.js"></script>
+</body>
+</html>
