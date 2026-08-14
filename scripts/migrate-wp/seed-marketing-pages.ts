@@ -35,7 +35,7 @@ function richTextSection(paragraphs: string[], align?: "start" | "center") {
 
 // ── upload helper (no-op if no omni.chat host) ────────────────────────────────
 
-async function img(url: string, alt: string): Promise<{ imageUrl: string; alt: string }> {
+async function img(url: string, alt: string): Promise<{ imageUrl: string; alt: string; image?: { _type: "image"; asset: { _type: "reference"; _ref: string }; alt: string } }> {
   const assetId = await uploadImageFromUrl(url, alt);
   // Build CDN URL from assetId if upload succeeded
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "";
@@ -46,7 +46,11 @@ async function img(url: string, alt: string): Promise<{ imageUrl: string; alt: s
     const ref = assetId.startsWith("image-") ? assetId : `image-${assetId}`;
     imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${ref.replace(/^image-/, "").replace(/-(\w+)$/, ".$1")}`;
   }
-  return { imageUrl: imageUrl, alt };
+  return {
+    imageUrl,
+    alt,
+    ...(assetId ? { image: { _type: "image" as const, asset: { _type: "reference" as const, _ref: assetId }, alt } } : {}),
+  };
 }
 
 /** Upload a list of logos and return logoCloud items with cdn.sanity.io URLs. */
@@ -85,10 +89,6 @@ async function buildHome() {
     "https://omni.chat/wp-content/uploads/2026/03/card-home05.png",
     "Campanhas de marketing conversacional no WhatsApp"
   );
-  const imgFormAside = await img(
-    "https://omni.chat/wp-content/uploads/2026/01/SITE-Forms-1.jpg",
-    "Interface de chat omnichannel em smartphone exibindo conversas de atendimento e vendas"
-  );
   const [
     heringLogo,
     kappesbergLogo,
@@ -106,21 +106,18 @@ async function buildHome() {
   ]);
 
   const sections = [
-    // 1. Hero
+    // 1. Hero product-led (ClickUp composition)
     {
       _type: "hero",
       _key: key("s", 0),
       title: "Venda no WhatsApp com IA que conhece seu negócio",
-      subtitle: "Whizz Agent qualifica e fecha. Seu time escala.",
+      subtitle: "Whizz Agent qualifica e fecha. Seu time escala. Marketing, vendas e relacionamento no mesmo canal.",
       ctas: [
         { _key: "cta-0", label: "Agendar demo", href: "#formulario", variant: "primary" },
       ],
-      theme: "dark",
+      theme: "light",
       layout: "productEmerge",
-      backgroundMedia: {
-        type: "image",
-        url: imgConversas.imageUrl,
-      },
+      // Mídia opcional — a home de produção usa placeholders na composição ClickUp
     },
     // 2. Whizz Agent
     {
@@ -134,45 +131,43 @@ async function buildHome() {
       cta: { label: "Ver Whizz", href: "https://teste-agente-de-ia.omni.chat/", variant: "primary" },
       dark: true,
     },
-    // 3. Soluções para toda a jornada
+    // 3. Marketing
     {
-      _type: "featureCarousel",
+      _type: "featureSplit",
       _key: key("s", 2),
-      title: "Uma plataforma para cada conversa",
-      items: [
-        {
-          _key: "feature-0",
-          title: "Marketing",
-          body: "Crie campanhas segmentadas e transforme conversas em receita no WhatsApp.",
-          image: imgCampanhas,
-          mediaSide: "right",
-          cta: { label: "Conheça o Marketing Studio", href: "/planos", variant: "primary" },
-          dark: false,
-        },
-        {
-          _key: "feature-1",
-          title: "Vendas",
-          body: "Dê ao seu time e à sua IA o contexto para converter mais em cada interação.",
-          image: imgCopilot,
-          mediaSide: "left",
-          cta: { label: "Conheça o Sales Studio", href: "/planos", variant: "primary" },
-          dark: false,
-        },
-        {
-          _key: "feature-2",
-          title: "Atendimento",
-          body: "Centralize os canais e mantenha o contexto para responder com agilidade e consistência.",
-          image: imgConversas,
-          mediaSide: "right",
-          cta: { label: "Conheça a plataforma", href: "#formulario", variant: "primary" },
-          dark: false,
-        },
-      ],
+      title: "Campanhas que conversam e convertem",
+      body: "Crie campanhas segmentadas e transforme conversas em receita no WhatsApp.",
+      image: imgCampanhas,
+      mediaSide: "right",
+      cta: { label: "Conhecer Marketing Studio", href: "/planos", variant: "primary" },
+      dark: false,
     },
-    // 4. Marcas que crescem com a OmniChat
+    // 4. Vendas
+    {
+      _type: "featureSplit",
+      _key: key("s", 3),
+      title: "Contexto para o time fechar mais",
+      body: "Dê ao seu time e à sua IA o contexto para converter mais em cada interação.",
+      image: imgCopilot,
+      mediaSide: "left",
+      cta: { label: "Conhecer Sales Studio", href: "/planos", variant: "primary" },
+      dark: false,
+    },
+    // 5. Relacionamento
+    {
+      _type: "featureSplit",
+      _key: key("s", 4),
+      title: "Relacionamento com profundidade de negócio",
+      body: "Centralize os canais e mantenha o contexto para responder com agilidade e consistência.",
+      image: imgConversas,
+      mediaSide: "right",
+      cta: { label: "Conhecer a plataforma", href: "#formulario", variant: "primary" },
+      dark: false,
+    },
+    // 6. Logo cloud
     {
       _type: "logoCloud",
-      _key: key("s", 3),
+      _key: key("s", 5),
       title: "Marcas que vendem mais com conversas",
       logos: [
         { _key: "logo-0", name: "Hering", imageUrl: heringLogo.imageUrl },
@@ -183,21 +178,10 @@ async function buildHome() {
         { _key: "logo-5", name: "Espaço Smart", imageUrl: espacoSmartLogo.imageUrl },
       ],
     },
-    // 5. Resultados do canal conversacional
-    {
-      _type: "stats",
-      _key: key("s", 4),
-      title: "Conversas que geram resultado",
-      items: [
-        { _key: "stat-0", value: "12,5%", label: "em conversões totais no WhatsApp - 6x mais do que e-mail" },
-        { _key: "stat-1", value: "27x", label: "mais retorno em campanhas de Marketing" },
-        { _key: "stat-2", value: "60%", label: "de redução de tempo no atendimento ao consumidor com IA" },
-      ],
-    },
-    // 6. Depoimentos
+    // 7. Depoimentos
     {
       _type: "testimonials",
-      _key: key("s", 5),
+      _key: key("s", 6),
       variant: "carousel",
       items: [
         {
@@ -250,23 +234,6 @@ async function buildHome() {
         },
       ],
     },
-    // 7. Agende uma demonstração
-    {
-      _type: "ctaForm",
-      _key: key("s", 6),
-      title: "Agende uma demo",
-      formAction: "https://api.hsforms.com/submissions/v3/integration/submit/20121735/4b6b3796-b24c-4786-ba60-39e2bba014b0",
-      buttonLabel: "Agendar demo",
-      asideImage: imgFormAside,
-      fields: [
-        { _key: "f-0", name: "nome", label: "Nome e sobrenome", type: "text", required: true },
-        { _key: "f-1", name: "cargo", label: "Cargo", type: "select", required: true, options: ["CEO", "Diretor", "Gerente", "Analista", "Outro"] },
-        { _key: "f-2", name: "email", label: "E-mail corporativo", type: "email", required: true },
-        { _key: "f-3", name: "empresa", label: "Empresa", type: "text", required: true },
-        { _key: "f-4", name: "telefone", label: "Telefone", type: "tel", required: true },
-        { _key: "f-5", name: "solucao", label: "Solução buscada", type: "select", required: true, options: ["Atendimento Omnichannel", "Automação de WhatsApp", "Chatbot", "Integrações", "Outro"] },
-      ],
-    },
   ];
 
   return {
@@ -274,6 +241,78 @@ async function buildHome() {
     _type: "page",
     title: "Home",
     slug: { _type: "slug", current: "home" },
+    home: {
+      hero: {
+        title: "Venda no WhatsApp com IA do seu negócio",
+        description: "Conecte marketing, vendedores e dados para transformar cada conversa em uma oportunidade de venda.",
+        cta: { label: "Agendar uma demonstração", href: "#formulario" },
+        proof: "API Meta oficial · LGPD · Operação multi-loja",
+        tabs: [
+          { _key: "hero-agent", id: { _type: "slug", current: "whizz-agent" }, label: "Whizz Agent", description: "Agente de IA para vendas", image: imgAgenteIA.image },
+          { _key: "hero-copilot", id: { _type: "slug", current: "copilot" }, label: "Copilot", description: "Assistente de IA para vendedores", image: imgCopilot.image },
+          { _key: "hero-marketing", id: { _type: "slug", current: "marketing-e-vendas" }, label: "Marketing e vendas", description: "Jornada comercial conectada", image: imgCampanhas.image },
+        ],
+      },
+      logos: {
+        title: "Mais de 500 marcas confiam na OmniChat para vender no WhatsApp.",
+        items: [
+          { _key: "home-logo-hering", name: "Hering", image: heringLogo.image },
+          { _key: "home-logo-kappesberg", name: "Kappesberg", image: kappesbergLogo.image },
+          { _key: "home-logo-iplace", name: "iPlace", image: iPlaceLogo.image },
+          { _key: "home-logo-mobly", name: "Mobly", image: moblyLogo.image },
+          { _key: "home-logo-veste", name: "Veste", image: vesteLogo.image },
+          { _key: "home-logo-espaco", name: "Espaço Smart", image: espacoSmartLogo.image },
+        ],
+      },
+      journey: {
+        title: "Uma jornada de vendas. Todo o contexto.",
+        text: "A OmniChat conecta marketing, vendas e relacionamento no WhatsApp para acompanhar o cliente do anúncio ao pedido entregue.",
+        steps: ["Anúncio", "Conversa", "Recomendação", "Checkout", "Pós-venda"],
+      },
+      whizz: {
+        title: "IA com profundidade do seu negócio",
+        text: "O Whizz combina catálogo, regras comerciais e tom de voz para vender de forma autônoma ou ampliar a capacidade do seu time.",
+        items: [
+          { _key: "whizz-agent", label: "Whizz Agent", title: "O Whizz Agent vende por você", text: "Qualifica conversas, recomenda produtos, recupera carrinhos e conduz o cliente até o checkout, 24 horas por dia.", benefits: ["Catálogo e regras comerciais", "Recomendação de produtos", "Qualificação e checkout"], image: imgAgenteIA.image },
+          { _key: "whizz-copilot", label: "Whizz Copilot", title: "O Copilot vende com você", text: "Sugere respostas, resume conversas, ajusta o tom de voz e ajuda vendedores a avançar cada oportunidade.", benefits: ["Respostas e resumos", "Busca de produto por imagem", "Transcrição de áudio"], image: imgCopilot.image },
+        ],
+      },
+      stories: {
+        title: "A jornada comercial no mesmo canal",
+        items: [
+          { _key: "story-marketing", overline: "Marketing", title: "Campanhas que mantêm a conversa ativa", text: "Ative sua base com mensagens relevantes e acompanhe o resultado de cada campanha.", benefits: ["Segmentação por comportamento e CRM", "Recuperação de carrinho", "Conversão e ROAS por campanha"], image: imgCampanhas.image },
+          { _key: "story-sales", overline: "Vendas", title: "Contexto para o time fechar mais", text: "Reúna produtos, histórico e meios de pagamento para reduzir o atrito na decisão de compra.", benefits: ["Inbox unificado", "Catálogo e estoque", "Checkout e Pix na conversa"], image: imgCopilot.image },
+          { _key: "story-post-sales", overline: "Pós-venda", title: "Pós-venda que antecipa e fideliza", text: "Mantenha o histórico acessível e conduza cada demanda para a melhor resolução.", benefits: ["Acompanhamento de pedidos", "Demandas recorrentes", "Transferência com todo o histórico"], image: imgConversas.image },
+        ],
+      },
+      proof: {
+        title: "Resultados associados a histórias reais",
+        text: "Cases e métricas com fonte clara para apoiar decisões comerciais.",
+        cases: [
+          { _key: "case-hering", company: "Hering", logo: heringLogo.image, quote: "Com a OmniChat, recuperamos 29x mais vendas em carrinhos abandonados e aumentamos nossa taxa de conversão em 19%.", sourceLabel: "Case Hering", sourceUrl: "https://omni.chat/blog/hering-da-tradicao-a-recuperacao-de-carrinhos-com-inteligencia-artificial/" },
+          { _key: "case-kappesberg", company: "Kappesberg", logo: kappesbergLogo.image, quote: "Ampliamos nosso horário de vendas e mantivemos uma experiência personalizada nas conversas.", sourceLabel: "Case Kappesberg", sourceUrl: "https://omni.chat/blog/como-a-kappesberg-aumentou-em-150-sua-conversao/" },
+          { _key: "case-iplace", company: "iPlace", logo: iPlaceLogo.image, quote: "Migramos para o principal canal do brasileiro, o WhatsApp, com apoio da tecnologia OmniChat.", sourceLabel: "Talk iPlace", sourceUrl: "https://lp.omni.chat/talks-iplace-2024" },
+        ],
+        metrics: [
+          { _key: "metric-29x", value: "29x", label: "mais vendas recuperadas em carrinhos abandonados", source: "Hering", sourceUrl: "https://omni.chat/blog/hering-da-tradicao-a-recuperacao-de-carrinhos-com-inteligencia-artificial/" },
+          { _key: "metric-19", value: "19%", label: "de aumento na taxa de conversão", source: "Hering", sourceUrl: "https://omni.chat/blog/hering-da-tradicao-a-recuperacao-de-carrinhos-com-inteligencia-artificial/" },
+          { _key: "metric-150", value: "150%", label: "de aumento em conversão", source: "Kappesberg", sourceUrl: "https://omni.chat/blog/como-a-kappesberg-aumentou-em-150-sua-conversao/" },
+        ],
+      },
+      integrations: {
+        title: "Integrações para uma operação conectada",
+        text: "Infraestrutura oficial, dados do negócio e regras comerciais trabalhando na mesma jornada.",
+        items: [
+          ["Meta + LGPD", "API oficial do WhatsApp e operação aderente à LGPD."], ["VTEX", "Catálogo, estoque e pedidos conectados à conversa."], ["Shopify", "Dados da loja disponíveis na jornada comercial."], ["Magento", "Integração com a operação de e-commerce."], ["Wake", "Commerce conectado às vendas conversacionais."], ["RD Station", "Segmentos e dados de marketing conectados."], ["Salesforce", "Contexto de CRM disponível para a operação."], ["Filas e lojas", "Roteamento por lojas, filas e regras comerciais."],
+        ].map(([label, detail], i) => ({ _key: `integration-${i}`, label, detail })),
+      },
+      finalCta: {
+        title: "Transforme conversas em vendas no WhatsApp",
+        text: "Veja como a OmniChat conecta IA, vendedores e dados do seu negócio em uma jornada comercial completa.",
+        primary: { label: "Agendar uma demonstração", href: "#formulario" },
+        secondary: { label: "Conhecer os planos", href: "/planos" },
+      },
+    },
     sections,
     seo: {
       metaTitle: "OmniChat – Marketing e Vendas no WhatsApp com IA Conversacional",
