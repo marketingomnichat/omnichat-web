@@ -9,15 +9,46 @@
  */
 
 import { writeClient } from "./sanity-write";
+import { uploadImageFromUrl } from "./media";
 
 // ── Nav items extracted from #menu-menu-principal in omni.chat header ─────────
-// (top-level items only; dropdowns are noted as comments)
 const NAV_ITEMS = [
-  // "Produtos" has sub-menu (Marketing Studio, Vendas) — WP renders href="#";
-  // distinct anchors here because the header component keys nav items by href.
-  { label: "Produtos", href: "#produtos" },
-  // "Soluções" has sub-menu (Varejo, Educacional) — same reasoning
-  { label: "Soluções", href: "#solucoes" },
+  {
+    label: "Produtos",
+    href: "#produtos",
+    children: [
+      {
+        label: "Marketing Studio",
+        href: "/produto/marketing-studio/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-intelligent-search.png",
+        iconAlt: "Ícone de busca para Marketing Studio",
+      },
+      {
+        label: "Vendas",
+        href: "/produto/sales-studio/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-specialist.png",
+        iconAlt: "Ícone de especialista para Vendas",
+      },
+    ],
+  },
+  {
+    label: "Soluções",
+    href: "#solucoes",
+    children: [
+      {
+        label: "Varejo",
+        href: "/solucao/varejo/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-shopping-cart-line.png",
+        iconAlt: "Ícone de carrinho para Varejo",
+      },
+      {
+        label: "Educacional",
+        href: "/solucao/educacional/",
+        iconUrl: "https://omni.chat/wp-content/uploads/2025/10/IA-improve-message.png",
+        iconAlt: "Ícone de mensagem para Educacional",
+      },
+    ],
+  },
   { label: "Planos", href: "/planos/" },
   { label: "Empresa", href: "/empresa/" },
   { label: "Conteúdo", href: "/blog/" },
@@ -90,6 +121,41 @@ const SOCIAL_LINKS = [
   { platform: "youtube", url: "https://www.youtube.com/@OmniChat" },
 ];
 
+// ── App store links (footer "Baixe o aplicativo") ─────────────────────────────
+const APP_STORE_LINKS = {
+  appStoreUrl: "https://apps.apple.com/us/app/omniapp/id6444033217",
+  googlePlayUrl: "https://play.google.com/store/apps/details?id=chat.omni.app.omniapp&pli=1",
+};
+
+// ── Footer badges: store buttons + ISO certificates (omni.chat footer 2026-07) ─
+const FOOTER_BADGE_SOURCES = [
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button.png",
+    alt: "Logo App Store",
+    href: APP_STORE_LINKS.appStoreUrl,
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button-1.png",
+    alt: "Logo Google Play",
+    href: APP_STORE_LINKS.googlePlayUrl,
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27001.pt.jpg",
+    alt: "ISO-IEC 27001",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27001.pt.jpg",
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27701.pt.jpg",
+    alt: "ISO-IEC 27701",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27701.pt.jpg",
+  },
+  {
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27018.pt.jpg",
+    alt: "ISO-IEC 27018",
+    href: "https://omni.chat/wp-content/uploads/2025/12/ISO27018.pt.jpg",
+  },
+];
+
 // ── Footer copyright text ──────────────────────────────────────────────────────
 const FOOTER_TEXT =
   "OmniChat. Todos os direitos reservados.\nAvenida Pref. Osmar Cunha, 416 – Centro, Florianópolis/SC CEP: 88015-100";
@@ -97,11 +163,56 @@ const FOOTER_TEXT =
 export async function migrateSiteSettings(): Promise<void> {
   console.log("\n[migrate] Seeding siteSettings…");
 
+  const assetUrls = await Promise.all(
+    NAV_ITEMS.flatMap((item) => item.children ?? []).map(async (child) => {
+      const assetId = await uploadImageFromUrl(child.iconUrl, child.iconAlt);
+      if (!assetId) {
+        throw new Error(`Não foi possível enviar o ícone de menu: ${child.label}`);
+      }
+      const asset = await writeClient.getDocument(assetId);
+      if (!asset || typeof asset.url !== "string") {
+        throw new Error(`Não foi possível obter a URL Sanity do ícone: ${child.label}`);
+      }
+      return [child.iconUrl, asset.url] as const;
+    })
+  );
+  const uploadedIconUrls = new Map(assetUrls);
+
+  const badgeAssets = await Promise.all(
+    FOOTER_BADGE_SOURCES.map(async (badge) => {
+      const assetId = await uploadImageFromUrl(badge.wpImageUrl, badge.alt);
+      if (!assetId) {
+        throw new Error(`Não foi possível enviar o selo do rodapé: ${badge.alt}`);
+      }
+      const asset = await writeClient.getDocument(assetId);
+      if (!asset || typeof asset.url !== "string") {
+        throw new Error(`Não foi possível obter a URL Sanity do selo: ${badge.alt}`);
+      }
+      return {
+        imageUrl: asset.url,
+        alt: badge.alt,
+        href: badge.href,
+      };
+    })
+  );
+
+  const footerBadges = badgeAssets.map((badge, i) => ({
+    _key: `badge-${i}`,
+    ...badge,
+  }));
+
   // Build nav array with _key for Sanity array items
   const nav = NAV_ITEMS.map((item, i) => ({
     _key: `nav-${i}`,
     label: item.label,
     href: item.href,
+    children: item.children?.map((child, childIndex) => ({
+      _key: `nav-${i}-child-${childIndex}`,
+      label: child.label,
+      href: child.href,
+      iconUrl: uploadedIconUrls.get(child.iconUrl),
+      iconAlt: child.iconAlt,
+    })),
   }));
 
   // Build social array with _key
@@ -130,6 +241,8 @@ export async function migrateSiteSettings(): Promise<void> {
     footerText: FOOTER_TEXT,
     footerColumns,
     social,
+    appStoreLinks: APP_STORE_LINKS,
+    footerBadges,
     organization: {
       name: "OmniChat",
       legalName: "OmniChat Tecnologia da Informação Ltda",
@@ -152,5 +265,6 @@ export async function migrateSiteSettings(): Promise<void> {
   console.log(`[migrate]   Nav items: ${nav.length}`);
   console.log(`[migrate]   Social links: ${social.length}`);
   console.log(`[migrate]   Footer columns: ${footerColumns.length}`);
+  console.log(`[migrate]   Footer badges: ${footerBadges.length}`);
   console.log("[migrate] siteSettings migration complete.");
 }

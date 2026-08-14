@@ -5,11 +5,18 @@ import { SETTINGS_QUERY } from "@/services/sanity/queries";
 
 type FooterLink = { label: string; href: string };
 type FooterColumn = { title: string; links: FooterLink[] };
+type NavItem = {
+  label: string;
+  href: string;
+  children?: { label: string; href: string; iconUrl?: string; iconAlt?: string }[];
+};
 type Settings = {
-  nav?: { label: string; href: string }[];
+  nav?: NavItem[];
   footerText?: string;
   footerColumns?: FooterColumn[];
   social?: { platform: string; url: string }[];
+  appStoreLinks?: { appStoreUrl?: string; googlePlayUrl?: string };
+  footerBadges?: { imageUrl: string; alt: string; href: string }[];
 } | null;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -18,7 +25,13 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     <>
       <Header nav={settings?.nav ?? []} />
       {children}
-      <Footer footerText={settings?.footerText} footerColumns={settings?.footerColumns ?? []} social={settings?.social ?? []} />
+      <Footer
+        footerText={settings?.footerText}
+        footerColumns={settings?.footerColumns ?? []}
+        social={settings?.social ?? []}
+        appStoreLinks={settings?.appStoreLinks}
+        footerBadges={settings?.footerBadges ?? []}
+      />
     </>
   );
 }

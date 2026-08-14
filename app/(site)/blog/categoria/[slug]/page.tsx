@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const posts =
     (await sanityFetch<PostListItem[]>({ query: CATEGORY_POSTS_QUERY, params: { slug }, tags: ["post"] })) ?? [];
   return (
-    <main className="mx-auto max-w-[1280px] px-6 py-14">
+    <main className="mx-auto max-w-[1280px] px-6 pt-oc-page pb-14">
       <h1 className="oc-h1">{slug}</h1>
       <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
         {posts.map((p) => (

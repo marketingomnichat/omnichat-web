@@ -23,14 +23,63 @@ export const hero = defineType({
   fields: [
     defineField({ name: "overline", title: "Sobretítulo", type: "string" }),
     defineField({ name: "title", title: "Título", type: "string", validation: (r) => r.required() }),
+    defineField({
+      name: "highlightPhrase",
+      title: "Trecho em destaque (Whizz)",
+      type: "string",
+      description: "Substring de título que recebe o gradiente Whizz",
+    }),
+    defineField({
+      name: "agentPrompt",
+      title: "Prompt Criar agente",
+      type: "object",
+      fields: [
+        defineField({ name: "prefix", title: "Prefixo", type: "string" }),
+        defineField({
+          name: "phrases",
+          title: "Frases rotativas",
+          type: "array",
+          of: [defineArrayMember({ type: "string" })],
+        }),
+      ],
+    }),
     defineField({ name: "subtitle", title: "Subtítulo", type: "text", rows: 2 }),
     defineField({ name: "ctas", title: "Botões de ação", type: "array", of: [defineArrayMember(cta)] }),
+    defineField({
+      name: "backgroundMedia",
+      title: "Mídia de fundo",
+      type: "object",
+      fields: [
+        defineField({
+          name: "type",
+          title: "Tipo",
+          type: "string",
+          options: { list: ["video", "image"] },
+          validation: (r) => r.required(),
+        }),
+        defineField({ name: "url", title: "URL", type: "url", validation: (r) => r.required() }),
+        defineField({ name: "poster", title: "Poster (vídeo)", type: "url" }),
+      ],
+    }),
     defineField({
       name: "theme",
       title: "Tema",
       type: "string",
       options: { list: ["light", "dark"] },
       initialValue: "light",
+    }),
+    defineField({
+      name: "layout",
+      title: "Layout",
+      type: "string",
+      options: {
+        list: [
+          { title: "Padrão", value: "default" },
+          { title: "Produto emergindo", value: "productEmerge" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "default",
     }),
   ],
 });
@@ -50,6 +99,15 @@ export const featureGrid = defineType({
           type: "object",
           fields: [
             defineField({ name: "icon", title: "Ícone", type: "string", description: "Nome Remix Icon, ex. ri-flashlight-line" }),
+            defineField({
+              name: "image",
+              title: "Imagem",
+              type: "object",
+              fields: [
+                defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+                defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+              ],
+            }),
             defineField({ name: "title", title: "Título", type: "string" }),
             defineField({ name: "text", title: "Texto", type: "text", rows: 3 }),
           ],
@@ -66,6 +124,13 @@ export const testimonials = defineType({
   fields: [
     defineField({ name: "title", title: "Título", type: "string" }),
     defineField({
+      name: "variant",
+      title: "Variante",
+      type: "string",
+      options: { list: ["grid", "carousel"] },
+      initialValue: "grid",
+    }),
+    defineField({
       name: "items",
       title: "Itens",
       type: "array",
@@ -77,6 +142,9 @@ export const testimonials = defineType({
             defineField({ name: "name", title: "Nome", type: "string" }),
             defineField({ name: "role", title: "Cargo", type: "string" }),
             defineField({ name: "company", title: "Empresa", type: "string" }),
+            defineField({ name: "logoUrl", title: "URL do logo", type: "url" }),
+            defineField({ name: "logoAlt", title: "Alt do logo", type: "string" }),
+            defineField({ name: "href", title: "Link Saiba mais", type: "string" }),
           ],
         }),
       ],
@@ -115,6 +183,15 @@ export const ctaBanner = defineType({
     defineField({ name: "title", title: "Título", type: "string" }),
     defineField({ name: "text", title: "Texto", type: "text", rows: 2 }),
     defineField({ ...cta, name: "cta", title: "Botão de ação" }),
+    defineField({
+      name: "image",
+      title: "Imagem lateral",
+      type: "object",
+      fields: [
+        defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+      ],
+    }),
   ],
 });
 
@@ -145,7 +222,16 @@ export const richText = defineType({
   name: "richText",
   title: "Texto livre",
   type: "object",
-  fields: [defineField({ name: "content", title: "Conteúdo", type: "array", of: [{ type: "block" }] })],
+  fields: [
+    defineField({ name: "content", title: "Conteúdo", type: "array", of: [{ type: "block" }] }),
+    defineField({
+      name: "align",
+      title: "Alinhamento",
+      type: "string",
+      options: { list: [{ title: "Esquerda", value: "start" }, { title: "Centro", value: "center" }] },
+      initialValue: "start",
+    }),
+  ],
 });
 
 export const stats = defineType({
@@ -153,6 +239,7 @@ export const stats = defineType({
   title: "Estatísticas",
   type: "object",
   fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
     defineField({
       name: "items",
       title: "Itens",
@@ -196,6 +283,48 @@ export const featureSplit = defineType({
     }),
     defineField({ ...cta, name: "cta", title: "Botão de ação" }),
     defineField({ name: "dark", title: "Fundo escuro", type: "boolean", initialValue: false }),
+  ],
+});
+
+export const featureCarousel = defineType({
+  name: "featureCarousel",
+  title: "Carrossel de recursos",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
+    defineField({
+      name: "items",
+      title: "Itens",
+      type: "array",
+      validation: (r) => r.min(1),
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({ name: "title", title: "Título", type: "string", validation: (r) => r.required() }),
+            defineField({ name: "body", title: "Corpo", type: "text", rows: 4 }),
+            defineField({
+              name: "image",
+              title: "Imagem",
+              type: "object",
+              fields: [
+                defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+                defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+              ],
+            }),
+            defineField({
+              name: "mediaSide",
+              title: "Lado da mídia",
+              type: "string",
+              options: { list: ["left", "right"] },
+              initialValue: "right",
+            }),
+            defineField({ ...cta, name: "cta", title: "Botão de ação" }),
+            defineField({ name: "dark", title: "Fundo escuro", type: "boolean", initialValue: false }),
+          ],
+        }),
+      ],
+    }),
   ],
 });
 
@@ -267,12 +396,28 @@ export const ctaForm = defineType({
               name: "type",
               title: "Tipo",
               type: "string",
-              options: { list: ["text", "email", "tel"] },
+              options: { list: ["text", "email", "tel", "select"] },
               initialValue: "text",
+            }),
+            defineField({
+              name: "options",
+              title: "Opções (select)",
+              type: "array",
+              of: [defineArrayMember({ type: "string" })],
+              hidden: ({ parent }) => parent?.type !== "select",
             }),
             defineField({ name: "required", title: "Obrigatório", type: "boolean", initialValue: false }),
           ],
         }),
+      ],
+    }),
+    defineField({
+      name: "asideImage",
+      title: "Imagem lateral",
+      type: "object",
+      fields: [
+        defineField({ name: "imageUrl", title: "URL da imagem", type: "url" }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
       ],
     }),
   ],
@@ -288,4 +433,32 @@ export const latestPosts = defineType({
   ],
 });
 
-export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit, pricingTable, ctaForm, latestPosts];
+export const mediaBlock = defineType({
+  name: "mediaBlock",
+  title: "Bloco de mídia",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Título", type: "string" }),
+    defineField({
+      name: "image",
+      title: "Imagem desktop",
+      type: "object",
+      validation: (r) => r.required(),
+      fields: [
+        defineField({ name: "imageUrl", title: "URL", type: "url", validation: (r) => r.required() }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string", validation: (r) => r.required() }),
+      ],
+    }),
+    defineField({
+      name: "imageMobile",
+      title: "Imagem mobile",
+      type: "object",
+      fields: [
+        defineField({ name: "imageUrl", title: "URL", type: "url" }),
+        defineField({ name: "alt", title: "Texto alternativo", type: "string" }),
+      ],
+    }),
+  ],
+});
+
+export const sectionTypes = [hero, featureGrid, testimonials, logoCloud, ctaBanner, faq, richText, stats, featureSplit, featureCarousel, pricingTable, ctaForm, latestPosts, mediaBlock];
