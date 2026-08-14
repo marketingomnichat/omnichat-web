@@ -53,3 +53,12 @@ scripts/migrate-wp/.media-cache.json
 
 # Superpowers brainstorm / SDD scratch
 .superpowers/
+
+# Playwright MCP session artifacts
+.playwright-mcp/
+
+# Worktrees locais de agentes
+.claude/worktrees/
+
+# Dump local de brand assets (nao referenciado pelo site)
+public/logotipos/
