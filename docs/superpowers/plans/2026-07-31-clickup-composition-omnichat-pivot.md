@@ -32,7 +32,10 @@ Este plano **substitui** essa direção para a home. Trabalho v2 útil (HubSpot,
 | Artefato | Path / ID |
 |---|---|
 | Draft ClickUp (fonte) | Project `981c7be0-…` · draft `7a9e7ebf-05d5-4f34-938b-ffb9932453a8` |
-| Draft OmniChat (alvo visual) | draft `37893a8e-abe7-47af-a527-70e61b19f11a` · [canvas](https://superdesign.dev/teams/da19cb6e-3eb9-4755-bfc4-6fc4bf79da60/projects/981c7be0-ef20-427c-b1f3-0ec4daa76fcf?node=draft-variant-37893a8e-abe7-47af-a527-70e61b19f11a) · [preview](https://p.superdesign.dev/draft/37893a8e-abe7-47af-a527-70e61b19f11a) |
+| Draft OmniChat v1 (simples) | `37893a8e-…` · [preview](https://p.superdesign.dev/draft/37893a8e-abe7-47af-a527-70e61b19f11a) |
+| Draft OmniChat bigtech A | `51c2d670-…` · [preview](https://p.superdesign.dev/draft/51c2d670-1386-46e2-beea-0b920105ebd1) · [canvas](https://superdesign.dev/teams/da19cb6e-3eb9-4755-bfc4-6fc4bf79da60/projects/981c7be0-ef20-427c-b1f3-0ec4daa76fcf?node=draft-variant-51c2d670-1386-46e2-beea-0b920105ebd1) |
+| Draft OmniChat bigtech B | `99575455-…` · [preview](https://p.superdesign.dev/draft/99575455-0e51-4ac8-b80c-b5e97637965b) · [canvas](https://superdesign.dev/teams/da19cb6e-3eb9-4755-bfc4-6fc4bf79da60/projects/981c7be0-ef20-427c-b1f3-0ec4daa76fcf?node=draft-variant-99575455-0e51-4ac8-b80c-b5e97637965b) |
+| Alvo visual (pendente owner) | Escolher A ou B bigtech (ou pedir iterate) — v1 simples descartada como baseline fraca |
 | HTML ClickUp | `docs/superpowers/design-refs/clickup-superdesign-7a9e7ebf.html` |
 | HTML OmniChat | `docs/superpowers/design-refs/omnichat-clickup-composition-37893a8e.html` |
 | Content structure | `.superdesign/website/clickup.com/content-structure.md` |

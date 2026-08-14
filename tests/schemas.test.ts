@@ -16,6 +16,17 @@ describe("sanity schema", () => {
   });
   it("tem o objeto seo compartilhado", () => {
     expect(names).toContain("seo");
+    expect(names).toContain("homeComposition");
+  });
+  it("homeComposition expõe toda a narrativa comercial editável", () => {
+    const home = schemaTypes.find((type) => type.name === "homeComposition") as {
+      fields: { name: string; fields?: { name: string }[] }[];
+    };
+    expect(home.fields.map((field) => field.name)).toEqual(
+      expect.arrayContaining(["hero", "logos", "journey", "whizz", "stories", "proof", "integrations", "finalCta"]),
+    );
+    const heroFields = home.fields.find((field) => field.name === "hero")?.fields?.map((field) => field.name);
+    expect(heroFields).toEqual(expect.arrayContaining(["title", "description", "cta", "proof", "tabs"]));
   });
   it("siteSettings permite subitens na navegação", () => {
     type Field = { name: string; title?: string; of?: { fields: Field[] }[] };
@@ -36,7 +47,7 @@ describe("sanity schema", () => {
     const footerBadges = settings.fields.find((field) => field.name === "footerBadges");
     expect(footerBadges?.of).toBeDefined();
     const badgeFields = footerBadges?.of?.[0]?.fields.map((field) => field.name);
-    expect(badgeFields).toEqual(expect.arrayContaining(["imageUrl", "alt", "href"]));
+    expect(badgeFields).toEqual(expect.arrayContaining(["imageUrl", "alt", "href", "kind", "width", "height"]));
   });
   it("landingPage existe com page builder e seo", () => {
     const lp = schemaTypes.find((t) => t.name === "landingPage");

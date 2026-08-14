@@ -209,6 +209,38 @@
   background-color: rgba(33, 35, 44, 0.12);
 }
 
+@keyframes oc-logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes oc-tab-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes oc-case-enter {
+  from { opacity: 0; transform: translateX(4px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@utility animate-oc-logo-marquee {
+  animation: oc-logo-marquee 28s linear infinite;
+}
+
 body {
   font-family: var(--font-sans);
   font-size: 16px;
