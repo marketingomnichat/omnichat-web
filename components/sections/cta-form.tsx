@@ -77,6 +77,7 @@ export function CtaForm({
   return (
     <section
       id="formulario"
+      className="scroll-mt-28"
       style={{ background: "linear-gradient(32.58deg, #000000 66.85%, #21272A 108.34%)" }}
     >
       <div className="mx-auto max-w-oc-container px-6 py-oc-section">

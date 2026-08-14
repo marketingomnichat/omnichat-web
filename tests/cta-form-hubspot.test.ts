@@ -14,6 +14,16 @@ describe("buildHubSpotPayload", () => {
       context: { pageUri: "https://omni.chat/", pageName: "Home" },
     });
   });
+
+  it("não envia campos internos de honeypot ao HubSpot", () => {
+    const fd = new FormData();
+    fd.set("email", "a@b.com");
+    fd.set("_hp_field", "");
+
+    expect(
+      buildHubSpotPayload(fd, "https://omni.chat/", "Home").fields,
+    ).toEqual([{ name: "email", value: "a@b.com" }]);
+  });
 });
 
 describe("isSafeFormAction", () => {
