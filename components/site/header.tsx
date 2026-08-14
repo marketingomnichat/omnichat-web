@@ -2,19 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { safeHref } from "@/lib/safe-href";
-import {
-  HEADER_SCROLL_THRESHOLD_PX,
-  resolveHeaderAppearance,
-} from "@/components/site/header-appearance";
 
 type NavChild = {
   label: string;
   href: string;
-  iconUrl?: string;
-  iconAlt?: string;
+  icon: string;
+  description: string;
 };
 
 type NavItem = {
@@ -23,74 +18,173 @@ type NavItem = {
   children?: NavChild[];
 };
 
-/*
- * Header WP: overlay transparente sobre o hero (sem sombra, sem bg).
- * A cor dos links muda com o fundo da página, como no WordPress:
- * amarelo #FFBC00 sobre hero escuro, tinta escura sobre página clara
- * (WCAG AA — amarelo sobre branco reprova contraste).
- */
-const DARK_HERO_ROUTES = new Set(["/", "/planos", "/chat-commerce-report"]);
+const LOGO_URL =
+  "https://storage.googleapis.com/omnichat-cdn-assets/logos/omnichat/colorida/omnichat.svg";
 
-export function Header({ nav = [] }: { nav?: NavItem[] }) {
-  const pathname = usePathname();
+export const HEADER_NAV_ITEMS: NavItem[] = [
+  {
+    label: "Produtos",
+    href: "#produtos",
+    children: [
+      {
+        label: "Marketing Studio",
+        href: "/produto/marketing-studio/",
+        icon: "ri-megaphone-line",
+        description: "Campanhas, segmentação e ROAS no WhatsApp",
+      },
+      {
+        label: "Vendas",
+        href: "/produto/sales-studio/",
+        icon: "ri-shopping-bag-3-line",
+        description: "Inbox, Copilot e contexto para vender mais",
+      },
+    ],
+  },
+  {
+    label: "Soluções",
+    href: "#solucoes",
+    children: [
+      {
+        label: "Varejo",
+        href: "/solucao/varejo/",
+        icon: "ri-store-2-line",
+        description: "Jornada conversacional para varejo e e-commerce",
+      },
+      {
+        label: "Educacional",
+        href: "/solucao/educacional/",
+        icon: "ri-graduation-cap-line",
+        description: "Captação e relacionamento no setor educacional",
+      },
+    ],
+  },
+  {
+    label: "Recursos",
+    href: "#recursos",
+    children: [
+      {
+        label: "Blog",
+        href: "/blog/",
+        icon: "ri-article-line",
+        description: "Conteúdo sobre vendas conversacionais",
+      },
+      {
+        label: "Casos de Estudo",
+        href: "/blog/categoria/cases-de-sucesso/",
+        icon: "ri-briefcase-4-line",
+        description: "Resultados de clientes OmniChat",
+      },
+      {
+        label: "Eventos",
+        href: "/blog/categoria/eventos/",
+        icon: "ri-calendar-event-line",
+        description: "Encontros, webinars e conversas",
+      },
+      {
+        label: "Relatórios",
+        href: "/chat-commerce-report/",
+        icon: "ri-file-chart-line",
+        description: "Dados do comércio conversacional",
+      },
+    ],
+  },
+  {
+    label: "Sobre",
+    href: "#sobre",
+    children: [
+      {
+        label: "Sobre nós",
+        href: "/empresa/",
+        icon: "ri-building-line",
+        description: "Conheça a OmniChat",
+      },
+      {
+        label: "Carreiras",
+        href: "/empresa/#vagas",
+        icon: "ri-team-line",
+        description: "Faça parte do nosso time",
+      },
+      {
+        label: "Imprensa",
+        href: "/imprensa/",
+        icon: "ri-newspaper-line",
+        description: "Notícias e materiais institucionais",
+      },
+      {
+        label: "Suporte",
+        href: "https://api.whatsapp.com/send/?phone=554137950418&type=phone_number&app_absent=0",
+        icon: "ri-customer-service-2-line",
+        description: "Fale com a OmniChat",
+      },
+    ],
+  },
+  { label: "Planos", href: "/planos/" },
+];
+
+function Caret({ open }: { open: boolean }) {
+  return (
+    <i
+      aria-hidden
+      className={`ri-arrow-down-s-line text-[16px] transition-transform duration-200 ${
+        open ? "rotate-180" : ""
+      }`}
+    />
+  );
+}
+
+export function Header() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const appearance = resolveHeaderAppearance({
-    onDarkHeroRoute: DARK_HERO_ROUTES.has(pathname),
-    scrolled,
-  });
-  const isDark = appearance === "darkOverlay";
-
-  const linkColor = isDark ? "text-oc-yellow-cta" : "text-oc-ink";
-  const logoColor = isDark ? "text-white" : "text-oc-ink";
-  const ghostColor = isDark ? "text-oc-yellow-cta" : "text-oc-dark";
 
   useEffect(() => {
-    if (!drawerOpen) return;
-
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDrawerOpen(false);
+      if (event.key !== "Escape") return;
+      setDrawerOpen(false);
+      setOpenMenu(null);
     };
+
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [drawerOpen]);
+  }, []);
 
   useEffect(() => {
-    const updateScrolled = () => {
-      setScrolled(window.scrollY > HEADER_SCROLL_THRESHOLD_PX);
+    document.body.style.overflow = drawerOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
     };
-
-    updateScrolled();
-    window.addEventListener("scroll", updateScrolled);
-    return () => window.removeEventListener("scroll", updateScrolled);
-  }, [pathname]);
+  }, [drawerOpen]);
 
   return (
-    <header
-      className={`top-0 right-0 left-0 z-50 transition-colors duration-200 ease-oc motion-reduce:transition-none ${
-        isDark
-          ? "absolute bg-transparent"
-          : "fixed border-b border-oc-divider bg-oc-surface/95 backdrop-blur-sm"
-      }`}
-    >
-      <div className="mx-auto flex max-w-oc-container items-center justify-between px-3 py-4">
-        <Link href="/" className={`oc-h5 ${logoColor}`}>
-          OmniChat
+    <header className="fixed top-0 right-0 left-0 z-50 h-[101px] rounded-b-[9px] bg-white shadow-[0_10px_25px_0_rgba(16,30,54,0.1)]">
+      <div className="mx-auto flex h-full max-w-[1300px] items-center justify-between px-4 xl:px-0">
+        <Link
+          href="/"
+          aria-label="OmniChat — Página inicial"
+          className="flex h-full shrink-0 items-center overflow-hidden"
+        >
+          <Image
+            src={LOGO_URL}
+            alt="OmniChat"
+            width={200}
+            height={100}
+            className="h-[100px] w-[200px] object-contain"
+            priority
+            unoptimized
+          />
         </Link>
-        <nav aria-label="Navegação principal" className="hidden items-center gap-6 md:flex">
-          {nav.map((item) =>
+
+        <nav
+          aria-label="Navegação principal"
+          className="hidden h-full flex-1 items-center justify-between pl-3 xl:flex"
+        >
+          <div className="flex h-full items-center gap-5">
+            {HEADER_NAV_ITEMS.map((item) =>
             item.children?.length ? (
-              <details
+              <div
                 key={item.href}
-                className="static"
-                open={openMenu === item.href}
+                className="relative flex h-full items-center"
                 onMouseEnter={() => setOpenMenu(item.href)}
                 onMouseLeave={() => setOpenMenu(null)}
-                onToggle={(event) => {
-                  setOpenMenu(event.currentTarget.open ? item.href : null);
-                }}
-                onFocus={() => setOpenMenu(item.href)}
                 onBlur={(event) => {
                   if (!event.currentTarget.contains(event.relatedTarget)) {
                     setOpenMenu(null);
@@ -99,123 +193,126 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
                     setOpenMenu(null);
-                    event.currentTarget.querySelector("summary")?.focus();
+                    event.currentTarget.querySelector("button")?.focus();
                   }
                 }}
               >
-                <summary
+                <button
+                  type="button"
                   aria-haspopup="menu"
                   aria-expanded={openMenu === item.href}
-                  className={`${linkColor} flex cursor-pointer list-none items-center gap-1 text-[20px] font-normal marker:hidden`}
+                  className="flex h-full items-center gap-1 text-[14px] font-bold text-oc-ink transition-colors duration-150 hover:text-oc-neutral-dark"
+                  onClick={() =>
+                    setOpenMenu((current) => (current === item.href ? null : item.href))
+                  }
+                  onFocus={() => setOpenMenu(item.href)}
                 >
                   {item.label}
-                  <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24">
-                    <path d="m6 9 6 6 6-6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" />
-                  </svg>
-                </summary>
-                <div className="fixed inset-x-0 top-[76px] bg-oc-surface shadow-lg">
+                  <Caret open={openMenu === item.href} />
+                </button>
+
+                <div
+                  className={`absolute top-[84px] left-1/2 w-[336px] -translate-x-1/2 rounded-[12px] bg-white p-2 shadow-[0_10px_25px_rgba(16,30,54,0.14)] transition-[opacity,transform,visibility] duration-200 ${
+                    openMenu === item.href
+                      ? "visible translate-y-0 opacity-100"
+                      : "invisible -translate-y-1 opacity-0"
+                  }`}
+                >
                   <ul
                     aria-label={`Subitens de ${item.label}`}
-                    className="mx-auto grid max-w-oc-container grid-cols-2 gap-2 px-3 py-4"
+                    className="grid gap-1"
                     role="menu"
                   >
                     {item.children.map((child) => (
                       <li key={child.href} role="none">
                         <Link
                           href={safeHref(child.href)}
-                          className="flex items-center gap-3 rounded-[8px] px-4 py-3 text-[16px] font-semibold text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-neutral-light focus:bg-oc-neutral-light focus:outline-none"
+                          className="flex items-center gap-3 rounded-[8px] px-3 py-3 text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-surface-alt focus:bg-oc-surface-alt focus:outline-none"
                           role="menuitem"
+                          onClick={() => setOpenMenu(null)}
                         >
-                          {child.iconUrl ? (
-                            <Image
-                              src={child.iconUrl}
-                              alt={child.iconAlt ?? ""}
-                              width={20}
-                              height={20}
-                              className="size-5 object-contain"
-                            />
-                          ) : null}
-                          {child.label}
+                          <span className="flex size-10 shrink-0 items-center justify-center rounded-[8px] bg-oc-attention-light text-oc-yellow-ink">
+                            <i aria-hidden className={`${child.icon} text-[20px]`} />
+                          </span>
+                          <span>
+                            <span className="block text-[15px] font-bold">{child.label}</span>
+                            <span className="mt-0.5 block text-[12px] leading-[16px] font-normal text-oc-neutral-dark">
+                              {child.description}
+                            </span>
+                          </span>
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </details>
+              </div>
             ) : (
               <Link
                 key={item.href}
                 href={safeHref(item.href)}
-                className={`${linkColor} text-[20px] font-normal`}
+                className="flex h-full items-center text-[14px] font-bold text-oc-ink transition-colors duration-150 hover:text-oc-neutral-dark"
               >
                 {item.label}
               </Link>
             )
           )}
+          </div>
+
+          <div className="flex items-center gap-2">
           <Link
             href="https://app.omni.chat/"
-            className={`rounded-[8px] border-0 bg-transparent ${ghostColor} px-[18px] py-[12px] text-[14px] font-semibold`}
+              className="flex h-[43px] min-w-[91px] items-center justify-center rounded-[9px] bg-[#E9EBF0] px-5 text-[14px] font-bold text-oc-ink shadow-[0_10px_25px_rgba(16,30,54,0.1)] transition-colors duration-150 hover:bg-oc-secondary-hover"
           >
             Login
           </Link>
           <Link
             href="#formulario"
-            className="rounded-[8px] bg-oc-yellow-cta px-[18px] py-[12px] text-[14px] font-semibold text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
+              className="flex h-[43px] min-w-[102px] items-center justify-center rounded-[9px] bg-oc-yellow-cta px-5 text-[14px] font-bold text-oc-ink shadow-[0_10px_25px_rgba(255,188,0,0.28)] transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
           >
             Demo
           </Link>
+          </div>
         </nav>
+
         <button
           aria-controls="mobile-navigation"
           aria-expanded={drawerOpen}
           aria-label={drawerOpen ? "Fechar menu" : "Abrir menu"}
-          className="flex size-11 items-center justify-center rounded-[8px] bg-oc-yellow-cta text-oc-ink md:hidden"
+          className="flex size-11 items-center justify-center rounded-[9px] bg-oc-yellow-cta text-oc-ink xl:hidden"
           onClick={() => setDrawerOpen((open) => !open)}
           type="button"
         >
-          {drawerOpen ? (
-            <svg aria-hidden="true" className="size-6" fill="none" viewBox="0 0 24 24">
-              <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" />
-            </svg>
-          ) : (
-            <svg aria-hidden="true" className="size-6" fill="none" viewBox="0 0 24 24">
-              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" />
-            </svg>
-          )}
+          <i
+            aria-hidden
+            className={`${drawerOpen ? "ri-close-line" : "ri-menu-line"} text-[24px]`}
+          />
         </button>
       </div>
+
       {drawerOpen ? (
         <div
           id="mobile-navigation"
-          className="fixed inset-0 z-10 flex min-h-screen flex-col bg-oc-dark px-6 pb-8 pt-24 text-white md:hidden"
+          className="fixed inset-x-0 top-[101px] bottom-0 z-10 flex flex-col overflow-y-auto bg-white px-6 py-5 text-oc-ink xl:hidden"
         >
-          <nav aria-label="Navegação mobile" className="flex flex-1 flex-col gap-2 overflow-y-auto">
-            {nav.map((item) =>
+          <nav aria-label="Navegação mobile" className="flex flex-1 flex-col">
+            {HEADER_NAV_ITEMS.map((item) =>
               item.children?.length ? (
-                <details key={item.href} className="border-b border-white/20 py-3">
-                  <summary className="flex cursor-pointer list-none items-center justify-between text-[20px] font-semibold marker:hidden">
+                <details key={item.href} className="border-b border-oc-divider py-3">
+                  <summary className="flex cursor-pointer list-none items-center justify-between text-[18px] font-bold marker:hidden">
                     {item.label}
-                    <svg aria-hidden="true" className="size-5" fill="none" viewBox="0 0 24 24">
-                      <path d="m6 9 6 6 6-6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" />
-                    </svg>
+                    <i aria-hidden className="ri-arrow-down-s-line text-[20px]" />
                   </summary>
-                  <ul className="mt-3 space-y-1">
+                  <ul className="mt-3 grid gap-1">
                     {item.children.map((child) => (
                       <li key={child.href}>
                         <Link
                           href={safeHref(child.href)}
-                          className="flex items-center gap-3 rounded-[8px] px-2 py-3 text-[16px] font-semibold hover:bg-white/10 focus:bg-white/10 focus:outline-none"
+                          className="flex items-center gap-3 rounded-[8px] px-2 py-2.5 text-[15px] font-bold hover:bg-oc-surface-alt focus:bg-oc-surface-alt focus:outline-none"
                           onClick={() => setDrawerOpen(false)}
                         >
-                          {child.iconUrl ? (
-                            <Image
-                              src={child.iconUrl}
-                              alt={child.iconAlt ?? ""}
-                              width={20}
-                              height={20}
-                              className="size-5 object-contain"
-                            />
-                          ) : null}
+                          <span className="flex size-9 items-center justify-center rounded-[8px] bg-oc-attention-light text-oc-yellow-ink">
+                            <i aria-hidden className={`${child.icon} text-[18px]`} />
+                          </span>
                           {child.label}
                         </Link>
                       </li>
@@ -226,7 +323,7 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
                 <Link
                   key={item.href}
                   href={safeHref(item.href)}
-                  className="border-b border-white/20 py-3 text-[20px] font-semibold"
+                  className="border-b border-oc-divider py-4 text-[18px] font-bold"
                   onClick={() => setDrawerOpen(false)}
                 >
                   {item.label}
@@ -237,13 +334,14 @@ export function Header({ nav = [] }: { nav?: NavItem[] }) {
           <div className="grid gap-3 pt-6">
             <Link
               href="https://app.omni.chat/"
-              className="rounded-[8px] border border-oc-yellow-cta px-[18px] py-[12px] text-center text-[14px] font-semibold text-oc-yellow-cta"
+              className="rounded-[9px] bg-[#E9EBF0] px-[18px] py-[14px] text-center text-[14px] font-bold text-oc-ink"
+              onClick={() => setDrawerOpen(false)}
             >
               Login
             </Link>
             <Link
               href="#formulario"
-              className="rounded-[8px] bg-oc-yellow-cta px-[18px] py-[12px] text-center text-[14px] font-semibold text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
+              className="rounded-[9px] bg-oc-yellow-cta px-[18px] py-[14px] text-center text-[14px] font-bold text-oc-ink transition-colors duration-150 ease-oc hover:bg-oc-yellow-hover"
               onClick={() => setDrawerOpen(false)}
             >
               Demo

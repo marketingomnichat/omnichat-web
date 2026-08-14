@@ -4,7 +4,9 @@ export function buildHubSpotPayload(
   pageName: string,
 ) {
   const fields = [...formData.entries()]
-    .filter(([, v]) => typeof v === "string")
+    .filter(([name, value]) => {
+      return !name.startsWith("_") && typeof value === "string";
+    })
     .map(([name, value]) => ({ name, value: String(value) }));
   return { fields, context: { pageUri, pageName } };
 }
