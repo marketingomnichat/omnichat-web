@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decisão e pendências</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --y:#FFBC00; --y2:#FFD04D; --yd:#E59900; --ink:#21232C; --dark:#0B0C0E;
+ --white:#FDFDFD; --div:#DCDEE5; --grey:#C4C8D4; --greyd:#414658;
+ --ok:#1FAD66; --okl:#E0F7D4; --dg:#CC3628; --dgl:#F1E1E7;
+ --at:#FFBC00; --atl:#FFF1CC; --inf:#1735FF; --infl:#E7F1FE;
+}
+body{font-family:Lato,"Helvetica Neue",Arial,sans-serif;background:#F6F7F8;color:var(--ink);
+ line-height:1.5;padding:32px 24px 80px}
+.board{max-width:1280px;margin:0 auto}
+.boardhead{background:var(--dark);border-radius:24px;padding:40px;margin-bottom:32px;color:var(--white)}
+.boardhead .oclogo{height:44px;width:auto;display:block;margin-bottom:24px}
+.boardhead h1{font-size:40px;font-weight:900;line-height:1.15;max-width:820px}
+.boardhead h1 em{color:var(--y);font-style:normal}
+.boardhead p{margin-top:16px;color:var(--grey);max-width:760px;font-size:16px}
+.metarow{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.metarow span{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ background:rgba(255,255,255,.08);color:var(--grey);padding:8px 16px;border-radius:8px}
+.howto{background:#fff;border:1px solid var(--div);border-radius:12px;padding:24px;margin-bottom:32px}
+.howto h3{font-size:20px;font-weight:700;margin-bottom:12px}
+.howto ol{padding-left:20px} .howto li{margin-bottom:6px;font-size:14px}
+.frame{background:#fff;border:1px solid var(--div);border-radius:24px;padding:40px;margin-bottom:32px}
+.fhead{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:32px;
+ padding-bottom:16px;border-bottom:1px solid var(--div)}
+.fnum{font-size:12px;font-weight:900;letter-spacing:.08em;background:var(--y);color:var(--ink);
+ padding:8px 12px;border-radius:8px}
+.fhead h2{font-size:32px;font-weight:700}
+.ftag{margin-left:auto;font-size:12px;font-weight:500;color:var(--greyd);
+ background:#F6F7F8;padding:8px 16px;border-radius:8px}
+.ico{display:block;flex:0 0 auto}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em;background:#F6F7F8;
+ padding:2px 6px;border-radius:4px}
+/* F1 */
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.vcard{border-radius:12px;padding:24px}
+.vgo{background:var(--y);color:var(--ink)}
+.vway{background:#F6F7F8;border:1px solid var(--div)}
+.vno{background:var(--dark);color:var(--white)}
+.vno p{color:var(--grey)} .vno strong{color:var(--y)}
+.vlabel{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.vbig{font-size:40px;font-weight:900;line-height:1.1;margin:8px 0 12px}
+.vcard p{font-size:15px}
+.thresh{margin-top:24px;border:1px solid var(--div);border-radius:12px;padding:24px;background:#F6F7F8}
+.tlabel{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ color:var(--greyd);margin-bottom:16px}
+.trow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tbox{background:#fff;border:1px solid var(--div);border-radius:8px;padding:12px 24px}
+.tk{display:block;font-size:12px;font-weight:500;color:var(--greyd)}
+.tv{display:block;font-size:20px;font-weight:700}
+.tand{font-weight:700;color:var(--yd)}
+.tarrow{width:32px;height:2px;background:var(--grey);position:relative}
+.tarrow:after{content:"";position:absolute;right:0;top:-4px;border-left:8px solid var(--grey);
+ border-top:5px solid transparent;border-bottom:5px solid transparent}
+.tres{flex:1;min-width:240px;font-size:15px;font-weight:700}
+/* F2 */
+.legend{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:24px;font-size:13px;color:var(--greyd)}
+.legend span{display:flex;align-items:center;gap:8px}
+.dot{width:12px;height:12px;border-radius:50%;display:block}
+.dconf{background:var(--ok)} .dpend{background:var(--y);border:2px dashed var(--yd)}
+.stackmap{display:flex;gap:16px;align-items:stretch;flex-wrap:wrap}
+.col{flex:1;min-width:200px;display:flex;flex-direction:column;gap:12px}
+.colwide{flex:2.2;min-width:340px}
+.colhead{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ color:var(--greyd);padding-bottom:8px;border-bottom:2px solid var(--y)}
+.grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.node{background:#fff;border:1px solid var(--div);border-radius:8px;padding:16px;
+ display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.nghost{background:#F6F7F8;border:1.5px dashed var(--grey)}
+.ndark{background:var(--dark);align-items:flex-start}
+.ndark .oclogo{height:32px;width:auto}
+.ndark .nsub{color:var(--grey)}
+.ntitle{font-size:15px;font-weight:700}
+.nsub{font-size:12px;color:var(--greyd)}
+.badge{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+ padding:4px 8px;border-radius:8px;margin-top:2px}
+.bconf{background:var(--okl);color:#176A40}
+.bpend{background:var(--atl);color:#995900}
+.wprocket{font-size:15px;font-weight:900;color:#0F0F0F}
+.wprocket span{color:var(--dg)}
+.flowarrow{width:24px;align-self:center;height:2px;background:var(--grey);position:relative;flex:0 0 24px}
+.flowarrow:after{content:"";position:absolute;right:0;top:-4px;border-left:8px solid var(--grey);
+ border-top:5px solid transparent;border-bottom:5px solid transparent}
+.warn{margin-top:24px;background:var(--dgl);border-radius:8px;padding:16px;font-size:14px;color:#6C2314}
+/* F3 */
+.twotruths{display:grid;grid-template-columns:1fr 1.15fr;gap:40px;align-items:center}
+.ttchart{display:flex;align-items:flex-end;gap:16px;height:320px}
+.ttbarwrap{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end}
+.ttbar{background:var(--y);border-radius:8px 8px 0 0;position:relative;display:flex;
+ align-items:flex-start;justify-content:center;padding-top:12px}
+.ttbar2{background:var(--dark)}
+.ttval{font-size:24px;font-weight:900}
+.ttbar2 .ttval{color:var(--y)}
+.ttfoot{display:flex;align-items:center;gap:8px;justify-content:center;padding-top:12px;
+ border-top:2px solid var(--ink);font-size:14px;font-weight:700}
+.ttgap{width:96px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+ height:100%;padding-bottom:48px}
+.ttgapline{width:100%;height:2px;background:var(--dg);margin-bottom:8px}
+.ttgapval{font-size:14px;font-weight:700;color:var(--dg);text-align:center}
+.ttgapval small{font-weight:400;color:var(--greyd)}
+.ttq{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--greyd)}
+.ttside>p{font-size:16px;margin:8px 0 24px}
+.minicards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mc{background:#F6F7F8;border-radius:8px;padding:16px}
+.mcv{font-size:32px;font-weight:900;color:var(--yd)}
+.mck{font-size:14px;font-weight:700}
+.mcs{font-size:12px;color:var(--greyd);margin-top:4px}
+/* F4 */
+.f4wrap{display:grid;grid-template-columns:1.35fr 1fr;gap:40px}
+.fstep{margin:4px 0}
+.fbar{background:var(--y);border-radius:8px;padding:16px 24px;display:flex;
+ justify-content:space-between;align-items:center;gap:16px;min-width:180px}
+.fbar2{background:var(--y2)}
+.fbar3{background:var(--dark);color:var(--white)}
+.fname{font-size:14px;font-weight:700;white-space:nowrap}
+.fnum2{font-size:18px;font-weight:900;white-space:nowrap}
+.fdrop{display:flex;align-items:baseline;gap:12px;padding:8px 0 8px 24px;
+ border-left:2px dashed var(--grey);margin-left:24px}
+.fpct{font-size:18px;font-weight:900;color:var(--yd)}
+.fpctbad{color:var(--dg);font-size:24px}
+.fdl{font-size:13px;color:var(--greyd)}
+.fdropbad{border-left-color:var(--dg)}
+.ftotal{margin-top:16px;background:#F6F7F8;border-radius:8px;padding:12px 16px;font-size:14px}
+.compare{background:#F6F7F8;border-radius:12px;padding:24px}
+.cmphead{font-size:18px;font-weight:700;margin-bottom:24px}
+.cmprow{display:flex;align-items:center;gap:16px}
+.cmpitem{flex:1;text-align:center}
+.cmpring{width:120px;height:120px;border-radius:50%;margin:0 auto 12px;display:flex;
+ align-items:center;justify-content:center;font-size:22px;font-weight:900}
+.cmpring-low{background:conic-gradient(var(--dg) 3.27%, #E6E0E9 0);color:var(--ink)}
+.cmpring-high{background:conic-gradient(var(--ok) 48.65%, #E6E0E9 0);color:var(--ink)}
+.cmpring span{background:#F6F7F8;width:88px;height:88px;border-radius:50%;display:flex;
+ align-items:center;justify-content:center}
+.cmplab{font-size:16px;font-weight:700}
+.cmpsub{font-size:12px;color:var(--greyd)}
+.cmpvs{width:2px;height:80px;background:var(--grey)}
+.cmpnote{margin-top:24px;font-size:14px;font-weight:700;color:var(--dg)}
+/* F5 */
+.leaks{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.leak{display:flex;gap:16px;background:#F6F7F8;border-radius:12px;padding:24px}
+.leak:first-child{grid-column:1/-1}
+.lknum{font-size:32px;font-weight:900;color:var(--grey);line-height:1}
+.lktitle{font-size:20px;font-weight:700}
+.lkfonte{font-size:12px;font-weight:500;color:var(--greyd);margin:4px 0 12px}
+.lktable{width:100%;border-collapse:collapse;font-size:14px}
+.lktable td{padding:6px 0;border-bottom:1px solid var(--div)}
+.tdv{font-weight:900;text-align:right;white-space:nowrap;padding-left:16px}
+.tdt{font-size:11px;color:var(--dg);text-align:right;padding-left:12px;white-space:nowrap}
+.lknota{font-size:14px;margin-top:12px}
+/* F6 */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tcol{border-radius:12px;padding:24px}
+.tres1{background:var(--okl)} .tres2{background:var(--dgl)} .tres3{background:var(--atl)}
+.tch{margin-bottom:16px}
+.tcpill{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+ padding:8px 16px;border-radius:8px;display:inline-block}
+.p1{background:#176A40;color:#fff} .p2{background:#6C2314;color:#fff} .p3{background:#995900;color:#fff}
+.titem{background:#fff;border-radius:8px;padding:16px;margin-bottom:12px}
+.tit{font-size:15px;font-weight:700;margin-bottom:4px}
+.titem p{font-size:13px}
+.tnote{background:rgba(255,255,255,.55);border:1.5px dashed #995900}
+.risks{margin-top:32px}
+.rhead{font-size:20px;font-weight:700;margin-bottom:16px}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.risk{border:1px solid var(--div);border-radius:12px;padding:24px}
+.rt{font-size:16px;font-weight:700;margin-bottom:8px}
+.risk p{font-size:13px}
+.rflag{margin-top:12px;background:var(--atl);border-radius:8px;padding:12px;
+ font-size:12px;font-weight:700;color:#995900}
+/* F7 */
+.waves{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;margin-bottom:32px}
+.wave{flex:1;min-width:200px;border-radius:12px;padding:24px}
+.w1{background:var(--y)} .w2{background:#F6F7F8;border:1px solid var(--div)}
+.w3{background:#F6F7F8;border:1px solid var(--div)} .w4{background:var(--dark);color:var(--white)}
+.w4 p{color:var(--grey)}
+.wlab{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.wt{font-size:20px;font-weight:700;margin:4px 0 8px}
+.wstack{display:flex;gap:8px;margin-bottom:8px}
+.wave p{font-size:13px}
+.wgate{margin-top:12px;font-size:12px;font-weight:700;background:rgba(255,255,255,.55);
+ border-radius:8px;padding:8px 12px}
+.w4 .wgate{background:rgba(255,255,255,.1);color:var(--y)}
+.wflag{margin-top:8px;font-size:11px;font-weight:700;color:#6C2314;
+ background:var(--dgl);border-radius:8px;padding:8px 12px}
+.warr{align-self:center;width:20px;height:2px;background:var(--grey);position:relative;flex:0 0 20px}
+.warr:after{content:"";position:absolute;right:0;top:-4px;border-left:7px solid var(--grey);
+ border-top:5px solid transparent;border-bottom:5px solid transparent}
+.govern{background:var(--infl);border-radius:12px;padding:24px;margin-bottom:32px}
+.gt{font-size:16px;font-weight:700;margin-bottom:12px}
+.grow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gi{background:#fff;border-radius:8px;padding:12px 16px;font-size:13px;display:flex;
+ align-items:center;gap:6px;flex-wrap:wrap}
+.pendhead{font-size:20px;font-weight:700;margin-bottom:16px}
+.pends{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pcard{border:1px solid var(--div);border-radius:8px;padding:16px}
+.pnum{font-size:12px;font-weight:900;color:var(--yd)}
+.pt{font-size:14px;font-weight:700;margin:4px 0 6px}
+.pcard p{font-size:12px;color:var(--greyd)}
+.pwhy{font-size:12px;font-weight:700;margin-top:8px}
+.powner{margin-top:12px;font-size:11px;color:var(--greyd);display:flex;align-items:center;gap:6px}
+.blank{flex:1;border-bottom:1.5px solid var(--grey);height:12px;min-width:40px}
+.foot{background:#fff;border:1px solid var(--div);border-radius:12px;padding:24px;font-size:13px;
+ color:var(--greyd)}
+.foot strong{color:var(--ink)}
+@media(max-width:900px){
+ .verdict,.three,.rgrid,.twotruths,.f4wrap,.leaks,.pends,.grow{grid-template-columns:1fr}
+ .grid2{grid-template-columns:1fr 1fr} .flowarrow,.warr{display:none}
+}
+
+body{padding:40px 48px 48px;background:#F6F7F8;min-height:100vh}
+.board{max-width:1280px;margin:0 auto}
+.frame{margin-bottom:0}
+</style></head><body><div class="board">
+<section class="frame" id="f7">
+  <div class="fhead"><span class="fnum">07</span><h2>Decisão e pendências</h2>
+    <span class="ftag">Compatível com micro-entregas</span></div>
+  <div class="waves">
+    <div class="wave w1">
+      <div class="wlab">Onda 1 · agora</div>
+      <div class="wt">Página CoEx</div>
+      <div class="wstack"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg" aria-label="Next.js"><path fill="#000000" d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z"/></svg><svg class="ico" viewBox="0 0 24 24" width="22" height="22" xmlns="http://www.w3.org/2000/svg" aria-label="Sanity"><path fill="#0D0E12" d="m23.327 15.205-.893-1.555-4.321 2.632 4.799-6.11.726-.426-.179-.27.33-.421-1.515-1.261-.693.883-13.992 8.186 5.173-6.221 9.636-5.282-.915-1.769-5.248 2.876 2.584-3.106-1.481-1.305-5.816 6.994-5.777 3.168 4.423-5.847 2.771-1.442-.88-1.789-8.075 4.203L6.186 4.43 4.648 3.198 0 9.349l.072.058.868 1.768 5.153-2.683-4.696 6.207.77.617.458.885 5.425-2.974-5.974 7.185 1.481 1.304.297-.358 14.411-8.459-4.785 6.094.078.065-.007.005.992 1.726 6.364-3.877-2.451 3.954 1.642 1.077L24 15.648z"/></svg></div>
+      <p>Primeira página em Next.js e Sanity com Tamires Tribst, SEO. Medir LCP, INP e CLS reais antes e depois, e CTA no PostHog.</p>
+      <div class="wgate">Critério: LCP p75 &lt; 2.500 ms e CTA &ge; versão WordPress</div>
+      <div class="wflag">Não há logo CoEx no CDN. As pastas existem e estão vazias.</div>
+    </div>
+    <div class="warr"></div>
+    <div class="wave w2">
+      <div class="wlab">Em paralelo</div>
+      <div class="wt">Fechar lacunas de dado</div>
+      <p>As oito pendências abaixo, antes de levar o caso à liderança.</p>
+      <div class="wgate">Bloqueia a apresentação, não a onda 1</div>
+    </div>
+    <div class="warr"></div>
+    <div class="wave w3">
+      <div class="wlab">Ondas seguintes</div>
+      <div class="wt">Migrar por dor medida</div>
+      <p>Blog lento primeiro (case-grupo-gavinho, carrinho-abandonado), depois /chat-commerce-report/ pela combinação de volume, conversão e LCP em needs improvement. Consolidar as LPs do HubSpot reduzindo o sprawl.</p>
+      <div class="wgate">Ordem definida por dado, não por preferência</div>
+    </div>
+    <div class="warr"></div>
+    <div class="wave w4">
+      <div class="wlab">Fase 3 · depois</div>
+      <div class="wt">Instrumentação de produto</div>
+      <p>Next.js no app. Não bloquear as ondas anteriores por ela.</p>
+      <div class="wgate">Projeto separado</div>
+    </div>
+  </div>
+  <div class="govern">
+    <div class="gt">Governança de medição, junto com a migração</div>
+    <div class="grow">
+      <div class="gi">Definir source of truth entre <svg class="ico" viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg" aria-label="PostHog"><path fill="#000000" d="M9.854 14.5 5 9.647.854 5.5A.5.5 0 0 0 0 5.854V8.44a.5.5 0 0 0 .146.353L5 13.647l.147.146L9.854 18.5l.146.147v-.049c.065.03.134.049.207.049h2.586a.5.5 0 0 0 .353-.854L9.854 14.5zm0-5-4-4a.487.487 0 0 0-.409-.144.515.515 0 0 0-.356.21.493.493 0 0 0-.089.288V8.44a.5.5 0 0 0 .147.353l9 9a.5.5 0 0 0 .853-.354v-2.585a.5.5 0 0 0-.146-.354l-5-5zm1-4a.5.5 0 0 0-.854.354V8.44a.5.5 0 0 0 .147.353l4 4a.5.5 0 0 0 .853-.354V9.854a.5.5 0 0 0-.146-.354l-4-4zm12.647 11.515a3.863 3.863 0 0 1-2.232-1.1l-4.708-4.707a.5.5 0 0 0-.854.354v6.585a.5.5 0 0 0 .5.5H23.5a.5.5 0 0 0 .5-.5v-.6c0-.276-.225-.497-.499-.532zm-5.394.032a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6zM.854 15.5a.5.5 0 0 0-.854.354v2.293a.5.5 0 0 0 .5.5h2.293c.222 0 .39-.135.462-.309a.493.493 0 0 0-.109-.545L.854 15.501zM5 14.647.854 10.5a.5.5 0 0 0-.854.353v2.586a.5.5 0 0 0 .146.353L4.854 18.5l.146.147h2.793a.5.5 0 0 0 .353-.854L5 14.647z"/></svg> PostHog e <svg class="ico" viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg" aria-label="HubSpot"><path fill="#FF7A59" d="M18.164 7.93V5.084a2.198 2.198 0 001.267-1.978v-.067A2.2 2.2 0 0017.238.845h-.067a2.2 2.2 0 00-2.193 2.193v.067a2.196 2.196 0 001.252 1.973l.013.006v2.852a6.22 6.22 0 00-2.969 1.31l.012-.01-7.828-6.095A2.497 2.497 0 104.3 4.656l-.012.006 7.697 5.991a6.176 6.176 0 00-1.038 3.446c0 1.343.425 2.588 1.147 3.607l-.013-.02-2.342 2.343a1.968 1.968 0 00-.58-.095h-.002a2.033 2.033 0 102.033 2.033 1.978 1.978 0 00-.1-.595l.005.014 2.317-2.317a6.247 6.247 0 104.782-11.134l-.036-.005zm-.964 9.378a3.206 3.206 0 113.215-3.207v.002a3.206 3.206 0 01-3.207 3.207z"/></svg> HubSpot</div>
+      <div class="gi">Padronizar UTM e atacar os 40,3% null</div>
+      <div class="gi">Planejar server-side e conversion API. Limiar de referência: mídia acima de US$ 5 mil por mês</div>
+    </div>
+  </div>
+  <div class="pendhead">Oito pendências antes da liderança</div>
+  <div class="pends"><div class="pcard"><div class="pnum">01</div>
+      <div class="pt">Custo do stack atual</div><p>Hosting WordPress, licenças de plugins e WP Rocket, tier HubSpot, retainer de agência.</p><div class="pwhy">Sem isso não existe cálculo de ROI.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div><div class="pcard"><div class="pnum">02</div>
+      <div class="pt">Inventário exato de third-party</div><p>View-source e Network: confirmar ou negar GTM, Meta Pixel, script HubSpot, Google Fonts, CDN. Peso e número de requests das páginas-chave.</p><div class="pwhy">Fecha a lacuna do frame 02.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div><div class="pcard"><div class="pnum">03</div>
+      <div class="pt">CWV de campo</div><p>PageSpeed Insights e CrUX para home, /planos/, /chat-commerce-report/ e produto. Validar o outlier de 82s em case-grupo-gavinho.</p><div class="pwhy">Baseline de performance.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div><div class="pcard"><div class="pnum">04</div>
+      <div class="pt">Funil MQL, SQL, SAL no HubSpot</div><p>Números por etapa e impacto da fragmentação LP contra WordPress. Fase 2.</p><div class="pwhy">Liga o site ao resultado comercial.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div><div class="pcard"><div class="pnum">05</div>
+      <div class="pt">Perda real por ad blocker e ITP</div><p>Rodar client contra server em paralelo por 2 a 4 semanas.</p><div class="pwhy">Substitui benchmark externo por dado próprio.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div><div class="pcard"><div class="pnum">06</div>
+      <div class="pt">Mídia paga</div><p>Spend Google e Meta, CPC e landing page experience por campanha.</p><div class="pwhy">Define se conversion API se paga.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div><div class="pcard"><div class="pnum">07</div>
+      <div class="pt">Baseline pré-migração</div><p>Tráfego e ranking por URL antes de qualquer mudança.</p><div class="pwhy">Único jeito de detectar dano de SEO.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div><div class="pcard"><div class="pnum">08</div>
+      <div class="pt">Custo-alvo do novo stack</div><p>Plano Sanity, hosting e horas de engenharia estimadas.</p><div class="pwhy">Fecha o outro lado do ROI.</div>
+      <div class="powner">Responsável: <span class="blank"></span></div></div></div>
+</section>
+</div></body></html>
