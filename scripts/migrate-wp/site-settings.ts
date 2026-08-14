@@ -12,7 +12,20 @@ import { writeClient } from "./sanity-write";
 import { uploadImageFromUrl } from "./media";
 
 // ── Nav items extracted from #menu-menu-principal in omni.chat header ─────────
-const NAV_ITEMS = [
+type SeedNavChild = {
+  label: string;
+  href: string;
+  iconUrl?: string;
+  iconAlt?: string;
+};
+
+type SeedNavItem = {
+  label: string;
+  href: string;
+  children?: SeedNavChild[];
+};
+
+const NAV_ITEMS: SeedNavItem[] = [
   {
     label: "Produtos",
     href: "#produtos",
@@ -49,9 +62,33 @@ const NAV_ITEMS = [
       },
     ],
   },
+  {
+    label: "Recursos",
+    href: "#recursos",
+    children: [
+      { label: "Blog", href: "/blog/" },
+      {
+        label: "Casos de Estudo",
+        href: "/blog/categoria/cases-de-sucesso/",
+      },
+      { label: "Eventos", href: "/blog/categoria/eventos/" },
+      { label: "Relatórios", href: "/chat-commerce-report/" },
+    ],
+  },
+  {
+    label: "Sobre",
+    href: "#sobre",
+    children: [
+      { label: "Sobre nós", href: "/empresa/" },
+      { label: "Carreiras", href: "/empresa/#vagas" },
+      { label: "Imprensa", href: "/imprensa/" },
+      {
+        label: "Suporte",
+        href: "https://api.whatsapp.com/send/?phone=554137950418&type=phone_number&app_absent=0",
+      },
+    ],
+  },
   { label: "Planos", href: "/planos/" },
-  { label: "Empresa", href: "/empresa/" },
-  { label: "Conteúdo", href: "/blog/" },
 ];
 
 // ── Footer columns extracted from omni.chat footer (2026-07-27) ───────────────
@@ -133,26 +170,42 @@ const FOOTER_BADGE_SOURCES = [
     wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button.png",
     alt: "Logo App Store",
     href: APP_STORE_LINKS.appStoreUrl,
+    kind: "store",
+    width: 135,
+    height: 40,
   },
   {
     wpImageUrl: "https://omni.chat/wp-content/uploads/2025/10/button-1.png",
     alt: "Logo Google Play",
     href: APP_STORE_LINKS.googlePlayUrl,
+    kind: "store",
+    width: 135,
+    height: 40,
   },
+  // Selo (PNG real do rodapé) como imagem; certificado completo como destino do link.
   {
-    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27001.pt.jpg",
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/11/ISO-IEC-27001-V2-1.png",
     alt: "ISO-IEC 27001",
     href: "https://omni.chat/wp-content/uploads/2025/12/ISO27001.pt.jpg",
+    kind: "certificate",
+    width: 89,
+    height: 128,
   },
   {
-    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27701.pt.jpg",
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO-IEC-27701-V3.png",
     alt: "ISO-IEC 27701",
     href: "https://omni.chat/wp-content/uploads/2025/12/ISO27701.pt.jpg",
+    kind: "certificate",
+    width: 95,
+    height: 128,
   },
   {
-    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/12/ISO27018.pt.jpg",
+    wpImageUrl: "https://omni.chat/wp-content/uploads/2025/11/ISO-IEC-27018-V2-1.png",
     alt: "ISO-IEC 27018",
     href: "https://omni.chat/wp-content/uploads/2025/12/ISO27018.pt.jpg",
+    kind: "certificate",
+    width: 95,
+    height: 128,
   },
 ];
 
@@ -163,8 +216,17 @@ const FOOTER_TEXT =
 export async function migrateSiteSettings(): Promise<void> {
   console.log("\n[migrate] Seeding siteSettings…");
 
+  const navChildrenWithIcons = NAV_ITEMS.flatMap(
+    (item) => item.children ?? []
+  ).filter(
+    (
+      child
+    ): child is SeedNavChild & Required<Pick<SeedNavChild, "iconUrl" | "iconAlt">> =>
+      Boolean(child.iconUrl && child.iconAlt)
+  );
+
   const assetUrls = await Promise.all(
-    NAV_ITEMS.flatMap((item) => item.children ?? []).map(async (child) => {
+    navChildrenWithIcons.map(async (child) => {
       const assetId = await uploadImageFromUrl(child.iconUrl, child.iconAlt);
       if (!assetId) {
         throw new Error(`Não foi possível enviar o ícone de menu: ${child.label}`);
@@ -192,6 +254,9 @@ export async function migrateSiteSettings(): Promise<void> {
         imageUrl: asset.url,
         alt: badge.alt,
         href: badge.href,
+        kind: badge.kind,
+        width: badge.width,
+        height: badge.height,
       };
     })
   );
@@ -210,7 +275,7 @@ export async function migrateSiteSettings(): Promise<void> {
       _key: `nav-${i}-child-${childIndex}`,
       label: child.label,
       href: child.href,
-      iconUrl: uploadedIconUrls.get(child.iconUrl),
+      iconUrl: child.iconUrl ? uploadedIconUrls.get(child.iconUrl) : undefined,
       iconAlt: child.iconAlt,
     })),
   }));
