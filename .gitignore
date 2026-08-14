@@ -47,3 +47,12 @@ next-env.d.ts
 
 # Migration cache
 scripts/migrate-wp/.media-cache.json
+
+# Playwright MCP session artifacts
+.playwright-mcp/
+
+# Worktrees locais de agentes
+.claude/worktrees/
+
+# Dump local de brand assets (nao referenciado pelo site)
+public/logotipos/
