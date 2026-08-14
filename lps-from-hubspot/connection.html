@@ -1,0 +1,2674 @@
+<!--
+  templateType: "page"
+  isAvailableForNewContent: true
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniChat Connection 2026 · IA conversacional para marketing, vendas e pós venda</title>
+  <meta name="description"
+    content="17 de setembro de 2026 · Welluci Gardens, São Paulo. Uma agenda executiva sobre IA no WhatsApp com Big Techs, especialistas e empresas que já operam resultado real.">
+  <link rel="icon" type="image/svg+xml" href="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/MKT%20-%20Webinar%20FARM%20RIO%202026/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap">
+  <template id="__bundler_thumbnail" data-bg-color="#0B0C0E">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(380, 200)">
+        <path
+          d="M40 0h360c22 0 40 18 40 40v280c0 22-18 40-40 40H160l-90 60-10-60H40c-22 0-40-18-40-40V40C0 18 18 0 40 0Z"
+          fill="#FFD04D" />
+        <g transform="translate(110, 90)" fill="none" stroke="#0B0C0E" stroke-width="22" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M0 30h30l30 110h140l30-90H50" />
+          <circle cx="80" cy="170" r="14" fill="#0B0C0E" />
+          <circle cx="170" cy="170" r="14" fill="#0B0C0E" />
+        </g>
+      </g>
+      <text x="600" y="660" font-family="Lato, system-ui, sans-serif" font-weight="900" font-size="52"
+        letter-spacing="-1" fill="#FDFDFD" text-anchor="middle">
+        OmniChat <tspan fill="#FFD04D" font-style="italic" font-weight="700">Connection</tspan>
+      </text>
+    </svg>
+  </template>
+
+  <style>
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  
+    :root {
+      /* Background scale on dark */
+      --lp-bg-0: #0B0C0E;
+      /* page — oc-black */
+      --lp-bg-1: #111317;
+      /* section alternate */
+      --lp-bg-2: #16181D;
+      /* card — oc-ink-900 */
+      --lp-bg-3: #1D1F26;
+      /* card raised */
+
+      /* Foreground scale on dark — all tested WCAG AA on --lp-bg-0 */
+      --lp-fg-strong: #FDFDFD;
+      /* 18.5:1 — titles */
+      --lp-fg-default: #E6E7EB;
+      /* 12.8:1 — body */
+      --lp-fg-muted: #B0B3BD;
+      /* 7.5:1  — secondary body */
+      --lp-fg-subtle: #8A8E99;
+      /* 4.6:1  — minimum for AA */
+
+      --lp-border-subtle: rgba(255, 255, 255, 0.06);
+      --lp-border: rgba(255, 255, 255, 0.10);
+      --lp-border-strong: rgba(255, 255, 255, 0.18);
+
+      /* Brand-yellow utility shortcuts (resolved from tokens) */
+      --lp-yellow: var(--oc-yellow-500);
+      /* #FFD04D */
+      --lp-yellow-cta: var(--oc-yellow-600);
+      /* #FFBC00 — on-dark CTA */
+      --lp-yellow-hover: #F0B000;
+      /* CTA darkens 6% on hover */
+      --lp-yellow-press: #D89E00;
+      /* CTA darkens 12% on press */
+      --lp-ink-on-yellow: var(--oc-ink-700);
+      /* #21232C — text on yellow */
+
+      --lp-page-pad: 80px;
+      /* 80px desktop, 24px mobile */
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+   OmniChat — Colors & Type foundation
+   Source: brand brief + /Componentes figma (button/token samples)
+   ───────────────────────────────────────────────────────────── */
+
+    /* Fonts: carregadas via Google Fonts CDN no <head> (300/400/700/900 + itálicos) */
+
+    :root {
+      /* ── BRAND — base palette ────────────────────────────────── */
+      --oc-yellow-700: #E59900;
+      /* high-contrast yellow — USE on light/white bg */
+      --oc-yellow-500: #FFD04D;
+      /* brand primary */
+      --oc-yellow-600: #FFBC00;
+      /* dark / CTAs (use on dark bg) */
+      --oc-yellow-400: #FFD95E;
+      --oc-yellow-200: #FFE899;
+      --oc-yellow-100: #FFF1CC;
+      --oc-yellow-50: #FFFAE5;
+
+      /* Named brand tokens (per OmniChat Yellow swatch card) */
+      --color-system-primary: #FFD04D;
+      /* Yellow main */
+      --color-system-primary-2: #FFBC00;
+      /* Yellow dark */
+      --color-system-primary-3: #FFF1CC;
+      /* Yellow light */
+
+      /* Yellow — context-aware accent
+     Rule: on light backgrounds (white, #F6F7F8, etc.) use --color-accent-on-light
+           to guarantee max contrast for type, KPIs, icons.
+           On dark or yellow surfaces, use --color-system-primary / -2. */
+      --color-accent-on-light: #E59900;
+
+      /* Gradiente Omni — yellow signature gradient
+     Use for hero panels, large brand surfaces, marketing pieces. */
+      --color-omni-gradient: radial-gradient(circle at 100% 0%,
+          #FFD04D 14%,
+          #FFBC00 28%,
+          #E59900 52%);
+
+      --oc-black: #0B0C0E;
+      /* brand secondary */
+      --oc-ink-900: #16181D;
+      /* figma rgb(22,24,29) */
+      --oc-ink-800: #1D1B20;
+      /* figma rgb(29,27,32) */
+      --oc-ink-700: #21232C;
+      /* figma rgb(33,35,44) — primary text */
+      --oc-ink-600: #2A2E3C;
+      /* figma rgb(42,46,60) */
+      --oc-ink-500: #363B4A;
+      /* figma rgb(54,59,74) */
+      --oc-ink-400: #4A5682;
+      /* figma rgb(74,86,130) */
+
+      /* Neutrals (from figma most-used greys) */
+      --oc-grey-500: #818592;
+      /* rgb(129,133,146) */
+      --oc-grey-400: #ABAEBA;
+      /* rgb(171,174,186) — strokes */
+      --oc-grey-300: #CDD0DA;
+      /* secondary button fill */
+      --oc-grey-250: #DCDEE5;
+      /* rgb(220,222,229) */
+      --oc-grey-200: #E2E3E9;
+      /* rgb(226,227,233) */
+      --oc-grey-150: #EFF0F6;
+      /* rgb(239,240,246) */
+      --oc-grey-100: #F0F1F4;
+      /* rgb(240,241,244) */
+      --oc-grey-50: #F2F2F2;
+      --oc-white: #FFFFFF;
+      --oc-white-soft: #FDFDFD;
+      /* rgb(253,253,253) page bg */
+      --oc-white-card: #FCFDFE;
+      /* rgb(252,253,254) */
+
+      /* ── WHIZZ (AI) — purple accent ──────────────────────────── */
+      --oc-purple-900: #3A1A5E;
+      --oc-purple-800: #6E3399;
+      /* Whizz gradient stop 46% */
+      --oc-purple-700: #7B3CA3;
+      /* Whizz gradient stop 57% */
+      --oc-purple-600: #8A40BF;
+      /* Whizz primary (brand) */
+      --oc-purple-500: #A056BE;
+      /* Whizz gradient stop 72% */
+      --oc-purple-400: #B46CBC;
+      /* Whizz gradient stop 77% */
+      --oc-purple-300: #D9BEFF;
+      --oc-purple-200: #EEE0FF;
+      --oc-purple-100: #F3E5FC;
+      --oc-purple-50: #F7F0FF;
+      --oc-whizz-peach: #E8ADA1;
+      /* Whizz gradient stop 86% */
+
+      /* Named brand tokens (per Whizz swatch card) */
+      --color-system-tertiary: #6E3399;
+      /* Purple main */
+      --color-system-tertiary-2: #532673;
+      /* Purple dark  */
+      --color-system-tertiary-3: #8A40BF;
+      /* Purple light */
+
+      /* Whizz signature gradient — exact brand stops */
+      --oc-whizz-gradient: linear-gradient(135deg,
+          #6E3399 46%,
+          #7B3CA3 57%,
+          #A056BE 72%,
+          #B46CBC 77%,
+          #E8ADA1 86%,
+          #FFD04D 93%);
+      --color-whizz-1: var(--oc-whizz-gradient);
+
+      /* ── SEMANTIC — Communication palette (9 families × 3 steps) ─
+     Each family has a -1 (main), -2 (dark/contrast), -3 (light/bg).
+     Source: OmniChat Communication swatches (brand asset). */
+
+      /* Success — positive / confirmation */
+      --oc-comm-success-1: #1FAD66;
+      --oc-comm-success-2: #176A40;
+      --oc-comm-success-3: #E0F7D4;
+
+      /* Attention — warnings, time-sensitive (brand yellow family) */
+      --oc-comm-attention-1: #FFBC00;
+      --oc-comm-attention-2: #995900;
+      --oc-comm-attention-3: #FFF1CC;
+
+      /* Danger — errors, destructive */
+      --oc-comm-danger-1: #CC3628;
+      --oc-comm-danger-2: #6C2314;
+      /* approx from HSL 5,67,27 */
+      --oc-comm-danger-3: #F1E1E7;
+      /* approx from HSL 5,90,95 */
+
+      /* Info — neutral system messages */
+      --oc-comm-info-1: #1735FF;
+      --oc-comm-info-2: #0F23A6;
+      /* HSL 227,90,37 darker */
+      --oc-comm-info-3: #E7F1FE;
+
+      /* New — announcements / what's-new (AI violet) */
+      --oc-comm-new-1: #6F3399;
+      --oc-comm-new-2: #381A4D;
+      --oc-comm-new-3: #E0D3F5;
+
+      /* Beta — experimental / preview */
+      --oc-comm-beta-1: #775C8A;
+      --oc-comm-beta-2: #412334;
+      --oc-comm-beta-3: #E6E0E9;
+
+      /* Neutral — disabled / muted feedback */
+      --oc-comm-neutral-1: #C4C8D4;
+      --oc-comm-neutral-2: #414658;
+      --oc-comm-neutral-3: #DCDEE5;
+
+      /* Initial — onboarding / first-run (brand teal) */
+      --oc-comm-initial-1: #33B2CB;
+      --oc-comm-initial-2: #1A5966;
+      --oc-comm-initial-3: #ADE0EB;
+
+      /* Progress — in-flight / processing (pink) */
+      --oc-comm-progress-1: #E095CA;
+      --oc-comm-progress-2: #7A1F64;
+      --oc-comm-progress-3: #FFD6ED;
+
+      /* Legacy aliases (kept for existing tokens, mapped to -1 main) */
+      --oc-success-500: var(--oc-comm-success-1);
+      --oc-success-700: var(--oc-comm-success-2);
+      --oc-success-100: var(--oc-comm-success-3);
+
+      --oc-danger-500: var(--oc-comm-danger-1);
+      --oc-danger-600: var(--oc-comm-danger-1);
+      --oc-danger-700: var(--oc-comm-danger-2);
+      --oc-danger-100: var(--oc-comm-danger-3);
+
+      --oc-info-500: var(--oc-comm-info-1);
+      --oc-info-100: var(--oc-comm-info-3);
+
+      --oc-warning-500: var(--oc-comm-attention-1);
+      --oc-warning-100: var(--oc-comm-attention-3);
+
+      /* ── SHADOWS / ELEVATION (figma rgba(13,13,13,0.16/0.24)) ── */
+      --oc-shadow-xs: 0 1px 2px 0 rgba(13, 13, 13, 0.08);
+      --oc-shadow-sm: 0 2px 4px 0 rgba(13, 13, 13, 0.08), 0 1px 2px 0 rgba(13, 13, 13, 0.04);
+      --oc-shadow-md: 0 4px 8px -1px rgba(13, 13, 13, 0.16), 0 2px 4px -1px rgba(13, 13, 13, 0.06);
+      --oc-shadow-lg: 0 12px 24px -4px rgba(13, 13, 13, 0.16), 0 4px 8px -2px rgba(13, 13, 13, 0.08);
+      --oc-shadow-xl: 0 24px 48px -8px rgba(13, 13, 13, 0.24), 0 8px 16px -4px rgba(13, 13, 13, 0.12);
+      --oc-shadow-focus: 0 0 0 3px rgba(255, 188, 0, 0.35);
+
+      /* ── RADII (figma) ────────────────────────────────────────── */
+      --oc-radius-xs: 4px;
+      --oc-radius-sm: 6px;
+      --oc-radius-md: 8px;
+      /* buttons, inputs, cards */
+      --oc-radius-lg: 12px;
+      --oc-radius-xl: 16px;
+      /* whizz/float */
+      --oc-radius-2xl: 24px;
+      /* max — modals, large surfaces */
+      --oc-radius-full: 9999px;
+
+      /* ── ASSET SIZES ──────────────────────────────────────────── */
+      --oc-logo-h: 100px;
+      /* canonical logo height for slides — 1.04in @ 96dpi */
+      --oc-logo-h-print: 1.04in;
+      /* equivalent for print */
+
+      /* ── SPACING SCALE (4px base) ─────────────────────────────── */
+      --oc-space-0: 0;
+      --oc-space-1: 4px;
+      --oc-space-2: 8px;
+      --oc-space-3: 12px;
+      --oc-space-4: 16px;
+      --oc-space-5: 20px;
+      --oc-space-6: 24px;
+      --oc-space-7: 32px;
+      --oc-space-8: 40px;
+      --oc-space-9: 48px;
+      --oc-space-10: 56px;
+      --oc-space-11: 64px;
+      --oc-space-12: 80px;
+
+      /* ── SEMANTIC TOKENS (mapped) ─────────────────────────────── */
+      --fg-primary: var(--oc-ink-700);
+      --fg-secondary: var(--oc-ink-500);
+      --fg-muted: var(--oc-grey-500);
+      --fg-inverse: var(--oc-white);
+      --fg-brand: var(--oc-yellow-600);
+      --fg-ai: var(--oc-purple-600);
+      --fg-danger: var(--oc-danger-700);
+      --fg-success: var(--oc-success-700);
+
+      --bg-page: var(--oc-white-soft);
+      --bg-surface: var(--oc-white);
+      --bg-subtle: var(--oc-grey-100);
+      --bg-muted: var(--oc-grey-150);
+      --bg-inverse: var(--oc-black);
+      --bg-brand: var(--oc-yellow-500);
+      --bg-brand-solid: var(--oc-yellow-600);
+      --bg-ai: var(--oc-purple-100);
+
+      --border-subtle: var(--oc-grey-250);
+      --border-default: var(--oc-grey-400);
+      --border-strong: var(--oc-ink-700);
+
+      /* ── TYPE — font family ───────────────────────────────────── */
+      --font-sans: 'Lato', sans-serif;
+      --font-display: 'Lato', sans-serif;
+      --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+
+    /* ── TYPE — size scale (px) ──────────────────────────────────
+   Base body = 16. Scale is conservative/formal per brand.
+*/
+    :root {
+      --fs-xs: 12px;
+      --lh-xs: 1.4;
+      --fs-sm: 14px;
+      --lh-sm: 1.45;
+      --fs-base: 16px;
+      --lh-base: 1.5;
+      --fs-md: 18px;
+      --lh-md: 1.5;
+      --fs-lg: 20px;
+      --lh-lg: 1.4;
+      --fs-xl: 24px;
+      --lh-xl: 1.3;
+      --fs-2xl: 28px;
+      --lh-2xl: 1.25;
+      --fs-3xl: 32px;
+      --lh-3xl: 1.2;
+      --fs-4xl: 40px;
+      --lh-4xl: 1.15;
+      --fs-5xl: 56px;
+      --lh-5xl: 1.05;
+      --fs-6xl: 72px;
+      --lh-6xl: 1.02;
+      --fs-7xl: 96px;
+      --lh-7xl: 1.0;
+
+      --tracking-tight: -0.02em;
+      --tracking-normal: 0;
+      --tracking-wide: 0.04em;
+      --tracking-caps: 0.08em;
+    }
+
+    /* ── Semantic type classes (drop-in) ─────────────────────────── */
+    .oc-display {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: var(--fs-6xl);
+      line-height: var(--lh-6xl);
+      letter-spacing: var(--tracking-tight);
+      color: var(--fg-primary);
+    }
+
+    .oc-h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: var(--fs-4xl);
+      line-height: var(--lh-4xl);
+      letter-spacing: var(--tracking-tight);
+      color: var(--fg-primary);
+    }
+
+    .oc-h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--fs-3xl);
+      line-height: var(--lh-3xl);
+      letter-spacing: var(--tracking-tight);
+      color: var(--fg-primary);
+    }
+
+    .oc-h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--fs-2xl);
+      line-height: var(--lh-2xl);
+      color: var(--fg-primary);
+    }
+
+    .oc-h4 {
+      font-weight: 700;
+      font-size: var(--fs-xl);
+      line-height: var(--lh-xl);
+      color: var(--fg-primary);
+    }
+
+    .oc-h5 {
+      font-weight: 700;
+      font-size: var(--fs-lg);
+      line-height: var(--lh-lg);
+      color: var(--fg-primary);
+    }
+
+    .oc-body-lg {
+      font-weight: 400;
+      font-size: var(--fs-md);
+      line-height: var(--lh-md);
+      color: var(--fg-primary);
+    }
+
+    .oc-body {
+      font-weight: 400;
+      font-size: var(--fs-base);
+      line-height: var(--lh-base);
+      color: var(--fg-primary);
+    }
+
+    .oc-body-sm {
+      font-weight: 400;
+      font-size: var(--fs-sm);
+      line-height: var(--lh-sm);
+      color: var(--fg-secondary);
+    }
+
+    .oc-caption {
+      font-weight: 500;
+      font-size: var(--fs-xs);
+      line-height: var(--lh-xs);
+      color: var(--fg-muted);
+    }
+
+    .oc-overline {
+      font-weight: 700;
+      font-size: var(--fs-xs);
+      letter-spacing: var(--tracking-caps);
+      text-transform: uppercase;
+      color: var(--fg-secondary);
+    }
+
+    .oc-label {
+      font-weight: 500;
+      font-size: var(--fs-sm);
+      line-height: 1.2;
+      color: var(--fg-primary);
+    }
+
+    .oc-button-label {
+      font-weight: 700;
+      font-size: var(--fs-sm);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    /* Default body baseline (opt-in with .oc-root or applied at app root) */
+    .oc-root {
+      font-family: var(--font-sans);
+      font-size: var(--fs-base);
+      line-height: var(--lh-base);
+      color: var(--fg-primary);
+      background: var(--bg-page);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ─────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────── */
+    body {
+      font-family: var(--font-sans);
+      background: var(--lp-bg-0);
+      color: var(--lp-fg-default);
+      font-size: var(--fs-base);
+      line-height: var(--lh-base);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Skip link — keyboard a11y */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+      background: var(--lp-yellow);
+      color: var(--lp-ink-on-yellow);
+      padding: 10px 16px;
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: var(--oc-radius-md);
+      text-decoration: none;
+      z-index: 200;
+      transition: top 150ms ease-out;
+    }
+
+    .skip-link:focus {
+      top: 12px;
+    }
+
+    /* Universal focus-visible ring */
+    a:focus-visible,
+    button:focus-visible {
+      outline: none;
+      box-shadow: var(--oc-shadow-focus);
+      border-radius: var(--oc-radius-md);
+    }
+
+    /* ─────────────────────────────────────────
+       LAYOUT PRIMITIVES
+    ───────────────────────────────────────── */
+    .section {
+      padding: 96px var(--lp-page-pad);
+    }
+
+    .section-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--lp-border-subtle);
+    }
+
+    /* Overline tag — plain yellow caps, no chrome */
+    .overline {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: var(--tracking-caps);
+      text-transform: uppercase;
+      color: var(--lp-yellow);
+      margin-bottom: 24px;
+    }
+
+    /* Section title — Lato 900 per design system */
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: var(--tracking-tight);
+      color: var(--lp-fg-strong);
+      margin-bottom: 16px;
+      max-width: 820px;
+      text-wrap: balance;
+    }
+
+    .section-sub {
+      font-size: var(--fs-md);
+      line-height: var(--lh-md);
+      color: var(--lp-fg-muted);
+      max-width: 720px;
+      margin-bottom: 48px;
+      text-wrap: pretty;
+    }
+
+    /* ─────────────────────────────────────────
+       BUTTONS — design-system spec
+       Primary (yellow): hover -6%, press -12%, label = ink-700
+       Radius 8 (md), font-weight 700, label 14
+    ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: 0;
+      padding: 14px 24px;
+      min-height: 44px;
+      /* WCAG 2.5.5 hit target */
+      border-radius: var(--oc-radius-md);
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      background-clip: padding-box;
+      transition: background-position 200ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+    }
+
+    /* Primary CTA — Whizz gradient (purple→peach→yellow), white ink.
+       Whizz is the AI/CTA signature in this LP. The gradient is widened with
+       background-size: 200% and shifted on hover for a smooth, ring-free state
+       transition (instead of brightness filter, which can produce banding). */
+    .btn-primary {
+      background-image: linear-gradient(135deg,
+          #5B2880 0%,
+          #6E3399 25%,
+          #8A40BF 55%,
+          #B46CBC 80%,
+          #E8ADA1 100%);
+      background-size: 200% 200%;
+      background-position: 0% 50%;
+      background-color: var(--oc-purple-800);
+      color: var(--oc-white);
+    }
+
+    .btn-primary:hover {
+      background-position: 100% 50%;
+    }
+
+    .btn-primary:active {
+      background-position: 100% 50%;
+      filter: saturate(1.1);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--lp-fg-strong);
+      border: 1px solid var(--lp-border-strong);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--lp-fg-strong);
+    }
+
+    /* btn-dark — same Whizz gradient as primary, for use on the yellow band */
+    .btn-dark {
+      background-image: linear-gradient(135deg,
+          #3A1A5E 0%,
+          #532673 25%,
+          #6E3399 55%,
+          #8A40BF 80%,
+          #B46CBC 100%);
+      background-size: 200% 200%;
+      background-position: 0% 50%;
+      background-color: var(--oc-purple-900);
+      color: var(--oc-white);
+    }
+
+    .btn-dark:hover {
+      background-position: 100% 50%;
+    }
+
+    .btn-dark:active {
+      background-position: 100% 50%;
+      filter: saturate(1.1);
+    }
+
+    .btn-lg {
+      padding: 16px 28px;
+      font-size: 15px;
+      min-height: 52px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    /* Icon inside button — Remix-style line, 1.5 stroke, 16-20px */
+    .btn .icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.75;
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────
+       NAVBAR
+    ───────────────────────────────────────── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 12, 14, 0.85);
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      border-bottom: 1px solid var(--lp-border-subtle);
+      padding: 0 var(--lp-page-pad);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .navbar-inner {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .navbar-logo {
+      display: block;
+      height: 28px;
+      width: auto;
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navbar-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--lp-fg-default);
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: var(--oc-radius-sm);
+      transition: color 150ms ease-out, background 150ms ease-out;
+    }
+
+    .navbar-link:hover {
+      color: var(--lp-yellow);
+      background: rgba(255, 208, 77, 0.06);
+    }
+
+    .navbar-btn {
+      padding: 10px 18px;
+      min-height: 40px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0 24px;
+        height: 60px;
+      }
+
+      .navbar-link:not(.navbar-btn) {
+        display: none;
+      }
+
+      main {
+        padding-top: 60px;
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       HERO — full-bleed video background
+       Layered: <video> + scrim overlay + content
+       Content sits on top with strong contrast guaranteed by the scrim.
+    ───────────────────────────────────────── */
+    .hero {
+      position: relative;
+      padding: 120px var(--lp-page-pad) 120px;
+      overflow: hidden;
+      isolation: isolate;
+      min-height: 720px;
+      background: var(--lp-bg-0);
+      /* fallback while/if video not loaded */
+    }
+
+    /* Background video — covers the whole hero, behind everything */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Scrim — slight dimming + bottom-weighted gradient for legibility */
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(to bottom,
+          rgba(11, 12, 14, 0.55) 0%,
+          rgba(11, 12, 14, 0.45) 40%,
+          rgba(11, 12, 14, 0.70) 100%),
+        radial-gradient(ellipse at 30% 40%,
+          rgba(11, 12, 14, 0.0) 0%,
+          rgba(11, 12, 14, 0.35) 70%);
+    }
+
+    /* Bottom-to-section fade so the dark page color blends in */
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--lp-bg-0));
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
+      /* above video + scrim */
+      display: block;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 820px;
+    }
+
+    .hero-content-video-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content-video-wrap iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 177.78%;
+      height: 177.78%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      border: 0;
+    }
+
+    .hero-content-inner {
+      position: relative;
+    }
+
+    /* Slight text-shadow on the headline reinforces legibility over busy footage,
+       without darkening the underlying color tokens. */
+    .hero-headline,
+    .hero-sub {
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Top meta band — date / location / capacity */
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--lp-fg-muted);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-meta .meta-item .icon {
+      width: 16px;
+      height: 16px;
+      color: var(--lp-yellow);
+      stroke-width: 1.75;
+    }
+
+    .hero-meta .sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--lp-border-strong);
+    }
+
+    .hero-logo {
+      height: 96px;
+      width: auto;
+      max-width: 100%;
+      display: block;
+      margin-bottom: 40px;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(36px, 5.4vw, 68px);
+      line-height: 1.05;
+      letter-spacing: var(--tracking-tight);
+      color: var(--lp-fg-strong);
+      max-width: 880px;
+      margin-bottom: 24px;
+      text-wrap: balance;
+    }
+
+    .hero-headline .accent {
+      color: var(--lp-yellow);
+    }
+
+    .hero-sub {
+      font-size: var(--fs-md);
+      line-height: var(--lh-md);
+      color: var(--lp-fg-muted);
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 720px) {
+      /* Hero fills the screen; flex-column allows pushing groups to top/bottom */
+      .hero {
+        min-height: 100svh;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Hero inner stretches to fill and carries the padding */
+      .hero-inner {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 16px 24px 64px;
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .hero-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+      }
+
+      .hero-content-inner {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Pushes headline + CTA to the bottom of the hero */
+      .hero-headline {
+        margin-top: auto;
+        padding-top: 20px;
+      }
+
+      /* iframe sized to viewport 16:9 — prevents YouTube letterboxing
+         in portrait containers where % tricks fail */
+      .hero-content-video-wrap iframe {
+        width: 177.78vh;
+        height: 100vh;
+        min-width: 100%;
+        min-height: 100%;
+      }
+
+      .hero-sub {
+        display: none;
+      }
+
+      .hero-logo {
+        height: 64px;
+        margin-bottom: 12px;
+      }
+
+      .hero-meta {
+        font-size: 11px;
+        gap: 8px 12px;
+        margin-bottom: 20px;
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       SPEAKERS
+    ───────────────────────────────────────── */
+    .speakers-section {
+      background: var(--lp-bg-0);
+    }
+
+    .speakers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .speaker-card {
+      background: var(--lp-bg-2);
+      border: 1px solid var(--lp-border-subtle);
+      border-radius: var(--oc-radius-lg);
+      overflow: hidden;
+      transition: border-color 150ms ease-out, transform 150ms ease-out;
+    }
+
+    .speaker-card:hover {
+      border-color: var(--lp-border);
+      transform: translateY(-2px);
+    }
+
+    .speaker-card.tbd {
+      background: var(--lp-bg-1);
+      border-style: dashed;
+      border-color: var(--lp-border);
+    }
+
+    .speaker-img-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--lp-bg-3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .speaker-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .speaker-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 56px;
+      font-weight: 900;
+      color: var(--lp-yellow);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 208, 77, 0.08), transparent 55%),
+        var(--lp-bg-3);
+      letter-spacing: var(--tracking-tight);
+    }
+
+    .speaker-placeholder.empty {
+      color: var(--lp-fg-subtle);
+      font-size: 40px;
+      font-weight: 300;
+      background: transparent;
+    }
+
+    .speaker-placeholder.empty::before {
+      content: "";
+      width: 56px;
+      height: 56px;
+      border: 1.5px dashed var(--lp-border-strong);
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .speaker-body {
+      padding: 20px 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .speaker-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--lp-fg-strong);
+      line-height: 1.3;
+    }
+
+    .speaker-role {
+      font-size: 13px;
+      color: var(--lp-fg-muted);
+      line-height: 1.4;
+    }
+
+    .speaker-company {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lp-yellow);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ─────────────────────────────────────────
+       TRILHAS
+    ───────────────────────────────────────── */
+    .trilhas-section {
+      background: var(--lp-bg-1);
+    }
+
+    .trilhas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .trilha-card {
+      background: var(--lp-bg-2);
+      border: 1px solid var(--lp-border-subtle);
+      border-radius: var(--oc-radius-lg);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 150ms ease-out;
+    }
+
+    .trilha-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--lp-border);
+    }
+
+    .trilha-card.t-marketing::before,
+    .trilha-card.t-vendas::before,
+    .trilha-card.t-pos::before {
+      background-image: var(--oc-whizz-gradient);
+    }
+
+    .trilha-card:hover {
+      border-color: var(--lp-border);
+    }
+
+    .trilha-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--oc-radius-md);
+      background: rgba(255, 208, 77, 0.10);
+      color: var(--lp-yellow);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .trilha-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+    }
+
+    .trilha-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: var(--tracking-caps);
+      text-transform: uppercase;
+      color: var(--lp-fg-subtle);
+      margin-bottom: 4px;
+    }
+
+    .trilha-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--lp-fg-strong);
+      line-height: 1.15;
+      letter-spacing: var(--tracking-tight);
+    }
+
+    .trilha-sub {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--lp-yellow);
+      margin-bottom: 12px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+
+    .trilha-desc {
+      font-size: 14px;
+      color: var(--lp-fg-muted);
+      line-height: 1.55;
+    }
+
+    /* ─────────────────────────────────────────
+       INGRESSO
+    ───────────────────────────────────────── */
+    .ingresso-section {
+      background: var(--lp-bg-0);
+    }
+
+    .ingresso-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(380px, 480px);
+      gap: 80px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .ingresso-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    .ingresso-copy .section-title {
+      margin-bottom: 20px;
+    }
+
+    .ingresso-copy .section-sub {
+      margin-bottom: 0;
+    }
+
+    .ingresso-bullets {
+      list-style: none;
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ingresso-bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--lp-fg-default);
+      line-height: 1.5;
+    }
+
+    .ingresso-bullets li .check {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 208, 77, 0.12);
+      color: var(--lp-yellow);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .ingresso-bullets li .check svg {
+      width: 12px;
+      height: 12px;
+      stroke-width: 2.5;
+    }
+
+    /* Ticket card */
+    .ticket-card {
+      background: var(--lp-bg-2);
+      border: 1px solid var(--lp-border);
+      border-radius: var(--oc-radius-xl);
+      padding: 32px;
+      box-shadow: var(--oc-shadow-lg);
+      position: relative;
+    }
+
+    .ticket-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 208, 77, 0.10);
+      color: var(--lp-yellow);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: var(--tracking-caps);
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: var(--oc-radius-full);
+      margin-bottom: 16px;
+    }
+
+    .ticket-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lp-yellow);
+      box-shadow: 0 0 0 3px rgba(255, 208, 77, 0.20);
+    }
+
+    .ticket-event {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--lp-fg-strong);
+      line-height: 1.2;
+      margin-bottom: 24px;
+      letter-spacing: var(--tracking-tight);
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+
+    .price-old {
+      font-size: 18px;
+      color: var(--lp-fg-subtle);
+      text-decoration: line-through;
+    }
+
+    .price-new {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--lp-yellow);
+      line-height: 1;
+      letter-spacing: var(--tracking-tight);
+    }
+
+    .price-note {
+      font-size: 13px;
+      color: var(--lp-fg-muted);
+      margin-bottom: 24px;
+    }
+
+    .ticket-divider {
+      height: 1px;
+      background: var(--lp-border-subtle);
+      margin: 0 0 20px;
+    }
+
+    .ticket-includes {
+      list-style: none;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ticket-includes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--lp-fg-default);
+      line-height: 1.5;
+    }
+
+    .ticket-includes li svg {
+      width: 16px;
+      height: 16px;
+      color: var(--lp-yellow);
+      flex-shrink: 0;
+      margin-top: 3px;
+      stroke-width: 2;
+    }
+
+    .ticket-foot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--lp-fg-subtle);
+    }
+
+    .ticket-foot svg {
+      width: 12px;
+      height: 12px;
+      stroke-width: 1.75;
+    }
+
+    /* ─────────────────────────────────────────
+       POR QUE A OMNICHAT — numbers
+    ───────────────────────────────────────── */
+    .omni-section {
+      background: var(--lp-bg-1);
+    }
+
+    /* Brand-band — a section-break strip that reinforces Connection identity */
+    .brand-band {
+      position: relative;
+      height: 160px;
+      overflow: hidden;
+      background: var(--lp-bg-0);
+      border-top: 1px solid var(--lp-border-subtle);
+      border-bottom: 1px solid var(--lp-border-subtle);
+    }
+
+    .brand-band img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 115%;
+      height: auto;
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .number-card {
+      padding: 32px 24px;
+      background: var(--lp-bg-2);
+      border: 1px solid var(--lp-border-subtle);
+      border-radius: var(--oc-radius-lg);
+    }
+
+    .number-big {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 3.4vw, 40px);
+      font-weight: 900;
+      color: var(--lp-yellow);
+      line-height: 1;
+      letter-spacing: var(--tracking-tight);
+      margin-bottom: 12px;
+    }
+
+    .number-desc {
+      font-size: 14px;
+      color: var(--lp-fg-muted);
+      line-height: 1.55;
+    }
+
+    /* ─────────────────────────────────────────
+       SPONSORS
+    ───────────────────────────────────────── */
+    .sponsors-section {
+      background: var(--lp-bg-0);
+      padding: 64px var(--lp-page-pad);
+      border-top: 1px solid var(--lp-border-subtle);
+    }
+
+    .sponsors-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .sponsors-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: var(--tracking-caps);
+      color: var(--lp-fg-subtle);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .sponsors-logos {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .sponsor-pill {
+      background: var(--lp-bg-2);
+      border: 1px solid var(--lp-border-subtle);
+      border-radius: var(--oc-radius-md);
+      padding: 18px 36px;
+      min-height: 72px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 150ms ease-out;
+    }
+
+    .sponsor-pill img {
+      height: 24px;
+      width: auto;
+      display: block;
+      opacity: 0.85;
+      transition: opacity 150ms ease-out;
+    }
+
+    .sponsor-pill:hover {
+      border-color: rgba(255, 208, 77, 0.30);
+    }
+
+    .sponsor-pill:hover img {
+      opacity: 1;
+    }
+
+    .sponsor-pill.empty {
+      color: var(--lp-fg-subtle);
+      border-style: dashed;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: var(--tracking-wide);
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER CTA — yellow band
+    ───────────────────────────────────────── */
+    .footer-cta {
+      background: var(--lp-yellow);
+      padding: 72px var(--lp-page-pad);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-cta-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-cta-grafismo {
+      position: absolute;
+      top: -45%;
+      right: -8%;
+      width: 78%;
+      height: auto;
+      opacity: 0.40;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+
+    .footer-cta-grafismo-2 {
+      position: absolute;
+      bottom: -55%;
+      left: -10%;
+      width: 55%;
+      height: auto;
+      opacity: 0.22;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      transform: rotate(180deg);
+    }
+
+    .footer-cta-copy {
+      max-width: 640px;
+    }
+
+    .footer-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 900;
+      color: var(--lp-ink-on-yellow);
+      line-height: 1.15;
+      letter-spacing: var(--tracking-tight);
+      margin-bottom: 12px;
+      text-wrap: balance;
+    }
+
+    .footer-cta p {
+      font-size: 16px;
+      color: var(--lp-ink-on-yellow);
+      opacity: 0.78;
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────
+       PAGE FOOTER
+    ───────────────────────────────────────── */
+    .page-footer {
+      background: var(--lp-bg-0);
+      padding: 48px var(--lp-page-pad);
+      border-top: 1px solid var(--lp-border-subtle);
+    }
+
+    .page-footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .page-footer-logo {
+      height: 32px;
+      width: auto;
+      opacity: 0.7;
+    }
+
+    .page-footer-text {
+      font-size: 13px;
+      color: var(--lp-fg-subtle);
+      line-height: 1.5;
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+    @media (max-width: 720px) {
+      :root {
+        --lp-page-pad: 24px;
+      }
+
+      .section {
+        padding: 64px var(--lp-page-pad);
+      }
+
+      .hero-headline {
+        font-size: 36px;
+      }
+
+      .section-title {
+        font-size: 28px;
+      }
+
+      .footer-cta {
+        padding: 48px var(--lp-page-pad);
+      }
+
+      .footer-cta h2 {
+        font-size: 24px;
+      }
+
+      .ticket-card {
+        padding: 24px;
+      }
+
+      .price-new {
+        font-size: 40px;
+      }
+    }
+
+    /* ─────────────────────────────────────────
+       MODAL PATROCÍNIO
+    ───────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: rgba(0, 0, 0, 0.78);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay[hidden] {
+      display: none;
+    }
+
+    .modal-box {
+      position: relative;
+      background: var(--lp-bg-2);
+      border: 1px solid var(--lp-border-strong);
+      border-radius: 16px;
+      padding: 48px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      background: var(--lp-bg-3);
+      border: 1px solid var(--lp-border);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lp-fg-muted);
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .modal-close:hover {
+      background: var(--lp-border-strong);
+      color: var(--lp-fg-strong);
+    }
+
+    .modal-close svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(22px, 3vw, 28px);
+      color: var(--lp-fg-strong);
+      margin-bottom: 8px;
+      padding-right: 40px;
+    }
+
+    .modal-sub {
+      font-size: 15px;
+      color: var(--lp-fg-muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* HubSpot form — dark theme overrides */
+    #hubspot-form-patrocinio .hs-form fieldset {
+      max-width: 100% !important;
+    }
+
+    #hubspot-form-patrocinio .hs-form label {
+      color: var(--lp-fg-default) !important;
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.04em !important;
+      text-transform: uppercase !important;
+      margin-bottom: 6px !important;
+      display: block !important;
+    }
+
+    #hubspot-form-patrocinio .hs-input {
+      background: var(--lp-bg-1) !important;
+      border: 1px solid var(--lp-border-strong) !important;
+      border-radius: 8px !important;
+      color: var(--lp-fg-default) !important;
+      padding: 12px 14px !important;
+      width: 100% !important;
+      font-size: 15px !important;
+      transition: border-color 0.15s !important;
+    }
+
+    #hubspot-form-patrocinio .hs-input:focus {
+      outline: none !important;
+      border-color: var(--lp-yellow) !important;
+    }
+
+    #hubspot-form-patrocinio .hs-input::placeholder {
+      color: var(--lp-fg-subtle) !important;
+    }
+
+    #hubspot-form-patrocinio .hs-error-msgs {
+      list-style: none !important;
+      padding: 0 !important;
+    }
+
+    #hubspot-form-patrocinio .hs-error-msg {
+      color: #ff6b6b !important;
+      font-size: 13px !important;
+      margin-top: 4px !important;
+    }
+
+    #hubspot-form-patrocinio .hs-button {
+      background: var(--lp-yellow-cta) !important;
+      color: var(--lp-ink-on-yellow) !important;
+      border: none !important;
+      border-radius: 10px !important;
+      padding: 14px 28px !important;
+      font-size: 15px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      width: 100% !important;
+      margin-top: 8px !important;
+      transition: background 0.15s !important;
+    }
+
+    #hubspot-form-patrocinio .hs-button:hover {
+      background: var(--lp-yellow-hover) !important;
+    }
+
+    #hubspot-form-patrocinio .submitted-message {
+      color: var(--lp-fg-default) !important;
+      font-size: 16px !important;
+      text-align: center !important;
+      padding: 24px 0 !important;
+    }
+
+    @media (max-width: 640px) {
+      .modal-box {
+        padding: 32px 24px;
+      }
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section { background: var(--lp-bg-1); border-top: 1px solid var(--lp-border-subtle); }
+    .faq-layout { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 80px; align-items: start; }
+    .faq-aside { position: sticky; top: 96px; }
+    .faq-aside .section-title { margin-bottom: 16px; }
+    .faq-aside .section-sub { margin-bottom: 28px; }
+    .faq-contact { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--lp-yellow); text-decoration: none; transition: color 150ms ease-out; }
+    .faq-contact:hover { color: var(--lp-yellow-cta); }
+    .faq-contact svg { width: 16px; height: 16px; stroke-width: 1.75; flex-shrink: 0; }
+    .faq-groups { display: flex; flex-direction: column; gap: 48px; min-width: 0; }
+    .faq-group-label { font-size: 12px; font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--lp-fg-subtle); margin-bottom: 4px; padding-bottom: 14px; border-bottom: 1px solid var(--lp-border); }
+    .faq-item { border-bottom: 1px solid var(--lp-border-subtle); }
+    .faq-q { width: 100%; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 22px 0; background: none; border: 0; cursor: pointer; text-align: left; font-family: var(--font-sans); font-size: 17px; font-weight: 700; line-height: 1.4; color: var(--lp-fg-strong); transition: color 150ms ease-out; }
+    .faq-q:hover { color: var(--lp-yellow); }
+    .faq-icon { flex-shrink: 0; width: 24px; height: 24px; margin-top: 1px; color: var(--lp-yellow); transition: transform 250ms ease; }
+    .faq-icon svg { width: 24px; height: 24px; stroke-width: 1.75; display: block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 250ms ease; }
+    .faq-item.open .faq-a { grid-template-rows: 1fr; }
+    .faq-a-inner { overflow: hidden; min-height: 0; }
+    .faq-a-inner p { font-size: 15px; line-height: 1.65; color: var(--lp-fg-muted); max-width: 680px; padding-bottom: 24px; padding-right: 48px; }
+    .faq-a-inner a { color: var(--lp-yellow); text-decoration: none; font-weight: 700; }
+    .faq-a-inner a:hover { text-decoration: underline; }
+    @media (max-width: 900px) {
+      .faq-layout { grid-template-columns: 1fr; gap: 40px; }
+      .faq-aside { position: static; }
+      .faq-a-inner p { padding-right: 0; }
+    }
+  </style>
+      {{ standard_header_includes }}
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+  <header>
+    <nav class="navbar" aria-label="Navegação principal">
+      <div class="navbar-inner">
+        <a href="#" aria-label="OmniChat Connection 2026">
+          <img class="navbar-logo"
+            src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/connection-logo-negative.svg"
+            alt="OmniChat Connection 2026" width="184" height="28">
+        </a>
+        <div class="navbar-actions">
+          <!-- EDITAR: troque href pelo link do formulário de patrocínio -->
+          <a href="#" class="navbar-link" id="btn-patrocinar">Patrocinar o evento</a>
+          <!-- EDITAR: troque href pelo link da Sympla -->
+          <a href="#ingresso" class="btn btn-primary navbar-btn">Garantir ingresso</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ═══════════════════════════════════════
+         HERO
+    ═══════════════════════════════════════ -->
+    <section class="hero" aria-labelledby="hero-headline">
+
+      <div class="hero-content-video-wrap" aria-hidden="true">
+        <iframe
+          src="https://www.youtube.com/embed/LE7YP3giK0A?autoplay=1&mute=1&loop=1&playlist=LE7YP3giK0A&controls=0&rel=0&modestbranding=1&playsinline=1"
+          allow="autoplay; encrypted-media"
+          title=""
+          tabindex="-1">
+        </iframe>
+      </div>
+
+      <!-- Scrim: dims the video slightly so the text stays legible -->
+      <div class="hero-scrim" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+
+        <div class="hero-content">
+
+          <div class="hero-content-inner">
+
+            <!-- Event meta -->
+            <p class="hero-meta">
+              <span class="meta-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2" />
+                  <path d="M3 9h18M8 3v4M16 3v4" />
+                </svg>
+                17 set 2026
+              </span>
+              <span class="sep" aria-hidden="true"></span>
+              <span class="meta-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 21s-7-6.5-7-12a7 7 0 1 1 14 0c0 5.5-7 12-7 12Z" />
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
+                Welluci Gardens · São Paulo
+              </span>
+              <span class="sep" aria-hidden="true"></span>
+              <span class="meta-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                250 vagas
+              </span>
+            </p>
+
+            <!-- Connection logo -->
+            <img class="hero-logo"
+              src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/connection-logo-negative.svg"
+              alt="OmniChat Connection 2026" width="640" height="96">
+
+            <h1 class="hero-headline" id="hero-headline">
+              O mercado já decidiu usar IA conversacional.<br>
+              A disputa agora é pela <span class="accent">execução que gera resultado<span style="color:#FFBC00">.</span></span>
+            </h1>
+
+            <p class="hero-sub">
+              Uma agenda executiva com as pessoas que estão fazendo isso acontecer:
+              Big Techs, especialistas e empresas que já operam IA no WhatsApp
+              com resultado real. Marketing, vendas e pós venda em um único dia.
+            </p>
+
+            <div class="hero-cta-row">
+              <a href="https://www.sympla.com.br/evento/omnichat-connection/3445039" style="visibility: hidden;" target="_blank" class="btn btn-primary btn-lg">
+                Garantir ingresso com desconto
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
+            </div>
+
+          </div><!-- /.hero-content-inner -->
+
+        </div><!-- /.hero-content -->
+
+      </div>
+    </section>
+
+
+    <div class="divider"></div>
+
+
+    <!-- ═══════════════════════════════════════
+         PALESTRANTES
+    ═══════════════════════════════════════ -->
+    <section class="section speakers-section" aria-labelledby="speakers-heading">
+      <div class="section-inner">
+        <p class="overline">Palestrantes</p>
+        <h2 class="section-title" id="speakers-heading">
+          O palco é de quem está fazendo acontecer.
+        </h2>
+        <p class="section-sub">
+          Cada nome carrega uma perspectiva que só se constrói operando o
+          mercado de dentro. Sem promessa de futuro, com prova de presente.
+        </p>
+
+        <div class="speakers-grid">
+
+          <article class="speaker-card">
+            <div class="speaker-img-wrap">
+              <img src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/Ricardo%20Amorim.png" alt="Ricardo Amorim" class="speaker-img">
+            </div>
+            <div class="speaker-body">
+              <p class="speaker-name">Ricardo Amorim</p>
+              <p class="speaker-role">Economista · Forbes Top 100 BR</p>
+              <p class="speaker-company">Ricam Consultoria</p>
+            </div>
+          </article>
+
+          <article class="speaker-card">
+            <div class="speaker-img-wrap">
+              <img src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/Bia%20Mori.png" alt="Ana Beatris Mori" class="speaker-img">
+            </div>
+            <div class="speaker-body">
+              <p class="speaker-name">Ana Beatris Mori</p>
+              <p class="speaker-role">Gerente de parcerias</p>
+              <p class="speaker-company">GOOGLE BRASIL</p>
+            </div>
+          </article>
+
+          <article class="speaker-card">
+            <div class="speaker-img-wrap">
+              <img src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/Carla%20Fiorito.png" alt="Carla Fiorito" class="speaker-img">
+            </div>
+            <div class="speaker-body">
+              <p class="speaker-name">Carla Fiorito</p>
+              <p class="speaker-role">Mestre de Cerimônias</p>
+              <p class="speaker-company"></p>
+            </div>
+          </article>
+
+          <article class="speaker-card">
+            <div class="speaker-img-wrap">
+              <img src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/Enio%20Garbin.png" alt="Ênio Garbin" class="speaker-img">
+            </div>
+            <div class="speaker-body">
+              <p class="speaker-name">Ênio Garbin</p>
+              <p class="speaker-role">Líder LATAM de Desenvolvimento de Negócios do Setor de Consumo</p>
+              <p class="speaker-company">AMAZON</p>
+            </div>
+          </article>
+
+          <article class="speaker-card" style="display:none">
+            <div class="speaker-img-wrap">
+              <!-- EDITAR: troque src pela foto do palestrante -->
+              <div class="speaker-placeholder" aria-hidden="true">ML</div>
+            </div>
+            <div class="speaker-body">
+              <p class="speaker-name">Maren Lau</p>
+              <p class="speaker-role">VP &amp; Head da América Latina</p>
+              <p class="speaker-company">Meta</p>
+            </div>
+          </article>
+
+          <article class="speaker-card">
+            <div class="speaker-img-wrap">
+              <img class="speaker-img"
+                src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/Trezub.png"
+                alt="Retrato de Maurício Trezub" loading="lazy">
+            </div>
+            <div class="speaker-body">
+              <p class="speaker-name">Maurício Trezub</p>
+              <p class="speaker-role">CEO &amp; Fundador · Abertura e moderação</p>
+              <p class="speaker-company">OmniChat</p>
+            </div>
+          </article>
+
+          <article class="speaker-card tbd" aria-label="Próximo palestrante a confirmar">
+            <div class="speaker-img-wrap">
+              <div class="speaker-placeholder empty" aria-hidden="true"></div>
+            </div>
+            <div class="speaker-body">
+              <p class="speaker-name">Mais em breve</p>
+              <p class="speaker-role">Acompanhe as atualizações</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Brand-band: full-bleed grafismo strip reinforcing Connection identity -->
+    <div class="brand-band" aria-hidden="true">
+      <img
+        src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/grafismo-connection-gradient.svg"
+        alt="">
+    </div>
+
+
+    <!-- ═══════════════════════════════════════
+         TRILHAS
+    ═══════════════════════════════════════ -->
+    <section class="section trilhas-section" aria-labelledby="trilhas-heading">
+      <div class="section-inner">
+        <p class="overline">Programação</p>
+        <h2 class="section-title" id="trilhas-heading">
+          Três trilhas, uma jornada
+        </h2>
+        <p class="section-sub">
+          Do primeiro "oi" à recompra. Tudo o que acontece no dia, keynotes,
+          cases, demos e espaço de networking, é guiado pelos três pilares que
+          compõem a jornada conversacional completa.
+        </p>
+
+        <div class="trilhas-grid">
+
+          <article class="trilha-card t-marketing">
+            <span class="trilha-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11l18-7-7 18-2.5-7.5L3 11Z" />
+              </svg>
+            </span>
+            <p class="trilha-num">Trilha 01</p>
+            <h3 class="trilha-title">Marketing</h3>
+            <p class="trilha-sub">Atrair e qualificar</p>
+            <p class="trilha-desc">
+              Campanhas que viram conversas qualificadas, sem perda de intenção
+              e com contexto para o lead avançar. Como a IA acelera o funil
+              desde o clique no anúncio.
+            </p>
+          </article>
+
+          <article class="trilha-card t-vendas">
+            <span class="trilha-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 6h15l-1.5 9H7.5L6 3H3" />
+                <circle cx="9" cy="20" r="1.5" />
+                <circle cx="18" cy="20" r="1.5" />
+              </svg>
+            </span>
+            <p class="trilha-num">Trilha 02</p>
+            <h3 class="trilha-title">Vendas</h3>
+            <p class="trilha-sub">Converter e fechar</p>
+            <p class="trilha-desc">
+              Negociação, carrinho e fechamento no mesmo lugar onde a conversa
+              começou. Como o WhatsApp virou infraestrutura de receita.
+            </p>
+          </article>
+
+          <article class="trilha-card t-pos">
+            <span class="trilha-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a9 9 0 1 1-3-6.7" />
+                <path d="M21 4v5h-5" />
+              </svg>
+            </span>
+            <p class="trilha-num">Trilha 03</p>
+            <h3 class="trilha-title">Pós venda</h3>
+            <p class="trilha-sub">Reter e expandir</p>
+            <p class="trilha-desc">
+              Menos carga operacional, mais presença. Como a IA transforma
+              suporte reativo em relacionamento ativo e incentiva a recompra.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <div class="divider"></div>
+
+
+    <!-- ═══════════════════════════════════════
+         INGRESSO
+    ═══════════════════════════════════════ -->
+   <section class="section ingresso-section" id="ingresso" aria-labelledby="ingresso-heading">
+      <div class="section-inner">
+        <div class="ingresso-layout">
+
+          <div class="ingresso-copy">
+            <p class="overline">Ingresso</p>
+            <h2 class="section-title" id="ingresso-heading">
+              Vagas limitadas. Garanta a sua.
+            </h2>
+            <p class="section-sub" style="margin-bottom: 0;">
+              A pré venda termina quando o lote esgota. Não há data fixa.
+              Quem garante antes paga menos e tem prioridade nas demos
+              e nas mesas de networking.
+            </p>
+
+            <ul class="ingresso-bullets" aria-label="Benefícios do ingresso">
+              <li>
+                <span class="check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                Encontro fechado por convite no histórico, agora aberto ao mercado
+              </li>
+              <li>
+                <span class="check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                Curadoria de palco com Big Techs, parceiros e operadores
+              </li>
+              <li>
+                <span class="check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                Pago via Sympla com pagamento em até 12x
+              </li>
+            </ul>
+          </div>
+
+          
+          <!-- EDITAR AQUI PARA DEIXAR VISIVEL A VENDA DE INGRESSOS style="display: none;" -->
+          <aside class="ticket-card" aria-label="Detalhes do ingresso pré venda">
+            <span class="ticket-badge">
+              <span class="dot" aria-hidden="true"></span>
+              1º Lote
+            </span>
+            <p class="ticket-event">
+              OmniChat Connection 2026<br>
+              <span
+                style="font-weight: 400; color: var(--lp-fg-muted); font-size: 15px; font-family: var(--font-sans);">17
+                set · Welluci Gardens, São Paulo</span>
+            </p>
+
+            <div class="price-row">
+              <span class="price-new" aria-label="Preço do 1º lote">R$ 619,90</span>
+            </div>
+            <p class="price-note">por ingresso · 250 vagas</p>
+
+            <div class="ticket-divider"></div>
+
+            <ul class="ticket-includes" aria-label="Incluso no ingresso">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                Acesso a todos os keynotes e cases
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                Welcome coffee, almoço e happy hour open bar
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                Área de demos com parceiros especializados
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 13l4 4L19 7" />
+                </svg>
+                Networking com líderes que operam os mesmos desafios
+              </li>
+            </ul>
+            <a href="https://www.sympla.com.br/evento/omnichat-connection/3445039" target="_blank" class="btn btn-primary btn-lg btn-block">
+              Garantir ingresso agora
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+            <p class="ticket-foot">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <rect x="3" y="11" width="18" height="10" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              Compra processada com segurança pela Sympla
+            </p>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+
+    <div class="divider"></div>
+
+
+    <!-- ═══════════════════════════════════════
+         POR QUE A OMNICHAT
+    ═══════════════════════════════════════ -->
+    <section class="section omni-section" aria-labelledby="omni-heading">
+      <div class="section-inner">
+        <p class="overline">Por que a OmniChat</p>
+        <h2 class="section-title" id="omni-heading">
+          Feito por quem transforma conversa em receita há uma década
+        </h2>
+        <p class="section-sub">
+          O Connection nasceu como encontro fechado e a resposta do público
+          o trouxe para o mercado. É quem está na vanguarda do chat commerce
+          brasileiro reunindo quem também define esse mercado.
+        </p>
+
+        <div class="numbers-grid">
+          <div class="number-card">
+            <p class="number-big">+10 anos</p>
+            <p class="number-desc">de atuação em chat-commerce no Brasil</p>
+          </div>
+          <div class="number-card">
+            <p class="number-big">+500</p>
+            <p class="number-desc">marcas operando jornadas conversacionais na plataforma</p>
+          </div>
+          <div class="number-card">
+            <p class="number-big">+1 bi</p>
+            <p class="number-desc">de mensagens transacionadas no último ano</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         SPONSORS
+    ═══════════════════════════════════════ -->
+    <section class="sponsors-section" aria-labelledby="sponsors-heading">
+      <div class="sponsors-inner">
+        <p class="sponsors-label" id="sponsors-heading">Patrocinadores e apoiadores</p>
+        <div class="sponsors-logos">
+          <div class="sponsor-pill" title="Wake" style="display:none">
+            <img
+              src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/wake.svg"
+              alt="Wake" width="75" height="21">
+          </div>
+          <div class="sponsor-pill" title="Meta">
+            <img
+              src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/meta.svg"
+              alt="Meta" width="100" height="20">
+          </div>
+          <div class="sponsor-pill empty">Espaço disponível</div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         FOOTER CTA
+    ═══════════════════════════════════════ -->
+    <section class="footer-cta" aria-labelledby="footer-cta-heading">
+      <img class="footer-cta-grafismo"
+        src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/grafismo-connection-yellow.svg"
+        alt="" aria-hidden="true">
+      <img class="footer-cta-grafismo-2"
+        src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/grafismo-connection-yellow.svg"
+        alt="" aria-hidden="true">
+      <div class="footer-cta-inner">
+        <div class="footer-cta-copy">
+          <h2 id="footer-cta-heading">
+            17 de setembro. 250 vagas.<br>
+            Preço de pré venda por tempo limitado.
+          </h2>
+          <p>Welluci Gardens, São Paulo · pagamento em até 12x na Sympla.</p>
+        </div>
+        
+        <a href="https://www.sympla.com.br/evento/omnichat-connection/3445039?_gl=1*pl3cyf*_gcl_au*MTUwMDI0MDY1MS4xNzgyNzQxNTA4*_ga*NDQyOTE0NzU5LjE3ODI3NDE1MDk.*_ga_KXH10SQTZF*czE3ODI3NDU4MTIkbzIkZzEkdDE3ODI3NDU5MjIkajU2JGwwJGg0NTA1NjExMTg" target="_blank" class="btn btn-dark btn-lg">
+          Garantir ingresso agora
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         FAQ
+    ═══════════════════════════════════════ -->
+    <section class="section faq-section" aria-labelledby="faq-heading">
+      <div class="section-inner">
+        <div class="faq-layout">
+
+          <div class="faq-aside">
+            <p class="overline">FAQ</p>
+            <h2 class="section-title" id="faq-heading">Perguntas frequentes</h2>
+            <p class="section-sub">Tudo o que você precisa saber sobre o Connection 2026, do ingresso ao dia do evento.</p>
+            <a class="faq-contact" href="mailto:marketing@omni.chat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
+              Ainda com dúvidas? Fale com a gente
+            </a>
+          </div>
+
+          <div class="faq-groups">
+            <div class="faq-group">
+              <p class="faq-group-label">Informações gerais</p>
+              <div class="faq-item open">
+                <button class="faq-q" type="button" aria-expanded="true" aria-controls="faq-a-1">
+                  <span>O que é o OmniChat Connection?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-1" role="region">
+                  <div class="faq-a-inner">
+                    <p>O OmniChat Connection é o primeiro evento proprietário da OmniChat aberto ao mercado. Enquanto os eventos de tecnologia vendem tendência, nosso ponto de partida é outro: IA conversacional já não é novidade, mas falta clareza sobre o que realmente está gerando resultado. Um dia de conteúdo de alto nível com speakers que estão definindo esse mercado, cases com números reais e debates que separam execução de promessa.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">
+                  <span>Quando e onde o OmniChat Connection acontece?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-2" role="region">
+                  <div class="faq-a-inner">
+                    <p>O evento acontece no dia 17 de setembro de 2026, no Welluci Gardens — Av. Queiroz Filho, 830, Vila Hamburguesa, São Paulo, SP.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3">
+                  <span>Qual o horário do evento?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-3" role="region">
+                  <div class="faq-a-inner">
+                    <p>Das 09h às 21h. O conteúdo no palco vai até as 18h, seguido de happy hour.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="faq-group">
+              <p class="faq-group-label">Ingresso</p>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4">
+                  <span>Como faço para garantir meu ingresso?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-4" role="region">
+                  <div class="faq-a-inner">
+                    <p>Os ingressos estão disponíveis na Sympla. Acesse a página do evento e escolha o lote disponível.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5">
+                  <span>Qual o valor do ingresso?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-5" role="region">
+                  <div class="faq-a-inner">
+                    <p>Os ingressos são vendidos em lotes progressivo. Cada lote inclui acesso ao auditório, centro de exposição, alimentação e kit de boas-vindas.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-6">
+                  <span>O ingresso é transferível?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-6" role="region">
+                  <div class="faq-a-inner">
+                    <p>Para dúvidas sobre transferência de ingresso, entre em contato diretamente pela Sympla ou pelo e-mail <a href="mailto:marketing@omni.chat">marketing@omni.chat</a>.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-7">
+                  <span>Haverá emissão de nota fiscal?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-7" role="region">
+                  <div class="faq-a-inner">
+                    <p>Não há emissão de nota fiscal para os ingressos do OmniChat Connection 2026. Após a aprovação da compra, o ingresso é enviado diretamente para o e-mail cadastrado na Sympla. O próprio ingresso tem validade como comprovante fiscal, conforme o Decreto Municipal (Art. 37), que reconhece bilhetes e ingressos de eventos como documentos fiscais para efeitos da legislação tributária do Município de São Paulo.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="faq-group">
+              <p class="faq-group-label">Agenda e conteúdo</p>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-8">
+                  <span>Qual é a programação do evento?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-8" role="region">
+                  <div class="faq-a-inner">
+                    <p>O OmniChat Connection tem uma jornada de conteúdo dividida em três trilhas: Marketing, Vendas e Pós-venda. A agenda completa será publicada no site à medida que os palestrantes forem confirmados.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-9">
+                  <span>Quem são os palestrantes?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-9" role="region">
+                  <div class="faq-a-inner">
+                    <p>A curadoria prioriza profissionais com atuação direta no mercado de IA conversacional, e-commerce e estratégia de crescimento. Os nomes serão anunciados conforme os contratos forem fechados.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="faq-group">
+              <p class="faq-group-label">Local e estrutura</p>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-10">
+                  <span>Como chegar ao evento?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-10" role="region">
+                  <div class="faq-a-inner">
+                    <p>O Welluci Gardens fica na Av. Queiroz Filho, 830, Vila Hamburguesa, São Paulo, CEP 05319-000. O espaço é acessível de carro, aplicativo de transporte ou metrô (estação Villa-Lobos–Jaguaré, Linha 2-Verde).</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-11">
+                  <span>Haverá estacionamento no local?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-11" role="region">
+                  <div class="faq-a-inner">
+                    <p>Sim. O espaço conta com estacionamento próprio localizado na frente do venue. A organização do evento não possui convênio ou negociação de tarifas especiais — o pagamento é feito diretamente no local.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-12">
+                  <span>Haverá guarda-volumes?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-12" role="region">
+                  <div class="faq-a-inner">
+                    <p>Sim. Teremos maleiro disponível para volumes grandes e pequenos.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-13">
+                  <span>O evento dispõe de alimentação?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-13" role="region">
+                  <div class="faq-a-inner">
+                    <p>Sim. O evento conta com alimentação completa ao longo do dia: coffee breaks, almoço e happy hour.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="faq-group">
+              <p class="faq-group-label">No dia do evento</p>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-15">
+                  <span>Menores de idade podem acessar o evento?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-15" role="region">
+                  <div class="faq-a-inner">
+                    <p>O evento é voltado para público profissional adulto. A entrada de menores de 18 anos não é proibida, mas está condicionada ao acompanhamento de um responsável legal com ingresso válido. O conteúdo programado não é direcionado a menores de idade.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-14">
+                  <span>Quais os horários de credenciamento?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-14" role="region">
+                  <div class="faq-a-inner">
+                    <p>O credenciamento e a retirada de crachás acontecem das 08h às 09h30, antes da abertura oficial do evento.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-16">
+                  <span>Sou da imprensa. Como faço para me credenciar?</span>
+                  <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </button>
+                <div class="faq-a" id="faq-a-16" role="region">
+                  <div class="faq-a-inner">
+                    <p>Envie um e-mail para <a href="mailto:marketing@omni.chat">marketing@omni.chat</a> com seu nome completo, veículo de comunicação e tipo de cobertura pretendida. Nossa equipe retornará com as instruções para credenciamento.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ═══════════════════════════════════════
+       MODAL PATROCÍNIO
+  ═══════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-patrocinio" role="dialog" aria-modal="true" aria-labelledby="modal-patrocinio-title" hidden>
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close-btn" aria-label="Fechar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <h2 class="modal-title" id="modal-patrocinio-title">Patrocine o Connection 2026</h2>
+      <p class="modal-sub">Preencha o formulário e retornaremos com as cotas disponíveis:</p>
+      <div id="hubspot-form-patrocinio"></div>
+    </div>
+  </div>
+
+  <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+  <script>
+    (function () {
+      var formReady = false;
+
+      function initForm() {
+        if (formReady) return;
+        formReady = true;
+        hbspt.forms.create({
+          portalId: "20121735",
+          formId: "6e6ca101-b224-4dd7-ab57-84c61fcf55c1",
+          region: "na1",
+          target: "#hubspot-form-patrocinio"
+        });
+      }
+
+      function openModal() {
+        var modal = document.getElementById('modal-patrocinio');
+        modal.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
+        initForm();
+        document.getElementById('modal-close-btn').focus();
+      }
+
+      function closeModal() {
+        var modal = document.getElementById('modal-patrocinio');
+        modal.setAttribute('hidden', '');
+        document.body.style.overflow = '';
+        document.getElementById('btn-patrocinar').focus();
+      }
+
+      document.getElementById('btn-patrocinar').addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+      });
+
+      document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+
+      document.getElementById('modal-patrocinio').addEventListener('click', function (e) {
+        if (e.target === this) closeModal();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !document.getElementById('modal-patrocinio').hasAttribute('hidden')) {
+          closeModal();
+        }
+      }); 
+    })();
+  </script>
+
+  <!-- ═══════════════════════════════════════
+       PAGE FOOTER
+  ═══════════════════════════════════════ -->
+  <footer class="page-footer">
+    <div class="page-footer-inner">
+      <img class="page-footer-logo"
+        src="https://20121735.fs1.hubspotusercontent-na1.net/hubfs/20121735/Connection%20-%20set%202026/Logo%20OmniChat%20(1).svg"
+        alt="OmniChat" width="160" height="32">
+      <p class="page-footer-text">
+        © 2026 OmniChat · Connection 2026 · Todos os direitos reservados
+      </p>
+    </div>
+  </footer>
+    {{ standard_footer_includes }}
+  <script>
+    (function () {
+      document.querySelectorAll(".faq-q").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var item = btn.closest(".faq-item");
+          var open = item.classList.toggle("open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>
