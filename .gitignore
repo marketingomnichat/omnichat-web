@@ -53,3 +53,6 @@ scripts/migrate-wp/.media-cache.json
 
 # Worktrees locais de agentes
 .claude/worktrees/
+
+# Dump local de brand assets (nao referenciado pelo site)
+public/logotipos/
