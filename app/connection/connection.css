@@ -1,0 +1,181 @@
+/*
+ * LP Connection — tokens do template Daevnt (Figma yba4eXgscdqm2gjIPEwnjD).
+ * Escopo exclusivo da rota /connection; não usa os tokens oc-* do site.
+ */
+.connection-root {
+  /* Paleta da LP Connection (tokens do hub: lps-from-hubspot/connection.html) */
+  --lp-ink: #0b0c0e;          /* oc-black — fundo de página */
+  --lp-white: #fdfdfd;        /* fg strong — títulos/texto em fundo escuro */
+  --lp-secondary: #ffd04d;    /* oc-yellow-500 — amarelo marca, acentos */
+  --lp-accent: #ffbc00;       /* oc-yellow-600 — CTA em fundo escuro; NUNCA com tinta branca */
+  --lp-accent-3: #e59900;     /* oc-yellow-700 — amarelo de alto contraste */
+  --lp-ink-on-accent: #21232c; /* oc-ink-700 — tinta sobre amarelo (AA) */
+  --lp-purple: #532673;        /* Roxo Whizz do DS — CTA de compra */
+
+  background: var(--lp-ink);
+  color: var(--lp-white);
+}
+
+/* ─────────────────────────────────────────
+   Botões — spec do design system (LP antiga):
+   radius 8 (md), weight 700, gradiente Whizz, hover desloca o gradiente.
+───────────────────────────────────────── */
+.connection-root .lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  padding: 14px 24px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  background-clip: padding-box;
+  transition: background-position 200ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.connection-root .lp-btn-lg {
+  padding: 16px 28px;
+  font-size: 15px;
+  min-height: 52px;
+}
+
+/* Primary — gradiente Whizz (roxo→pêssego), tinta branca */
+.connection-root .lp-btn-primary {
+  background-image: linear-gradient(135deg, #5b2880 0%, #6e3399 25%, #8a40bf 55%, #b46cbc 80%, #e8ada1 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  background-color: var(--lp-purple);
+  color: #fff;
+}
+
+.connection-root .lp-btn-primary:hover {
+  background-position: 100% 50%;
+}
+
+.connection-root .lp-btn-primary:active {
+  background-position: 100% 50%;
+  filter: saturate(1.1);
+}
+
+/* Accent — amarelo do DS, tinta escura, hover escurece 6% */
+.connection-root .lp-btn-accent {
+  background-color: var(--lp-accent);
+  color: var(--lp-ink-on-accent);
+  transition: background-color 150ms ease-out;
+}
+
+.connection-root .lp-btn-accent:hover {
+  background-color: var(--lp-accent-3);
+}
+
+/* Secondary — transparente com borda, para uso sobre foto/vídeo */
+.connection-root .lp-btn-secondary {
+  background: transparent;
+  color: var(--lp-white);
+  border: 1px solid rgba(253, 253, 253, 0.45);
+  transition: border-color 150ms ease-out;
+}
+
+.connection-root .lp-btn-secondary:hover {
+  border-color: var(--lp-white);
+}
+
+/* Dark — mesmo gradiente, tons mais fechados (para a faixa amarela) */
+.connection-root .lp-btn-dark {
+  background-image: linear-gradient(135deg, #3a1a5e 0%, #532673 25%, #6e3399 55%, #8a40bf 80%, #b46cbc 100%);
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  background-color: #3a1a5e;
+  color: #fff;
+}
+
+.connection-root .lp-btn-dark:hover {
+  background-position: 100% 50%;
+}
+
+.connection-root .lp-btn-dark:active {
+  background-position: 100% 50%;
+  filter: saturate(1.1);
+}
+
+/* ─────────────────────────────────────────
+   Reveal on scroll — o atributo data-reveal é adicionado via JS
+   (scroll-effects.tsx); sem JS as seções ficam visíveis normalmente.
+───────────────────────────────────────── */
+.connection-root [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 700ms ease-out, transform 700ms ease-out;
+}
+
+.connection-root [data-reveal="in"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Entrada escalonada (palestrantes etc.) — delay via --lp-stagger-delay */
+.connection-root .lp-stagger {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+  transition-delay: var(--lp-stagger-delay, 0ms);
+}
+
+.connection-root [data-reveal="in"] .lp-stagger {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connection-root .lp-stagger {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Palavras que ficam em itálico quando a seção entra na viewport,
+   combinando com o logotipo. */
+.connection-root .lp-italic {
+  display: inline-block;
+  margin-right: 0.18em;
+  color: var(--lp-accent);
+  transition: transform 500ms ease-out;
+}
+
+.connection-root [data-reveal="in"] .lp-italic {
+  font-style: italic;
+  transform: skewX(-3deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connection-root [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Marquee da seção sliding text — loop infinito (a trilha contém 2 grupos idênticos). */
+@keyframes connection-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.connection-marquee-track {
+  animation: connection-marquee 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connection-marquee-track {
+    animation: none;
+  }
+}
